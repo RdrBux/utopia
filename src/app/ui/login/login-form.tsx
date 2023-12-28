@@ -1,27 +1,22 @@
 import Link from "next/link";
 import { Button, ButtonGoogle, ButtonGuest } from "../buttons";
 import Input from "../input";
-import CardBackground from "../card-background";
 import FormTitle from "../form-title";
-import Logo from "../logo";
 
 export default function LoginForm() {
 	return (
-		<CardBackground>
-			<form className="flex flex-col gap-6">
-				<Logo />
-				<FormTitle>Iniciar Sesión</FormTitle>
-				<div className="flex gap-3">
-					<ButtonGoogle />
-					<ButtonGuest />
-				</div>
-				<div className="flex items-center gap-2"><div className="w-full h-px bg-gray-200"></div> <span className="text-gray-500">o</span> <div className="w-full h-px bg-gray-200"></div></div>
-				<Input label="Correo electrónico" id="email" type="email" placeholder="nombre@correo.com" />
-				<Input label="Contraseña" type='password' id="password" placeholder="••••••••" />
-				<Link className="self-end text-sm text-blue-600 font-semibold" href="/restore-account">¿Has olvidado la contraseña?</Link>
-				<Button>Iniciar Sesión</Button>
-				<div className="text-sm text-gray-600">¿No tienes una cuenta? <Link className="text-blue-600 font-semibold hover:underline" href="/signup">Regístrate</Link>.</div>
-			</form>
-		</CardBackground>
+		<form className="flex flex-col gap-6 p-8 bg-white shadow rounded-r-lg">
+			<FormTitle>Iniciar Sesión</FormTitle>
+			<div className="flex gap-3">
+				<ButtonGoogle />
+				<ButtonGuest />
+			</div>
+			<div className="flex items-center gap-2"><div className="w-full h-px bg-gray-200"></div> <span className="text-gray-500">o</span> <div className="w-full h-px bg-gray-200"></div></div>
+			<Input label="Correo electrónico" id="email" type="email" placeholder="nombre@correo.com" />
+			<Input label="Contraseña" type='password' id="password" placeholder="••••••••" />
+			<Link className="self-end text-sm text-blue-600 font-semibold" href="/restore-account">¿Has olvidado la contraseña?</Link>
+			<Button>Iniciar Sesión</Button>
+			<div className="text-sm text-gray-600">¿No tienes una cuenta? <Link className="text-blue-600 font-semibold hover:underline" href="/signup">Regístrate</Link>.</div>
+		</form>
 	)
 }
