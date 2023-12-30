@@ -1,12 +1,11 @@
 import Link from "next/link";
 import { Button, ButtonGoogle, ButtonGuest } from "../buttons";
 import Input from "../input";
-import FormTitle from "../form-title";
 
 export default function LoginForm() {
 	return (
-		<form className="flex flex-col gap-6 p-8 bg-white shadow rounded-r-lg">
-			<FormTitle>Iniciar Sesión</FormTitle>
+		<form className="flex flex-col gap-6 bg-card">
+			<h1 className="form-title">Iniciar Sesión</h1>
 			<div className="flex gap-3">
 				<ButtonGoogle />
 				<ButtonGuest />
