@@ -3,7 +3,7 @@ import SignupForm from "../ui/signup/signup-form";
 
 export default function Home() {
 	return (
-		<div className="my-8 flex flex-col gap-8 items-center">
+		<div className="my-6 flex flex-col gap-6 items-center">
 			<Logo />
 			<SignupForm />
 		</div>
