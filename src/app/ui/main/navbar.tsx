@@ -1,11 +1,14 @@
 import Link from "next/link";
 import Logo from "../logo";
+import Navtab from "./navtab";
 
 export default function Navbar() {
 	return (
 		<nav className="bg-white border-b sticky top-0">
-			<div className="flex justify-between items-center container mx-auto p-2">
-				<Logo />
+			<div className="flex justify-between items-center container mx-auto px-2">
+				<div className="py-3"><Logo /></div>
+
+				<Navtab />
 
 				<div className="flex items-center gap-2 text-gray-500">
 					<Link href="/" className="h-10 w-10 grid place-content-center bg-gray-100 rounded-full hover:text-gray-900">

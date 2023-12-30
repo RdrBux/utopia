@@ -14,7 +14,7 @@ export default function LoginForm() {
 			<Input label="Correo electrónico" id="email" type="email" placeholder="nombre@correo.com" />
 			<Input label="Contraseña" type='password' id="password" placeholder="••••••••" />
 			<Link className="self-end text-sm text-blue-600 font-semibold" href="/restore-account">¿Has olvidado la contraseña?</Link>
-			<Button>Iniciar Sesión</Button>
+			<Button>Iniciar sesión</Button>
 			<div className="text-sm text-gray-600">¿No tienes una cuenta? <Link className="text-blue-600 font-semibold hover:underline" href="/signup">Regístrate</Link>.</div>
 		</form>
 	)

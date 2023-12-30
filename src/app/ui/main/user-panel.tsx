@@ -7,8 +7,8 @@ export default function UserPanel() {
 				<div className="text-sm text-gray-500">Visual Designer</div>
 			</div>
 			<h5 className="text-xl font-bold leading-none">Progreso esta semana</h5>
-			<div className="p-4 rounded-lg bg-red-200">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita quibusdam ut quod quo aperiam eaque maiores quidem eveniet a, libero odit non repellendus dignissimos debitis sit illum. Animi, architecto at!</div>
-			<div className="p-4 rounded-lg bg-red-200">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita quibusdam ut quod quo aperiam eaque maiores quidem eveniet a, libero odit non repellendus dignissimos debitis sit illum. Animi, architecto at!</div>
+			<div className="p-4 rounded-lg bg-blue-200">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita quibusdam ut quod quo aperiam eaque maiores.</div>
+			<div className="p-4 rounded-lg bg-indigo-200">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita quibusdam ut quod quo aperiam eaque maiores.</div>
 		</aside>
 	)
 }

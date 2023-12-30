@@ -16,7 +16,7 @@ export default function SignupForm() {
 			<Input label="Contraseña" type='password' id="password" placeholder="••••••••" />
 			<Input label="Repetir contraseña" type='password' id="password" placeholder="••••••••" />
 			<CheckboxTerms />
-			<Button>Iniciar Sesión</Button>
+			<Button>Crear cuenta</Button>
 			<div className="text-sm text-gray-600">¿Ya tienes una cuenta? <Link className="text-blue-600 font-semibold hover:underline" href="/login">Inicia sesión</Link>.</div>
 		</form>
 	)
