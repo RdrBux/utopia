@@ -4,7 +4,7 @@
 
 @layer components {
   .bg-card {
-    @apply p-8 rounded-lg shadow bg-white;
+    @apply p-6 rounded-lg border bg-white;
   }
 
   .form-title {

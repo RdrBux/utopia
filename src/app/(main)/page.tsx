@@ -10,6 +10,7 @@ export default function Home() {
 					</div>
 					<h5 className="text-xl font-bold leading-none">Progreso esta semana</h5>
 					<div className="p-4 rounded-lg bg-red-200">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita quibusdam ut quod quo aperiam eaque maiores quidem eveniet a, libero odit non repellendus dignissimos debitis sit illum. Animi, architecto at!</div>
+					<div className="p-4 rounded-lg bg-red-200">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita quibusdam ut quod quo aperiam eaque maiores quidem eveniet a, libero odit non repellendus dignissimos debitis sit illum. Animi, architecto at!</div>
 				</div>
 			</aside>
 			<main>
@@ -17,7 +18,7 @@ export default function Home() {
 					<div className="">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab rerum accusantium temporibus cum itaque explicabo, corrupti officia velit minima dicta harum consequatur! Doloremque nemo at temporibus aliquid illum, quisquam tenetur?</div>
 				</div>
 			</main>
-			<aside className="bg-card">
+			<aside className="bg-card h-fit">
 				<h5 className="text-xl font-bold leading-none">Agregar amigos</h5>
 				<ul className="mt-8 divide-y divide-gray-200">
 					<li className="grid grid-cols-[auto_1fr] gap-3 py-3 items-center">
