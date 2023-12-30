@@ -2,7 +2,7 @@ export default function RecommendedFriends() {
 	return (
 		<aside className="bg-card h-fit">
 			<h5 className="text-xl font-bold leading-none">Agregar amigos</h5>
-			<ul className="mt-8 divide-y divide-gray-200">
+			<ul className="mt-6 divide-y divide-gray-200">
 				<li className="grid grid-cols-[auto_1fr] gap-3 py-3 items-center">
 					<div className="h-8 w-8 shrink-0 bg-emerald-300 rounded-full"></div>
 					<div className="overflow-hidden">

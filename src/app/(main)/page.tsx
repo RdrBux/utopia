@@ -4,10 +4,12 @@ import UserPanel from "../ui/main/user-panel";
 
 export default function Home() {
 	return (
-		<div className="grid grid-cols-[1fr_2fr_1fr] gap-8 my-8">
+		<div className="grid grid-cols-[1fr_2fr_1fr] gap-6 my-6">
 			<UserPanel />
 
-			<main>
+			<main className="flex flex-col gap-6">
+				<Post />
+				<Post />
 				<Post />
 			</main>
 
