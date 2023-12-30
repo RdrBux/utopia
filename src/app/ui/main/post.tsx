@@ -7,7 +7,7 @@ export default function Post() {
 				<div className="flex gap-3 items-center px-6">
 					<div className="h-8 w-8 shrink-0 bg-emerald-300 rounded-full"></div>
 					<div>
-						<span className="font-bold">Bonnie Green</span>
+						<span className="font-bold">Juan Pérez</span>
 						<span className="text-gray-500 text-sm ml-3">Hace 7 horas</span>
 					</div>
 				</div>
