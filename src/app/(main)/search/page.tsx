@@ -1,4 +1,3 @@
-import Categories from "@/app/ui/main/search/categories";
 import ResultsPeople from "@/app/ui/main/search/results-people";
 import ResultsPosts from "@/app/ui/main/search/results-posts";
 import SearchBar from "@/app/ui/main/search/search-bar";
