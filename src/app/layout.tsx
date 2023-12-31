@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import '@/app/ui/globals.css'
-
-const inter = Inter({ subsets: ['latin'] })
+import { robotoSlab } from './ui/fonts'
 
 export const metadata: Metadata = {
   title: 'Utopía',
@@ -16,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className={`${inter.className} bg-gray-100 text-gray-900 antialiased`}>{children}</body>
+      <body className={`${robotoSlab.className} bg-gray-100 text-gray-900 antialiased`}>{children}</body>
     </html>
   )
 }
