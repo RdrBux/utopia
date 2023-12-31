@@ -1,4 +1,12 @@
+'use client'
+
+import { usePathname } from "next/navigation"
+
 export default function Navtab() {
+	const pathname = usePathname()
+
+	if (pathname !== '/') return;
+
 	return (
 		<div className="absolute left-1/2 -translate-x-1/2 -bottom-[1px]">
 			<div className="flex gap-2">
