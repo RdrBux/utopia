@@ -25,7 +25,7 @@ export default function Navbar() {
 						<NotificationsCounter />
 					</Link>
 
-					<Link href='/' className="h-10 w-10 rounded-full bg-gray-100">
+					<Link href='/profile/me' className="h-10 w-10 rounded-full bg-gray-100">
 						<img className="rounded-full" src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="profile picture" />
 					</Link>
 				</div>
