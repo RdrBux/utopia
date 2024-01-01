@@ -5,7 +5,7 @@ export default function Post() {
 		<div className="border rounded-lg overflow-hidden bg-white">
 			<Link href="/" className="flex flex-col gap-6 py-6">
 				<div className="flex gap-3 items-center px-6">
-					<div className="h-8 w-8 shrink-0 bg-emerald-300 rounded-full"></div>
+					<div className="h-8 w-8 shrink-0 bg-primary-300 rounded-full"></div>
 					<div>
 						<span className="font-bold">Juan Pérez</span>
 						<span className="text-gray-500 text-sm ml-3">Hace 7 horas</span>

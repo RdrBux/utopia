@@ -7,22 +7,22 @@ export default function Home() {
 
 				<ul className="mt-3 divide-y divide-gray-200">
 					<li className="grid grid-cols-[auto_1fr] gap-3 py-3 items-center">
-						<div className="h-16 w-16 shrink-0 bg-emerald-300 rounded-full"></div>
+						<div className="h-16 w-16 shrink-0 bg-primary-300 rounded-full"></div>
 						<div className=""><b>Juan Pérez</b> a publicado nuevo contenido.</div>
 					</li>
 
 					<li className="grid grid-cols-[auto_1fr] gap-3 py-3 items-center">
-						<div className="h-16 w-16 shrink-0 bg-emerald-300 rounded-full"></div>
+						<div className="h-16 w-16 shrink-0 bg-primary-300 rounded-full"></div>
 						<div className=""><b>Juan Pérez</b> a comentado tu publicación.</div>
 					</li>
 
 					<li className="grid grid-cols-[auto_1fr] gap-3 py-3 items-center">
-						<div className="h-16 w-16 shrink-0 bg-emerald-300 rounded-full"></div>
+						<div className="h-16 w-16 shrink-0 bg-primary-300 rounded-full"></div>
 						<div className="text-gray-500"><b>Juan Pérez</b> le ha dado me gusta a tu publicación.</div>
 					</li>
 
 					<li className="grid grid-cols-[auto_1fr] gap-3 py-3 items-center">
-						<div className="h-16 w-16 shrink-0 bg-emerald-300 rounded-full"></div>
+						<div className="h-16 w-16 shrink-0 bg-primary-300 rounded-full"></div>
 						<div className="text-gray-500">Tienes una nueva solicitud de amistad de <b>Juan Pérez</b>.</div>
 					</li>
 
