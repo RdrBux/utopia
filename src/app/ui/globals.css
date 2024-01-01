@@ -12,6 +12,6 @@
   }
 
   .main-layout {
-    @apply grid grid-cols-[1fr_2fr_1fr] gap-6 my-6;
+    @apply grid lg:grid-cols-[1fr_2fr_1fr] gap-6 my-6;
   }
 }
