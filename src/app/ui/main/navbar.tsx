@@ -12,6 +12,12 @@ export default function Navbar() {
 				<Navtab />
 
 				<div className="flex items-center gap-2 text-gray-500">
+					<Link href="/" className="h-10 w-10 grid place-content-center bg-gray-100 rounded-full hover:text-gray-900">
+						<svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+							<path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8v10a1 1 0 0 0 1 1h4v-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5h4a1 1 0 0 0 1-1V8M1 10l9-9 9 9" />
+						</svg>
+					</Link>
+
 					<Link href="/search" className="h-10 w-10 grid place-content-center bg-gray-100 rounded-full hover:text-gray-900">
 						<svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
 							<path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
