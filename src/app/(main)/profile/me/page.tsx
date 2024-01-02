@@ -1,5 +1,6 @@
 import { Button } from "@/app/ui/buttons";
 import Post from "@/app/ui/main/post";
+import Link from "next/link";
 
 export default function Home() {
 	return (
@@ -15,7 +16,7 @@ export default function Home() {
 				</div>
 
 				<div className="mt-12 flex gap-6 items-end">
-					<div className="">
+					<Link href="/profile/me/friends" className="">
 						<h3 className="text-xl font-bold leading-none">Amigos</h3>
 						<ul className="flex mt-3">
 							<li><div className="bg-primary-600 -ml-2 h-10 w-10 rounded-full"></div></li>
@@ -24,7 +25,7 @@ export default function Home() {
 							<li><div className="bg-primary-300 -ml-2 h-10 w-10 rounded-full"></div></li>
 							<li><div className="bg-gray-500 -ml-2 h-10 w-10 rounded-full grid place-content-center text-white font-semibold pl-0.5">5+</div></li>
 						</ul>
-					</div>
+					</Link>
 					<div className="shrink-0 ml-auto">
 						<Button>Editar perfil</Button>
 					</div>
