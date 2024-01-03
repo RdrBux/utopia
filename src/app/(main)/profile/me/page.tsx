@@ -1,4 +1,3 @@
-import { Button } from "@/app/ui/buttons";
 import Post from "@/app/ui/main/post";
 import Link from "next/link";
 
@@ -27,7 +26,7 @@ export default function Home() {
 						</ul>
 					</Link>
 					<div className="shrink-0 ml-auto">
-						<Button>Editar perfil</Button>
+						<Link className="btn-primary" href="/profile/me/edit">Editar perfil</Link>
 					</div>
 				</div>
 
