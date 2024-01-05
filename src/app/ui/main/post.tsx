@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Post() {
 	return (
 		<div className="border rounded-lg overflow-hidden bg-white">
-			<Link href="/" className="flex flex-col gap-6 py-6">
+			<Link href="/posts/example" className="flex flex-col gap-6 py-6">
 				<div className="flex gap-3 items-center px-6">
 					<div className="h-8 w-8 shrink-0 bg-primary-300 rounded-full"></div>
 					<div>

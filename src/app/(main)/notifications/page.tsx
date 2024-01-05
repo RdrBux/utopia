@@ -1,8 +1,7 @@
 export default function Home() {
 	return (
 		<div className="main-layout">
-			<div className=""></div>
-			<div className="bg-card pb-3">
+			<div className="bg-card pb-3 lg:col-start-2">
 				<h1 className="form-title">Notificaciones</h1>
 
 				<ul className="mt-3 divide-y divide-gray-200">
