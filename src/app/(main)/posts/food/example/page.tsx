@@ -1,6 +1,8 @@
 import { MacrosTable } from "@/app/ui/main/post-food";
+import { CommentButton } from "@/app/ui/posts/comment-button";
 
 export default function Home() {
+
 	return (
 		<div className="main-layout">
 			<main className="flex flex-col gap-6 lg:col-start-2 bg-white py-6 rounded-lg border">
@@ -47,12 +49,7 @@ export default function Home() {
 						</svg>
 						Me gusta
 					</button>
-					<button className="px-5 py-2.5 font-bold flex gap-2 items-center justify-center w-full hover:bg-gray-100 duration-100 hover:text-gray-900">
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-							<path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
-						</svg>
-						Comentar
-					</button>
+					<CommentButton />
 				</div>
 
 				<div className="px-6 flex flex-col gap-3 divide-y -mt-6">
@@ -81,10 +78,22 @@ export default function Home() {
 						<p className="mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, quos.</p>
 					</div>
 
+					<div className="py-6">
+						<div className="flex gap-3 items-center">
+							<div className="h-10 w-10 shrink-0 bg-primary-300 rounded-full"></div>
+							<div>
+								<span className="font-bold">Juan Pérez</span>
+								<span className="text-gray-500 text-sm ml-3">Hace 7 horas</span>
+							</div>
+						</div>
+
+						<p className="mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, quos.</p>
+					</div>
+
 					<div className="flex gap-1 pt-6">
 						<div className="h-10 w-10 shrink-0 bg-primary-300 rounded-full"></div>
 						<textarea id="chat" rows={1} className="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Escribe un comentario..."></textarea>
-						<button type="submit" aria-label="Enivar mensaje" className="inline-flex justify-center p-2 text-primary-600 rounded-lg h-fit cursor-pointer hover:bg-primary-100 dark:text-primary-500 dark:hover:bg-gray-600">
+						<button type="submit" aria-label="Enivar mensaje" className="inline-flex justify-center p-2 text-primary-600 rounded-lg h-fit cursor-pointer hover:bg-primary-100">
 							<svg className="w-5 h-5 rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
 								<path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
 							</svg>
