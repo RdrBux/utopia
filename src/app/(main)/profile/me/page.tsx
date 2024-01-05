@@ -1,4 +1,5 @@
-import Post from "@/app/ui/main/post";
+import PostFood from "@/app/ui/main/post-food";
+import PostWorkout from "@/app/ui/main/post-workout";
 import Link from "next/link";
 
 export default function Home() {
@@ -40,9 +41,8 @@ export default function Home() {
 				</section>
 
 				<section className="flex flex-col gap-6">
-					<Post />
-					<Post />
-					<Post />
+					<PostFood />
+					<PostWorkout />
 				</section>
 			</div>
 		</div>
