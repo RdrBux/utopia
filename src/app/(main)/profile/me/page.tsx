@@ -32,6 +32,7 @@ export default function Home() {
 					</Link>
 					<div className="shrink-0 ml-auto">
 						<Link className="btn-primary" href="/profile/me/edit">Editar perfil</Link>
+						<Link className="btn-secondary ml-3" href="/profile/me/privacy">Privacidad</Link>
 					</div>
 				</div>
 
