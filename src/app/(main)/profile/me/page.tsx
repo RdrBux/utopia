@@ -1,3 +1,5 @@
+import NewPostButton from "@/app/ui/main/new-post-button";
+import NewPostSection from "@/app/ui/main/new-post-section";
 import PostFood from "@/app/ui/main/post-food";
 import PostWorkout from "@/app/ui/main/post-workout";
 import Link from "next/link";
@@ -5,6 +7,8 @@ import Link from "next/link";
 export default function Home() {
 	return (
 		<div className="my-6">
+			<NewPostButton />
+
 			<section className="bg-card">
 				<div className="flex gap-6 items-center">
 					<img className="rounded-full w-40 h-40 shrink-0" src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="profile picture" />
@@ -41,6 +45,7 @@ export default function Home() {
 				</section>
 
 				<section className="flex flex-col gap-6">
+					<NewPostSection />
 					<PostFood />
 					<PostWorkout />
 				</section>

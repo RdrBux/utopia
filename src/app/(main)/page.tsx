@@ -1,4 +1,5 @@
 import NewPostButton from "../ui/main/new-post-button";
+import NewPostSection from "../ui/main/new-post-section";
 import PostFood from "../ui/main/post-food";
 import PostWorkout from "../ui/main/post-workout";
 import RecommendedFriends from "../ui/main/recommended-friends";
@@ -12,6 +13,7 @@ export default function Home() {
 			<UserPanel />
 
 			<main className="flex flex-col gap-6">
+				<NewPostSection />
 				<PostFood />
 				<PostWorkout />
 			</main>
