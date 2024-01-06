@@ -5,9 +5,9 @@ export default function NewPostSection() {
 		<div className="bg-card p-0 divide-y">
 			<div className="flex items-center gap-3 px-6 py-3">
 				<div className="h-8 w-8 shrink-0 bg-primary-300 rounded-full"></div>
-				<button className="bg-gray-50 text-gray-400 text-left border border-gray-300 text-sm rounded-lg focus:ring-primary-500 block w-full p-2.5 focus:ring-2 focus:border-primary-500 outline-none">
+				<Link href='/posts/new' className="bg-gray-50 text-gray-400 text-left border border-gray-300 text-sm rounded-lg focus:ring-primary-500 block w-full p-2.5 focus:ring-2 focus:border-primary-500 outline-none">
 					Agregar contenido...
-				</button>
+				</Link>
 			</div>
 			<div className="flex border-t divide-x text-gray-600">
 				<button className="px-5 py-2.5 font-bold flex gap-2 items-center justify-center w-full hover:bg-gray-100 duration-100 hover:text-gray-900">

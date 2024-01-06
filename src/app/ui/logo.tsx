@@ -3,12 +3,13 @@ import Link from "next/link";
 export default function Logo() {
 	return (
 		<Link href='/' className="flex items-center gap-1.5">
-			<svg className="w-8 h-8" width="32" height="40" viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+			{/* <svg className="w-8 h-8" width="32" height="40" viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path fillRule="evenodd" clipRule="evenodd" d="M16 32H32L16 0H16V32Z" fill="#80D5CF" />
 				<path fillRule="evenodd" clipRule="evenodd" d="M16 0L0 32H16L16 0Z" fill="#66AAA6" />
 				<path d="M9.53991e-08 32L16 24L16 40L9.53991e-08 32Z" fill="#3B928E" />
 				<path d="M32 32L16 24L16 40L32 32Z" fill="#4AB7B2" />
-			</svg>
+			</svg> */}
+			<div className="h-8 w-8 rounded-full bg-gradient-to-b from-primary-400 to-primary-500"></div>
 
 
 			<svg width="64" height="21" viewBox="0 0 64 21" fill="none" xmlns="http://www.w3.org/2000/svg">
