@@ -1,5 +1,7 @@
 import Input from "../../input";
 import InputFile from "../../input-file";
+import Textarea from "../../textarea";
+import InputMacros from "./input-macros";
 
 export default function FormFood() {
 	return (
@@ -7,20 +9,30 @@ export default function FormFood() {
 			<h3 className="text-xl font-bold leading-none">Agregar comida</h3>
 
 			<Input label="Nombre" id="food-name" />
-			<Input label="Descripción" id="food-content" />
+			<Textarea label="Descripción" id="food-content" />
 			<InputFile id="food-image" title="Agregar imagen" />
 
-			<div className="mt-6">
-				<h4 className="text-lg font-bold leading-none">Macronutrientes (en gramos)</h4>
-				<div className="flex gap-3 mt-3">
-					<Input label="Proteínas" id="food-proteins" />
-					<Input label="Carbohidratos" id="food-carbs" />
-					<Input label="Grasas" id="food-fats" />
+			<div className="p-6 bg-emerald-100 border border-emerald-300 rounded-lg mt-6">
+				<div className="">
+					<h4 className="text-lg font-bold leading-none">Macronutrientes (opcional)</h4>
+					<div className="flex gap-6 mt-6">
+						<InputMacros label="Proteínas" id="food-proteins" />
+						<InputMacros label="Carbohidratos" id="food-carbs" />
+						<InputMacros label="Grasas" id="food-fats" />
+					</div>
 				</div>
+
+				<div className="max-w-40 mt-6">
+					<div className="">
+						<label htmlFor="food-kcal" className="block mb-2 text-sm font-medium text-gray-900">Total kilocalorías</label>
+						<div className="flex">
+							<input type="number" min={0} defaultValue={0} id="food-kcal" className="peer bg-emerald-50 border border-emerald-300 text-gray-900 text rounded-l-lg focus:ring-emerald-500 block w-20 text-right p-2.5 focus:ring-2 focus:border-emerald-500 outline-none" />
+							<span className="p-2.5 rounded-r-lg bg-emerald-200 border-y border-r font-semibold border-emerald-300 peer-focus:ring-2 peer-focus:ring-emerald-500 peer-focus:border-emerald-500">kcal</span>
+						</div>
+					</div>
+				</div>
+
 			</div>
-
-			<Input label="Total kilocalorías" id="food-kilocals" />
-
 			<button className="btn-primary">Publicar</button>
 		</form>
 	)
