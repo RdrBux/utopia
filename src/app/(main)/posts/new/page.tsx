@@ -1,6 +1,7 @@
 'use client'
 
 import FormFood from "@/app/ui/posts/new/form-food";
+import FormRest from "@/app/ui/posts/new/form-rest";
 import FormWorkout from "@/app/ui/posts/new/form-workout";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -43,6 +44,9 @@ export default function Home() {
 				}
 				{
 					type === 'food' && <FormFood />
+				}
+				{
+					type === 'rest' && <FormRest />
 				}
 			</main>
 		</div>

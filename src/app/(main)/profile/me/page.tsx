@@ -1,6 +1,7 @@
 import NewPostButton from "@/app/ui/main/new-post-button";
 import NewPostSection from "@/app/ui/main/new-post-section";
 import PostFood from "@/app/ui/main/post-food";
+import PostRest from "@/app/ui/main/post-rest";
 import PostWorkout from "@/app/ui/main/post-workout";
 import Link from "next/link";
 
@@ -49,6 +50,7 @@ export default function Home() {
 					<NewPostSection />
 					<PostFood />
 					<PostWorkout />
+					<PostRest />
 				</section>
 			</div>
 		</div>
