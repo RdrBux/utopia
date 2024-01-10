@@ -1,23 +1,32 @@
+import { PostFoodType } from "@/app/lib/definitions";
 import Link from "next/link";
 
-export default function PostFood() {
+export default function PostFood({ food }: { food: PostFoodType }) {
+	const { user_id, firstname, lastname, user_img_url, id, food_name, img_url, content, proteins, carbs, fats, kilo_cals, created_at } = food;
+	const name = `${firstname} ${lastname}`
+	const hasMacros = proteins && carbs && fats && kilo_cals;
+
 	return (
 		<div className="border rounded-lg overflow-hidden bg-white">
-			<Link href="/posts/food/example" className="flex flex-col gap-6 py-6">
-				<div className="flex gap-3 items-center px-6">
-					<div className="h-8 w-8 shrink-0 bg-primary-300 rounded-full"></div>
+			<Link href={`/posts/food/${id}`} className="flex flex-col gap-6 py-6">
+				<div className="flex gap-3 items-center px-6 group w-fit">
+					<Link href={`/profile/${user_id}`}><img className="h-8 w-8 shrink-0 rounded-full" src={user_img_url} alt={`${name} profile picture`} /></Link>
 					<div>
-						<span className="font-bold">Juan Pérez</span>
-						<span className="text-gray-500 text-sm ml-3">Hace 7 horas</span>
+						<Link href={`/profile/${user_id}`}><span className="font-bold hover:underline">{name}</span></Link>
+						<span className="text-gray-500 text-sm ml-3">{created_at}</span>
 					</div>
 				</div>
 
-				<img className="" src="https://plus.unsplash.com/premium_photo-1663852297267-827c73e7529e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="meal" />
+				<img className="w-full" src={img_url} alt={food_name} />
 
 				<div className="px-6 flex flex-col gap-6">
-					<h4 className="text-xl font-bold leading-none">Ensalada</h4>
-					<p className="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum eveniet impedit ea suscipit perferendis vel quo. Veniam iste, sit ipsa numquam assumenda omnis veritatis corporis itaque atque tempora nesciunt corrupti!</p>
-					<MacrosTable />
+					<h4 className="text-xl font-bold leading-none">{food_name}</h4>
+					<p className="">{content}</p>
+
+					{
+						hasMacros &&
+						<MacrosTable proteins={proteins} carbs={carbs} fats={fats} kiloCals={kilo_cals} />
+					}
 
 				</div>
 			</Link>
@@ -28,18 +37,25 @@ export default function PostFood() {
 					</svg>
 					Me gusta (2)
 				</button>
-				<button className="px-5 py-2.5 font-bold flex gap-2 items-center justify-center w-full hover:bg-gray-100 duration-100 hover:text-gray-900">
+				<Link href={`/posts/food/${id}`} className="px-5 py-2.5 font-bold flex gap-2 items-center justify-center w-full hover:bg-gray-100 duration-100 hover:text-gray-900">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
 						<path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
 					</svg>
 					Comentar (12)
-				</button>
+				</Link>
 			</div>
 		</div>
 	)
 }
 
-export function MacrosTable() {
+type Macros = {
+	proteins: number,
+	carbs: number,
+	fats: number,
+	kiloCals: number
+}
+
+export function MacrosTable({ proteins, carbs, fats, kiloCals }: Macros) {
 	return (
 		<table className="w-fit text-sm text-left rtl:text-right text-gray-500">
 			<thead className="text-xs text-gray-700 uppercase bg-gray-100">
@@ -58,7 +74,7 @@ export function MacrosTable() {
 						Proteínas
 					</th>
 					<td className="px-6 py-1">
-						1g
+						{proteins}g
 					</td>
 				</tr>
 				<tr className="bg-white">
@@ -66,7 +82,7 @@ export function MacrosTable() {
 						Carbohidratos
 					</th>
 					<td className="px-6 py-1">
-						22g
+						{carbs}g
 					</td>
 				</tr>
 				<tr className="bg-white">
@@ -74,14 +90,14 @@ export function MacrosTable() {
 						Grasas
 					</th>
 					<td className="px-6 py-1">
-						0g
+						{fats}g
 					</td>
 				</tr>
 			</tbody>
 			<tfoot>
 				<tr className="font-semibold text-gray-900">
 					<th scope="row" className="px-6 py-1 text-base">Total calorías</th>
-					<td className="px-6 py-1">70 kcal</td>
+					<td className="px-6 py-1">{kiloCals} kcal</td>
 				</tr>
 			</tfoot>
 		</table>

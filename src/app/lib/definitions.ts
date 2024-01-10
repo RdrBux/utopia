@@ -10,7 +10,7 @@ export type User = {
   created_at: string;
 };
 
-export type PostFood = {
+export type Food = {
   id: string;
   user_id: string;
   food_name: string;
@@ -22,6 +22,13 @@ export type PostFood = {
   kilo_cals?: number;
   created_at: string;
 };
+
+export interface PostFoodType extends Food {
+  user_id: string;
+  firstname: string;
+  lastname: string;
+  user_img_url: string;
+}
 
 export type PostWorkout = {
   id: string;
