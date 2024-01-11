@@ -8,8 +8,7 @@ const users = [
     email: 'juan@perez.com',
     password: '123456',
     bio: 'Hola soy Juan',
-    date_of_birth: new Date('1990-01-01').toISOString(),
-    created_at: new Date('2023-01-01').toISOString(),
+    date_of_birth: +new Date('1990-01-01') / 1000,
   },
   {
     id: '410544b2-4001-4271-9855-fec4b6a6442b',
@@ -20,8 +19,7 @@ const users = [
     email: 'diego@gomez.com',
     password: '123456',
     bio: '',
-    date_of_birth: new Date('1980-01-01').toISOString(),
-    created_at: new Date('2023-01-01').toISOString(),
+    date_of_birth: +new Date('1980-01-01') / 1000,
   },
 ];
 
@@ -37,7 +35,6 @@ const foods = [
     proteins: 10,
     fats: 10,
     kilo_cals: 5000,
-    created_at: new Date('2024-01-07').toISOString(),
   },
   {
     id: '410544b2-4001-4271-9855-fec4b6a6442e',
@@ -46,7 +43,6 @@ const foods = [
     img_url:
       'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1398&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     content: 'Mega super hamburguesa',
-    created_at: new Date('2024-01-08').toISOString(),
   },
 ];
 
@@ -59,7 +55,6 @@ const workouts = [
     content: '10km con elevación de 200m a ritmo 6:00 min por km.',
     img_url:
       'https://images.unsplash.com/photo-1486218119243-13883505764c?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    created_at: new Date('2024-01-07').toISOString(),
   },
   {
     id: '410544b2-4001-4271-9855-fec4b6a6443e',
@@ -69,7 +64,6 @@ const workouts = [
     content: '30 pull-ups, 30 push-ups, 30 sit-ups',
     img_url:
       'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    created_at: new Date('2024-01-08').toISOString(),
   },
 ];
 
@@ -77,9 +71,8 @@ const rests = [
   {
     id: '410544b2-4001-4271-9855-fec4b6a6449f',
     user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
-    start_time: new Date('2024-01-07').toISOString(),
-    end_time: new Date('2024-01-08').toISOString(),
-    created_at: new Date('2024-01-08').toISOString(),
+    start_time: +new Date('2024-01-07') / 1000,
+    end_time: +new Date('2024-01-08') / 1000,
   },
 ];
 
@@ -89,7 +82,6 @@ const friends = [
     source_id: '410544b2-4001-4271-9855-fec4b6a6442a',
     target_id: '410544b2-4001-4271-9855-fec4b6a6442b',
     status: 'accepted',
-    created_at: new Date('2024-01-09').toISOString(),
   },
 ];
 
@@ -98,7 +90,6 @@ const foodLikes = [
     id: '410544b2-4001-4271-9855-fec4b6a6999f',
     post_id: '410544b2-4001-4271-9855-fec4b6a6442f',
     user_id: '410544b2-4001-4271-9855-fec4b6a6442b',
-    created_at: new Date('2024-01-09').toISOString(),
   },
 ];
 
@@ -107,7 +98,6 @@ const workoutLikes = [
     id: '410544b2-4001-4271-9855-fec4b6a6999e',
     post_id: '410544b2-4001-4271-9855-fec4b6a6443e',
     user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
-    created_at: new Date('2024-01-09').toISOString(),
   },
 ];
 
@@ -117,7 +107,6 @@ const foodComments = [
     post_id: '410544b2-4001-4271-9855-fec4b6a6442f',
     user_id: '410544b2-4001-4271-9855-fec4b6a6442b',
     content: 'Delicioso',
-    created_at: new Date('2024-01-09').toISOString(),
   },
 ];
 
@@ -127,7 +116,6 @@ const workoutComments = [
     post_id: '410544b2-4001-4271-9855-fec4b6a6443e',
     user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
     content: 'Impresionante',
-    created_at: new Date('2024-01-09').toISOString(),
   },
 ];
 
