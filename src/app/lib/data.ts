@@ -60,6 +60,20 @@ export async function getFoodLikesCount(id: string) {
     return data.rows[0];
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch post_food data.');
+    throw new Error('Failed to fetch food_likes data.');
+  }
+}
+
+export async function getFoodCommentsCount(id: string) {
+  noStore();
+
+  try {
+    const data = await sql`
+      SELECT COUNT(*) count FROM food_comments WHERE post_id = ${id};
+    `;
+    return data.rows[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch food_comments data.');
   }
 }

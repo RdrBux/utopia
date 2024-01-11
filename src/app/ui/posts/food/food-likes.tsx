@@ -4,6 +4,8 @@ import Link from "next/link";
 export default async function FoodLikes({ postId }: { postId: string }) {
 	const likesCount = await getFoodLikesCount(postId);
 
+	if (likesCount.count < 1) return <div></div>
+
 	return (
 		<Link href={`/posts/food/${postId}/likes`} className="group flex gap-1 text-sm items-center font-semibold">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 text-primary-700">
