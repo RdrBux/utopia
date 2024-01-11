@@ -10,7 +10,7 @@ export default function PostFood({ food }: { food: PostFoodType }) {
 	return (
 		<div className="border rounded-lg overflow-hidden bg-white">
 			<div className="flex flex-col gap-6 py-6">
-				<div className="flex gap-3 items-center px-6 group w-fit">
+				<div className="flex gap-3 items-center px-6 w-fit">
 					<Link href={`/profile/${user_id}`}><img className="h-10 w-10 shrink-0 rounded-full" src={user_img_url} alt={`${name} profile picture`} /></Link>
 					<div>
 						<Link href={`/profile/${user_id}`}><span className="font-bold hover:underline">{name}</span></Link>

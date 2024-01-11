@@ -70,3 +70,10 @@ export type Comment = {
   content: string;
   created_at: string;
 };
+
+export interface CommentPost extends Comment {
+  user_id: string;
+  firstname: string;
+  lastname: string;
+  img_url: string;
+}
