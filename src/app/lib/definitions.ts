@@ -77,3 +77,11 @@ export interface CommentPost extends Comment {
   lastname: string;
   img_url: string;
 }
+
+export type UserFriend = {
+  id: string;
+  firstname: string;
+  lastname: string;
+  img_url: string;
+  bio: string;
+};

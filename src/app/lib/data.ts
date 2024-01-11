@@ -1,5 +1,5 @@
 import { sql } from '@vercel/postgres';
-import { CommentPost, PostFoodType } from './definitions';
+import { CommentPost, PostFoodType, UserFriend } from './definitions';
 import { unstable_noStore as noStore } from 'next/cache';
 
 export async function getFoods() {
@@ -75,5 +75,21 @@ export async function getFoodCommentsCount(id: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch food_comments data.');
+  }
+}
+
+export async function getRecommendedFriends() {
+  noStore();
+
+  try {
+    const data = await sql<UserFriend>`
+    SELECT id, firstname, lastname, img_url, bio
+    FROM users
+    LIMIT 5;
+    `;
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch recommended friends.');
   }
 }
