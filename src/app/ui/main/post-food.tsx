@@ -1,4 +1,5 @@
 import { PostFoodType } from "@/app/lib/definitions";
+import { formatDateDistance } from "@/app/lib/utils";
 import Link from "next/link";
 
 export default function PostFood({ food }: { food: PostFoodType }) {
@@ -8,28 +9,27 @@ export default function PostFood({ food }: { food: PostFoodType }) {
 
 	return (
 		<div className="border rounded-lg overflow-hidden bg-white">
-			<Link href={`/posts/food/${id}`} className="flex flex-col gap-6 py-6">
+			<div className="flex flex-col gap-6 py-6">
 				<div className="flex gap-3 items-center px-6 group w-fit">
-					<Link href={`/profile/${user_id}`}><img className="h-8 w-8 shrink-0 rounded-full" src={user_img_url} alt={`${name} profile picture`} /></Link>
+					<Link href={`/profile/${user_id}`}><img className="h-10 w-10 shrink-0 rounded-full" src={user_img_url} alt={`${name} profile picture`} /></Link>
 					<div>
 						<Link href={`/profile/${user_id}`}><span className="font-bold hover:underline">{name}</span></Link>
-						<span className="text-gray-500 text-sm ml-3">{created_at}</span>
+						<span className="text-gray-500 text-sm ml-3">{formatDateDistance(created_at)}</span>
 					</div>
 				</div>
+				<Link href={`/posts/food/${id}`}>
+					<img className="w-full" src={img_url} alt={food_name} />
+					<div className="px-6 flex flex-col gap-6 mt-6">
+						<h4 className="text-xl font-bold leading-none">{food_name}</h4>
+						<p className="">{content}</p>
+						{
+							hasMacros &&
+							<MacrosTable proteins={proteins} carbs={carbs} fats={fats} kiloCals={kilo_cals} />
+						}
+					</div>
+				</Link>
 
-				<img className="w-full" src={img_url} alt={food_name} />
-
-				<div className="px-6 flex flex-col gap-6">
-					<h4 className="text-xl font-bold leading-none">{food_name}</h4>
-					<p className="">{content}</p>
-
-					{
-						hasMacros &&
-						<MacrosTable proteins={proteins} carbs={carbs} fats={fats} kiloCals={kilo_cals} />
-					}
-
-				</div>
-			</Link>
+			</div>
 			<div className="flex border-t divide-x text-gray-600">
 				<button className="px-5 py-2.5 font-bold flex gap-2 items-center justify-center w-full hover:bg-gray-100 duration-100 hover:text-gray-900">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">

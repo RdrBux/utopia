@@ -2,8 +2,8 @@ import { MacrosTable } from "@/app/ui/main/post-food";
 import { CommentButton } from "@/app/ui/posts/comment-button";
 import Link from "next/link";
 
-export default function Home() {
-
+export default function Home({ params }: { params: { id: string } }) {
+	console.log(params.id)
 	return (
 		<div className="main-layout">
 			<main className="flex flex-col gap-6 lg:col-start-2 bg-white py-6 rounded-lg border">
@@ -20,7 +20,7 @@ export default function Home() {
 				<div className="px-6 flex flex-col gap-6">
 					<h4 className="text-xl font-bold leading-none">Ensalada</h4>
 					<p className="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum eveniet impedit ea suscipit perferendis vel quo. Veniam iste, sit ipsa numquam assumenda omnis veritatis corporis itaque atque tempora nesciunt corrupti!</p>
-					{/* <MacrosTable /> */}
+					<MacrosTable />
 
 				</div>
 
