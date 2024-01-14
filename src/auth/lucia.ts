@@ -1,4 +1,5 @@
 import { pg } from '@lucia-auth/adapter-postgresql';
+import { google } from '@lucia-auth/oauth/providers';
 import { db } from '@vercel/postgres';
 import { lucia } from 'lucia';
 import { nextjs_future } from 'lucia/middleware';
@@ -26,6 +27,12 @@ export const auth = lucia({
       date_of_birth: data.date_of_birth,
     };
   },
+});
+
+export const googleAuth = google(auth, {
+  clientId: process.env.GOOGLE_CLIENT_ID ?? '',
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
+  redirectUri: process.env.GOOGLE_REDIRECT_URI ?? '',
 });
 
 export type Auth = typeof auth;

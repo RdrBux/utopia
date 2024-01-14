@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@lucia-auth/adapter-postgresql": "^2.0.2",
+    "@lucia-auth/oauth": "^3.5.1",
     "@vercel/postgres": "^0.5.1",
     "bcrypt": "^5.1.1",
     "date-fns": "^3.2.0",
