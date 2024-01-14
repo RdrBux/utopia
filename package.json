@@ -10,12 +10,13 @@
     "seed": "node -r dotenv/config ./src/scripts/seed.js"
   },
   "dependencies": {
+    "@lucia-auth/adapter-postgresql": "^2.0.2",
     "@vercel/postgres": "^0.5.1",
     "bcrypt": "^5.1.1",
     "date-fns": "^3.2.0",
     "geist": "^1.2.0",
+    "lucia": "^2.7.6",
     "next": "14.0.4",
-    "next-auth": "^4.24.5",
     "react": "^18",
     "react-dom": "^18"
   },
