@@ -1,14 +1,13 @@
 import Logo from "../ui/logo";
 import { auth } from "@/auth/lucia";
-import * as context from "next/headers";
 import { redirect } from "next/navigation";
 import { ButtonGoogle, ButtonGuest } from "../ui/buttons";
 import Link from "next/link";
 import Form from "../ui/form";
+import { getPageSession } from "../lib/utils";
 
 export default async function Home() {
-	const authRequest = auth.handleRequest("GET", context);
-	const session = await authRequest.validate();
+	const session = await getPageSession();
 	if (session) redirect("/");
 
 	return (
