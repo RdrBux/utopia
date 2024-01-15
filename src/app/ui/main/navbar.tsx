@@ -3,8 +3,13 @@ import Logo from "../logo";
 import Navtab from "./navtab";
 import NotificationsCounter from "./notifications-counter";
 import UserMenu from "./user-menu";
+import { getPageSession } from "@/app/lib/utils";
+import { redirect } from "next/navigation";
 
-export default function Navbar() {
+export default async function Navbar() {
+	const session = await getPageSession();
+	if (!session) redirect('/login');
+
 	return (
 		<nav className="bg-white border-b sticky top-0 z-20">
 			<div className="flex justify-between items-center container mx-auto px-2">
@@ -25,11 +30,7 @@ export default function Navbar() {
 						</svg>
 						<NotificationsCounter />
 					</Link>
-
-					{/* <Link href='/profile/me' title="Mi perfil" aria-label="Mi perfil" className="h-10 w-10 rounded-full bg-gray-100">
-						<img className="rounded-full" src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="profile picture" />
-					</Link> */}
-					<UserMenu />
+					<UserMenu session={session} />
 				</div>
 
 			</div>

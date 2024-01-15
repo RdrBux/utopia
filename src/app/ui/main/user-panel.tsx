@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import Form from "../form";
 import { getPageSession } from "@/app/lib/utils";
 import Link from "next/link";
 
@@ -12,14 +11,6 @@ export default async function UserPanel() {
 
 	return (
 		<aside className="flex flex-col gap-6 bg-card h-fit">
-			{/* <>
-				<h1>Profile</h1>
-				<p>User id: {session.user.userId}</p>
-				<p>Email: {session.user.email}</p>
-				<Form action="/api/logout">
-					<input type="submit" value="Sign out" />
-				</Form>
-			</> */}
 			<Link href={`/profile/${userId}`} className="flex flex-col gap-6">
 				<img className="rounded-full self-center w-24 h-24" src={avatar} alt="profile picture" />
 				<div className="text-center -mt-3">
