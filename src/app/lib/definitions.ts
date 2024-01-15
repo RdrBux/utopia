@@ -1,4 +1,4 @@
-export type User = {
+/* export type User = {
   id: string;
   firstname: string;
   lastname: string;
@@ -8,7 +8,7 @@ export type User = {
   bio: string;
   date_of_birth: string;
   created_at: string;
-};
+}; */
 
 export type Food = {
   id: string;
