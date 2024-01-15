@@ -23,11 +23,13 @@ export default function UserMenu({ session }: { session: Session }) {
 		}
 	}, [button, showMenu])
 
+	const avatar = session.user.img_url && session.user.img_url?.length > 0 ? session.user.img_url : '/avatar.jpg'
+
 	return (
 		<div className="relative">
 			<button ref={button} onClick={() => setShowMenu(prev => !prev)} className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300">
 				<span className="sr-only">Abrir menú de usuario</span>
-				<img className="w-10 h-10 rounded-full" src="/avatar.jpg" alt="user photo" />
+				<img className="w-10 h-10 rounded-full" src={avatar} alt={`${session.user.firstname} ${session.user.lastname}`} />
 			</button>
 
 			<div className={`${showMenu ? 'visible' : 'invisible'} z-10 absolute right-0 top-10 bg-card p-0 text-sm text-gray-700 w-40 shadow`}>
