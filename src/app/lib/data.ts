@@ -2,6 +2,21 @@ import { sql } from '@vercel/postgres';
 import { CommentPost, PostFoodType, UserFriend } from './definitions';
 import { unstable_noStore as noStore } from 'next/cache';
 
+export async function getUserById(id: string) {
+  noStore();
+
+  try {
+    const data = await sql`
+    SELECT * FROM auth_user
+    WHERE id = ${id};
+    `;
+    return data.rows[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch user data.');
+  }
+}
+
 export async function getFoods() {
   noStore();
 

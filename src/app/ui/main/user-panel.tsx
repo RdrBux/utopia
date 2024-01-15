@@ -12,9 +12,6 @@ export default async function UserPanel() {
 
 	return (
 		<aside className="flex flex-col gap-6 bg-card h-fit">
-			<Form action="/api/logout">
-				<input type="submit" value="Sign out" />
-			</Form>
 			<Link href={`/profile/${userId}`} className="flex flex-col gap-6">
 				<img className="rounded-full self-center w-24 h-24" src={avatar} alt="profile picture" />
 				<div className="text-center -mt-3">
