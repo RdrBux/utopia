@@ -15,10 +15,10 @@ export default function Home() {
 
 			<main className="flex flex-col gap-6">
 				<NewPostSection />
-				<HomePosts />
+				{/* <HomePosts /> */}
 			</main>
 
-			<RecommendedFriends />
+			{/* <RecommendedFriends /> */}
 		</div>
 	)
 }
