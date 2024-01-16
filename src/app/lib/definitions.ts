@@ -14,7 +14,7 @@ export type Food = {
   id: string;
   user_id: string;
   food_name: string;
-  img_url: string;
+  img_url?: string;
   content: string;
   carbs?: number;
   proteins?: number;
