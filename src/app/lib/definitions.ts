@@ -2,8 +2,8 @@ export type Post = {
   id: string;
   user_id: string;
   title: string;
-  content: string;
-  img_url: string;
+  content?: string;
+  img_url?: string;
   post_type: 'food' | 'workout' | 'general';
   post_data?: string;
   created_at: string;

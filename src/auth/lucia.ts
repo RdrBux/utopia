@@ -32,7 +32,7 @@ export const auth = lucia({
 export const googleAuth = google(auth, {
   clientId: process.env.GOOGLE_CLIENT_ID ?? '',
   clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
-  redirectUri: process.env.GOOGLE_REDIRECT_URI ?? '',
+  redirectUri: 'http://localhost:3000/login/google/callback',
 });
 
 export type Auth = typeof auth;

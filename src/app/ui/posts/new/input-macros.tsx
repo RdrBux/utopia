@@ -1,10 +1,10 @@
 export default function InputMacros({ label, id }: { label: string, id: string }) {
 	return (
-		<div className="">
-			<label htmlFor={id} className="block mb-2 text-sm font-medium text-gray-900">{label}</label>
+		<div className="text-white">
+			<label htmlFor={id} className="block mb-2 text-sm font-medium text-primary-50">{label}</label>
 			<div className="flex">
-				<input type="number" name={id} min={0} defaultValue={0} id={id} className="peer bg-emerald-50 border border-emerald-300 text-gray-900 text rounded-l-lg focus:ring-emerald-500 block w-16 text-right p-2.5 focus:ring-2 focus:border-emerald-500 outline-none" />
-				<span className="p-2.5 rounded-r-lg bg-emerald-200 border-y border-r font-semibold border-emerald-300 peer-focus:ring-2 peer-focus:ring-emerald-500 peer-focus:border-emerald-500">g</span>
+				<input type="number" name={id} min={0} defaultValue={0} id={id} className="peer bg-primary-700 border border-primary-500 rounded-l-lg focus:ring-primary-400 block w-14 text-right p-1.5 focus:ring-2 focus:border-primary-500 outline-none" />
+				<span title="gramos" className="cursor-default p-1.5 px-3 rounded-r-lg bg-primary-600 border-y border-r border-primary-500 peer-focus:ring-2 peer-focus:ring-primary-400 peer-focus:border-primary-400">g</span>
 			</div>
 		</div>
 	)
