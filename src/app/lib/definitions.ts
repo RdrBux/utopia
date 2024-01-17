@@ -39,3 +39,11 @@ export type Comment = {
   content: string;
   created_at: string;
 };
+
+export type UserFriend = {
+  id: string;
+  firstname: string;
+  lastname: string;
+  img_url?: string;
+  bio?: string;
+};

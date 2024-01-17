@@ -12,7 +12,7 @@ export default async function RecommendedFriends() {
 					recommendedFriends.map((friend) =>
 						<li key={friend.id}>
 							<Link href={`/profile/${friend.id}`} className="grid grid-cols-[auto_1fr] gap-3 py-3 items-center">
-								<img className="h-8 w-8 shrink-0 rounded-full" src={friend.img_url} alt={`${friend.firstname} ${friend.lastname}`} />
+								<img className="h-8 w-8 shrink-0 rounded-full" src={friend.img_url || '/avatar.jpg'} alt={`${friend.firstname} ${friend.lastname}`} />
 								<div className="overflow-hidden">
 									<div className="font-medium text-sm">{friend.firstname} {friend.lastname}</div>
 									<div className="text-xs text-gray-500 truncate">{friend.bio}</div>
