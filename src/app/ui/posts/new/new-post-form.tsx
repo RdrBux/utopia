@@ -1,8 +1,11 @@
+'use client'
+
 import { Post } from "@/app/lib/definitions";
 import Input from "../../input";
 import Textarea from "../../textarea";
 import InputFile from "../../input-file";
 import InputMacros from "./input-macros";
+import { postContent } from "@/app/lib/actions";
 
 export default function NewPostForm({ type }: { type: Post['post_type'] }) {
 	const title = {
@@ -11,11 +14,16 @@ export default function NewPostForm({ type }: { type: Post['post_type'] }) {
 		workout: 'actividad física',
 	}
 
+	function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+		e.preventDefault();
+		postContent(new FormData(e.target as HTMLFormElement));
+	}
+
 	return (
 		<div className="p-6">
 			<h3 className="text-xl font-bold leading-none">Agregar {title[type]}</h3>
 
-			<form className="mt-6 flex flex-col gap-6">
+			<form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-6">
 				<Input label="Título" id="title" required />
 				<Textarea label="Descripción" id="content" />
 				<InputFile id="img_url" label="Agregar imagen" />

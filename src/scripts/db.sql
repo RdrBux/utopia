@@ -24,6 +24,11 @@ CREATE TABLE IF NOT EXISTS posts (
 	created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE INDEX IF NOT EXISTS posts_user_id_idx ON posts(user_id);
+CREATE INDEX IF NOT EXISTS posts_type_idx ON posts(post_type);
+CREATE INDEX IF NOT EXISTS posts_title_idx ON posts(title);
+CREATE INDEX IF NOT EXISTS posts_content_idx ON posts(content);
+
 /* POSTS REST TABLE */
 CREATE TABLE IF NOT EXISTS posts_rest (
 	id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
@@ -33,6 +38,8 @@ CREATE TABLE IF NOT EXISTS posts_rest (
 	created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE INDEX IF NOT EXISTS posts_rest_user_id_idx ON posts_rest(user_id);
+
 /* POSTS LIKES */
 CREATE TABLE IF NOT EXISTS post_likes (
 	id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
@@ -40,6 +47,9 @@ CREATE TABLE IF NOT EXISTS post_likes (
 	user_id TEXT REFERENCES auth_user(id) ON DELETE CASCADE,
 	created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+CREATE INDEX IF NOT EXISTS post_likes_post_id_idx ON post_likes(post_id);
+CREATE INDEX IF NOT EXISTS post_likes_user_id_idx ON post_likes(user_id);
 
 /* POSTS COMMENTS */
 CREATE TABLE IF NOT EXISTS post_comments (
@@ -49,6 +59,8 @@ CREATE TABLE IF NOT EXISTS post_comments (
 	content TEXT NOT NULL,
 	created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+CREATE INDEX IF NOT EXISTS post_comments_post_id_idx ON post_comments(post_id);
 
 /* FRIENDS */
 CREATE TYPE friends_status AS ENUM ('pending', 'accepted', 'rejected');
@@ -61,6 +73,9 @@ CREATE TABLE IF NOT EXISTS friends (
 	created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE INDEX IF NOT EXISTS friends_source_id_idx ON friends(source_id);
+CREATE INDEX IF NOT EXISTS friends_target_id_idx ON friends(target_id);
+
 /* NOTIFICATIONS */
 CREATE TYPE notification_types AS ENUM ('friend_request', 'friend_accepted', 'post_like', 'post_comment', 'friend_new_content');
 
@@ -72,6 +87,8 @@ CREATE TABLE IF NOT EXISTS notifications (
 	is_read BOOLEAN NOT NULL,
 	created_at TIMESTAMPTZ DEFAULT NOW()
 )
+
+CREATE INDEX IF NOT EXISTS notifications_user_id_idx ON notifications(user_id);
 
 /* TRIGGERS */
 -- Trigger function for Friend Request Received

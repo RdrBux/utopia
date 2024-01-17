@@ -5,7 +5,7 @@ export type Post = {
   content?: string;
   img_url?: string;
   post_type: 'food' | 'workout' | 'general';
-  post_data?: string;
+  post_data: string | null;
   created_at: string;
 };
 

@@ -2,33 +2,46 @@
 
 import { sql } from '@vercel/postgres';
 import { getPageSession } from './utils';
-import { Food } from './definitions';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { Post } from './definitions';
 
-export async function postFood(formData: FormData) {
+export async function postContent(formData: FormData) {
   const session = await getPageSession();
   if (!session) {
     throw new Error('Not authenticated');
   }
-  const food_name = '' + formData.get('food-name');
-  const content = '' + formData.get('food-content');
-  const img_url = '' + formData.get('food-image');
-  const proteins = Number(formData.get('food-proteins'));
-  const carbs = Number(formData.get('food-carbs'));
-  const fats = Number(formData.get('food-fats'));
-  const kilo_cals = Number(formData.get('food-kilo-cals'));
+
+  const title = String(formData.get('title'));
+  const content = String(formData.get('content'));
+  /* const img_url = formData.get('img_url') || ''; */
+  const post_type = String(formData.get('post_type'));
+
+  let post_data = null;
+  if (post_type === 'food') {
+    const proteins = formData.get('food-proteins');
+    const carbs = formData.get('food-carbs');
+    const fats = formData.get('food-fats');
+    const kcals = formData.get('food-kcal');
+
+    post_data = JSON.stringify({ proteins, carbs, fats, kcals });
+  }
+  if (post_type === 'workout') {
+    const duration = formData.get('workout-duration');
+
+    post_data = JSON.stringify({ duration });
+  }
 
   try {
-    await sql<Food>`
-      INSERT INTO food (user_id, food_name, img_url, content, proteins, carbs, fats, kilo_cals)
-      VALUES (${session.user.userId}, ${food_name}, ${img_url}, ${content}, ${proteins}, ${carbs}, ${fats}, ${kilo_cals})
+    await sql<Post>`
+      INSERT INTO posts (user_id, title, content, post_data, post_type)
+      VALUES (${session.user.userId}, ${title}, ${content}, ${post_data}, ${post_type})
     `;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to create food.');
+    throw new Error('Failed to create post.');
   }
 
-  revalidatePath(`/profile/${session.user.userId}`);
-  redirect(`/profile/${session.user.userId}`);
+  revalidatePath(`/`);
+  redirect(`/`);
 }
