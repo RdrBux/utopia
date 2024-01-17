@@ -3,6 +3,7 @@ import Link from "next/link";
 
 export default async function RecommendedFriends() {
 	const recommendedFriends = await getRecommendedFriends();
+	if (!recommendedFriends) return;
 
 	return (
 		<aside className="bg-card h-fit pb-3">

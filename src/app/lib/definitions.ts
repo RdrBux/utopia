@@ -9,6 +9,12 @@ export type Post = {
   created_at: string;
 };
 
+export interface PostWithUser extends Post {
+  firstname: string;
+  lastname: string;
+  user_img_url: string;
+}
+
 export type Rest = {
   id: string;
   user_id: string;
@@ -39,6 +45,12 @@ export type Comment = {
   content: string;
   created_at: string;
 };
+
+export interface CommentPost extends Comment {
+  firstname: string;
+  lastname: string;
+  img_url: string;
+}
 
 export type UserFriend = {
   id: string;

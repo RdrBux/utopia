@@ -1,7 +1,7 @@
-import { getFoodCommentsCount } from "@/app/lib/data"
+import { getPostCommentsCount } from "@/app/lib/data"
 
-export default async function FoodCountComments({ postId }: { postId: string }) {
-	const commentsCount = await getFoodCommentsCount(postId)
+export default async function PostCountComments({ postId }: { postId: string }) {
+	const commentsCount = await getPostCommentsCount(postId)
 
 	if (commentsCount.count < 1) return;
 

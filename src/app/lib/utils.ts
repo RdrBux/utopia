@@ -1,11 +1,11 @@
 import { auth } from '@/auth/lucia';
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNowStrict } from 'date-fns';
 import { es } from 'date-fns/locale/es';
 import { cache } from 'react';
 import * as context from 'next/headers';
 
 export function formatDateDistance(date: string) {
-  return formatDistanceToNow(date, { locale: es });
+  return formatDistanceToNowStrict(date, { locale: es });
 }
 
 export function validateEmail(email: string) {
