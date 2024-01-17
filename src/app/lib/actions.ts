@@ -45,3 +45,21 @@ export async function postContent(formData: FormData) {
   revalidatePath(`/`);
   redirect(`/`);
 }
+
+export async function commentPost(
+  postId: string,
+  userId: string,
+  content: string
+) {
+  try {
+    await sql`
+      INSERT INTO post_comments (post_id, user_id, content)
+      VALUES (${postId}, ${userId}, ${content})
+    `;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to create post comment.');
+  }
+
+  revalidatePath(`/posts/${postId}`);
+}

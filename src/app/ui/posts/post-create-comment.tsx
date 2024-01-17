@@ -1,11 +1,14 @@
 'use client'
 
-import { User } from "lucia";
+import { commentPost } from "@/app/lib/actions";
+import { UserData } from "@/app/lib/definitions";
 import { useSearchParams } from "next/navigation"
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
-export default function PostCreateComment({ postId, userData }: { postId: string, userData: User }) {
+export default function PostCreateComment({ postId, userData }: { postId: string, userData: UserData }) {
 	const searchParams = useSearchParams()
+
+	const form = useRef<HTMLFormElement>(null);
 
 	const comment = searchParams.get('comment');
 
@@ -17,8 +20,18 @@ export default function PostCreateComment({ postId, userData }: { postId: string
 	const avatar = userData.img_url && userData.img_url?.length > 0 ? userData.img_url : '/avatar.jpg'
 	const name = `${userData.firstname} ${userData.lastname}`
 
+	function handleComment(e: React.FormEvent<HTMLFormElement>) {
+		e.preventDefault()
+		const formData = new FormData(e.currentTarget)
+		const content = formData.get('content') as string
+		if (content.length === 0) return
+
+		commentPost(postId, userData.id, content);
+		/* form.current && form.current.reset() */
+	}
+
 	return (
-		<form className="flex gap-1 pt-6">
+		<form ref={form} onSubmit={handleComment} className="flex gap-1 pt-6">
 			<img className="h-10 w-10 shrink-0 rounded-full" src={avatar} alt={name} />
 			<textarea id="content" name="content" rows={1} className="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500" placeholder="Escribe un comentario..." autoFocus={comment === 'true'}></textarea>
 			<button type="submit" aria-label="Enivar mensaje" className="inline-flex justify-center p-2 text-primary-600 rounded-lg h-fit cursor-pointer hover:bg-primary-100">

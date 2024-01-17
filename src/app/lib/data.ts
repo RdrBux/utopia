@@ -1,14 +1,13 @@
 import { sql } from '@vercel/postgres';
 import { unstable_noStore as noStore } from 'next/cache';
-import { CommentPost, PostWithUser, UserFriend } from './definitions';
+import { CommentPost, PostWithUser, UserData, UserFriend } from './definitions';
 import { getPageSession } from './utils';
-import { User } from 'lucia';
 
 export async function getUserById(id: string) {
   noStore();
 
   try {
-    const data = await sql<User>`
+    const data = await sql<UserData>`
     SELECT * FROM auth_user
     WHERE id = ${id};
     `;

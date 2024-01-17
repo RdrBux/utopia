@@ -1,3 +1,9 @@
+import { User } from 'lucia';
+
+export interface UserData extends User {
+  id: string;
+}
+
 export type Post = {
   id: string;
   user_id: string;
