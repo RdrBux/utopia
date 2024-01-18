@@ -1,6 +1,6 @@
 import { getPostById } from "@/app/lib/data";
 import { formatDateDistance } from "@/app/lib/utils";
-import { MacrosTable } from "@/app/ui/main/post-food";
+import MacrosTable from "@/app/ui/main/macros-table";
 import { CommentButton } from "@/app/ui/posts/comment-button";
 import LikeButtonServer from "@/app/ui/posts/like-button-server";
 import PostComments from "@/app/ui/posts/post-comments";
@@ -33,9 +33,17 @@ export default async function Home({ params }: { params: { id: string } }) {
 					<h4 className="text-xl font-bold leading-none">{title}</h4>
 					<p className="">{content}</p>
 
-					{post_type === 'workout' && (
-						<p><b>Duración:</b> {JSON.parse(data.duration)} minutos.</p>
-					)}
+					{
+						post_type === 'workout' && (
+							<p><b>Duración:</b> {JSON.parse(data.duration)} minutos.</p>
+						)
+					}
+
+					{
+						post_type === 'food' && (
+							<MacrosTable macros={data} />
+						)
+					}
 
 				</div>
 
