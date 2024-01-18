@@ -13,7 +13,7 @@ export default async function PostComments({ postId }: { postId: string }) {
 	const comments = await getPostComments(postId);
 
 	return (
-		<div className="px-6 flex flex-col gap-3 divide-y -mt-6">
+		<div className="px-6 flex flex-col divide-y -mt-6">
 
 			{
 				comments.map(comment => <PostComment comment={comment} key={comment.id} />)

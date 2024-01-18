@@ -65,3 +65,24 @@ export async function commentPost(postId: string, content: string) {
 
   revalidatePath(`/posts/${postId}`);
 }
+
+export async function likePost(postId: string) {
+  const session = await getPageSession();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+  const userId = session.user.userId;
+
+  try {
+    await sql`
+      INSERT INTO post_likes (post_id, user_id)
+      VALUES (${postId}, ${userId})
+    `;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to like post.');
+  }
+  console.log('clicked');
+
+  revalidatePath(`/posts/${postId}`);
+}
