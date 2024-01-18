@@ -1,5 +1,5 @@
 import { getPostById } from "@/app/lib/data";
-import { formatDateDistance } from "@/app/lib/utils";
+import { formatDateDistance, getPageSession } from "@/app/lib/utils";
 import MacrosTable from "@/app/ui/main/macros-table";
 import { CommentButtonClient } from "@/app/ui/posts/comment-button-client";
 import LikeButtonServer from "@/app/ui/posts/like-button-server";
@@ -8,8 +8,12 @@ import PostCountComments from "@/app/ui/posts/post-count-comments";
 import PostLikes from "@/app/ui/posts/post-likes";
 import RemovePostButton from "@/app/ui/posts/remove-post-button";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function Home({ params }: { params: { id: string } }) {
+	const session = await getPageSession();
+	if (!session) redirect('/login');
+
 	const post = await getPostById(params.id)
 	const { user_id, firstname, lastname, user_img_url, id, title, content, img_url, post_type, post_data, created_at } = post
 	const name = `${firstname} ${lastname}`
@@ -29,7 +33,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 						</div>
 					</Link>
 
-					<RemovePostButton postId={id} />
+					{session.user.userId === user_id && <RemovePostButton postId={id} />}
 				</div>
 
 				{
