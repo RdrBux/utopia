@@ -2,7 +2,7 @@
 
 export function CommentButton() {
 	function handleComment() {
-		const chat = document.getElementById("chat");
+		const chat = document.getElementById("content");
 		chat?.focus()
 	}
 	return (

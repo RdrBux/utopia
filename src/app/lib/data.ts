@@ -51,6 +51,39 @@ export async function getPostComments(id: string) {
   }
 }
 
+export async function getPostLikes(id: string) {
+  noStore();
+
+  try {
+    const data = await sql<UserFriend>`
+      SELECT us.id, us.firstname, us.lastname, us.img_url, us.bio
+      FROM post_likes pl JOIN auth_user us ON pl.user_id = us.id
+      WHERE post_id = ${id}
+      `;
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch post likes data.');
+  }
+}
+
+export async function postIsLiked(id: string) {
+  noStore();
+
+  const session = await getPageSession();
+  if (!session) return;
+
+  try {
+    const data = await sql<{ count: number }>`
+      SELECT COUNT(*) count FROM post_likes WHERE post_id = ${id} AND user_id = ${session.user.userId};
+    `;
+    return data.rows[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch post_likes data.');
+  }
+}
+
 export async function getPostLikesCount(id: string) {
   noStore();
 

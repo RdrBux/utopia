@@ -86,3 +86,23 @@ export async function likePost(postId: string) {
 
   revalidatePath(`/posts/${postId}`);
 }
+
+export async function removeLikePost(postId: string) {
+  const session = await getPageSession();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+
+  const userId = session.user.userId;
+  try {
+    await sql`
+      DELETE FROM post_likes
+      WHERE post_id = ${postId} AND user_id = ${userId}
+    `;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to unlike post.');
+  }
+
+  revalidatePath(`/posts/${postId}`);
+}

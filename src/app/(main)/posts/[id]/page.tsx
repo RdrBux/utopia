@@ -2,7 +2,7 @@ import { getPostById } from "@/app/lib/data";
 import { formatDateDistance } from "@/app/lib/utils";
 import { MacrosTable } from "@/app/ui/main/post-food";
 import { CommentButton } from "@/app/ui/posts/comment-button";
-import LikeButton from "@/app/ui/posts/like-button";
+import LikeButtonServer from "@/app/ui/posts/like-button-server";
 import PostComments from "@/app/ui/posts/post-comments";
 import PostCountComments from "@/app/ui/posts/post-count-comments";
 import PostLikes from "@/app/ui/posts/post-likes";
@@ -41,7 +41,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 				</div>
 
 				<div className="flex border-y divide-x text-gray-600">
-					<LikeButton postId={id} />
+					<LikeButtonServer postId={id} />
 					<CommentButton />
 				</div>
 
