@@ -6,9 +6,9 @@ export default function Home() {
 	return (
 		<div className="main-layout">
 			<div className="flex flex-col gap-6 lg:col-start-2">
-				<SearchBar />
+				{/* <SearchBar />
 				<ResultsPeople />
-				<ResultsPosts />
+				<ResultsPosts /> */}
 			</div>
 		</div>
 	)
