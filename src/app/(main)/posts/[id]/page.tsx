@@ -13,6 +13,8 @@ export default async function Home({ params }: { params: { id: string } }) {
 	const { user_id, firstname, lastname, user_img_url, id, title, content, img_url, post_type, post_data, created_at } = post
 	const name = `${firstname} ${lastname}`
 	const avatar = user_img_url && user_img_url?.length > 0 ? user_img_url : '/avatar.jpg'
+	const data = post_data && JSON.parse(post_data)
+
 
 	return (
 		<div className="main-layout">
@@ -30,6 +32,10 @@ export default async function Home({ params }: { params: { id: string } }) {
 				<div className="px-6 flex flex-col gap-6">
 					<h4 className="text-xl font-bold leading-none">{title}</h4>
 					<p className="">{content}</p>
+
+					{post_type === 'workout' && (
+						<p><b>Duración:</b> {JSON.parse(data.duration)} minutos.</p>
+					)}
 
 				</div>
 

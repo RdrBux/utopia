@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS posts (
 	content TEXT,
 	img_url TEXT,
 	post_type post_types NOT NULL,
-	post_data JSONB,
+	post_data TEXT,
 	created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
