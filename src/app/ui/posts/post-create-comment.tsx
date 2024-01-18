@@ -26,8 +26,8 @@ export default function PostCreateComment({ postId, userData }: { postId: string
 		const content = formData.get('content') as string
 		if (content.length === 0) return
 
-		commentPost(postId, userData.id, content);
-		/* form.current && form.current.reset() */
+		commentPost(postId, content);
+		form.current && form.current.reset()
 	}
 
 	return (

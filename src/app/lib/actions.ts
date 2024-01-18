@@ -46,11 +46,13 @@ export async function postContent(formData: FormData) {
   redirect(`/`);
 }
 
-export async function commentPost(
-  postId: string,
-  userId: string,
-  content: string
-) {
+export async function commentPost(postId: string, content: string) {
+  const session = await getPageSession();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+  const userId = session.user.userId;
+
   try {
     await sql`
       INSERT INTO post_comments (post_id, user_id, content)

@@ -42,6 +42,7 @@ export async function getPostComments(id: string) {
       SELECT us.id user_id, us.firstname, us.lastname, us.img_url, pc.id, pc.content, pc.created_at
       FROM post_comments pc JOIN auth_user us ON pc.user_id = us.id
       WHERE post_id = ${id}
+      ORDER BY created_at
       `;
     return data.rows;
   } catch (error) {
