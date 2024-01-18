@@ -8,7 +8,7 @@ export default async function UserPanel() {
 	if (!session) redirect("/login");
 
 	const { firstname, lastname, img_url, bio, userId } = session.user
-	const avatar = img_url && img_url?.length > 0 ? img_url : '/avatar.jpg'
+	const avatar = img_url && img_url?.length > 0 ? img_url : '/avatar.svg'
 
 	return (
 		<aside className="flex flex-col gap-6 bg-card h-fit">

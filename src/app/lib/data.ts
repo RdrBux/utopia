@@ -50,6 +50,26 @@ export async function getPostById(id: string) {
   }
 }
 
+export async function getUserPosts() {
+  noStore();
+
+  const session = await getPageSession();
+  if (!session) return;
+
+  try {
+    const data = await sql<PostWithUser>`
+      SELECT us.id user_id, us.firstname, us.lastname, us.img_url user_img_url, po.id, po.title, po.content, po.img_url, po.post_type, po.post_data, po.created_at
+      FROM auth_user us JOIN posts po ON us.id = po.user_id
+      WHERE us.id = ${session.user.userId}
+      ORDER BY created_at DESC
+      `;
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch post data.');
+  }
+}
+
 export async function getPostComments(id: string) {
   noStore();
 

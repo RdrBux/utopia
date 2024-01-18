@@ -6,7 +6,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 
 	return (
 		<div className="main-layout">
-			<main className="flex flex-col gap-6 bg-card pb-3 lg:col-start-2">
+			<main className="flex flex-col gap-3 bg-card pb-3 lg:col-start-2">
 				<h2 className="form-title">Me gusta</h2>
 
 				<ul className="divide-y divide-gray-200">
@@ -15,7 +15,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 						users.map((user) => (
 							<li key={user.id}>
 								<Link href={`/profile/${user.id}`} className="grid grid-cols-[auto_1fr] gap-3 py-3 items-center">
-									<img className="h-16 w-16 shrink-0 rounded-full" src={user.img_url || '/avatar.jpg'} alt={`${user.firstname} ${user.lastname}`} />
+									<img className="h-16 w-16 shrink-0 rounded-full" src={user.img_url || '/avatar.svg'} alt={`${user.firstname} ${user.lastname}`} />
 									<div className="overflow-hidden">
 										<div className="font-medium">{user.firstname} {user.lastname}</div>
 										<div className="text-sm text-gray-500 truncate">{user.bio}</div>

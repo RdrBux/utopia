@@ -5,6 +5,7 @@ import NewPostSection from "@/app/ui/main/new-post-section";
 import PostFood from "@/app/ui/main/post-food";
 import PostRest from "@/app/ui/main/post-rest";
 import PostWorkout from "@/app/ui/main/post-workout";
+import ProfilePosts from "@/app/ui/main/profile/profile-posts";
 import UserNotFound from "@/app/ui/main/profile/user-not-found";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -18,7 +19,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 
 	const { firstname, lastname, img_url, bio } = userData;
 	const name = `${firstname} ${lastname}`
-	const avatar = img_url && img_url?.length > 0 ? img_url : '/avatar.jpg'
+	const avatar = img_url && img_url?.length > 0 ? img_url : '/avatar.svg'
 
 	return (
 		<div className="my-6">
@@ -74,8 +75,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 
 				<section className="flex flex-col gap-6">
 					<NewPostSection />
-					<PostWorkout />
-					<PostRest />
+					<ProfilePosts />
 				</section>
 			</div>
 		</div>

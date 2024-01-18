@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function PostComment({ comment }: { comment: CommentPost }) {
 	const { user_id, firstname, lastname, img_url, id, content, created_at } = comment;
 	const name = `${firstname} ${lastname}`
-	const avatar = img_url && img_url?.length > 0 ? img_url : '/avatar.jpg'
+	const avatar = img_url && img_url?.length > 0 ? img_url : '/avatar.svg'
 
 	return (
 		<div className="py-6">

@@ -10,7 +10,7 @@ import { CommentButtonServer } from "../posts/comment-button-server";
 export default function Post({ post }: { post: PostWithUser }) {
 	const { user_id, firstname, lastname, user_img_url, id, title, content, img_url, post_type, post_data, created_at } = post;
 	const name = `${firstname} ${lastname}`;
-	const avatar = user_img_url && user_img_url?.length > 0 ? user_img_url : '/avatar.jpg';
+	const avatar = user_img_url && user_img_url?.length > 0 ? user_img_url : '/avatar.svg';
 	const data = post_data && JSON.parse(post_data)
 
 	return (
@@ -51,13 +51,13 @@ export default function Post({ post }: { post: PostWithUser }) {
 
 				</div>
 
-				<div className="flex items-center justify-between px-6 -mb-3">
-
-					<PostLikes postId={id} />
-					<PostCountComments postId={id} />
-
-				</div>
 			</Link>
+			<div className="flex items-center justify-between px-6 pb-1">
+
+				<PostLikes postId={id} />
+				<PostCountComments postId={id} />
+
+			</div>
 			<div className="flex border-y divide-x text-gray-600">
 				<LikeButtonServer postId={id} />
 				<CommentButtonServer postId={id} />

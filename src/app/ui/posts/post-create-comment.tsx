@@ -17,7 +17,7 @@ export default function PostCreateComment({ postId, userData }: { postId: string
 
 	}, [comment])
 
-	const avatar = userData.img_url && userData.img_url?.length > 0 ? userData.img_url : '/avatar.jpg'
+	const avatar = userData.img_url && userData.img_url?.length > 0 ? userData.img_url : '/avatar.svg'
 	const name = `${userData.firstname} ${userData.lastname}`
 
 	function handleComment(e: React.FormEvent<HTMLFormElement>) {

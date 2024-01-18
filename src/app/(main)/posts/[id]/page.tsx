@@ -17,7 +17,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 	const post = await getPostById(params.id)
 	const { user_id, firstname, lastname, user_img_url, id, title, content, img_url, post_type, post_data, created_at } = post
 	const name = `${firstname} ${lastname}`
-	const avatar = user_img_url && user_img_url?.length > 0 ? user_img_url : '/avatar.jpg'
+	const avatar = user_img_url && user_img_url?.length > 0 ? user_img_url : '/avatar.svg'
 	const data = post_data && JSON.parse(post_data)
 
 

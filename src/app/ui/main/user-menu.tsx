@@ -23,7 +23,7 @@ export default function UserMenu({ session }: { session: Session }) {
 		}
 	}, [button, showMenu])
 
-	const avatar = session.user.img_url && session.user.img_url?.length > 0 ? session.user.img_url : '/avatar.jpg'
+	const avatar = session.user.img_url && session.user.img_url?.length > 0 ? session.user.img_url : '/avatar.svg'
 
 	return (
 		<div className="relative">
