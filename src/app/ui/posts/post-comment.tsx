@@ -9,13 +9,13 @@ export default function PostComment({ comment }: { comment: CommentPost }) {
 
 	return (
 		<div className="py-6">
-			<div className="flex gap-3 items-center w-fit">
-				<Link href={`/profile/${user_id}`}><img className="h-10 w-10 shrink-0 rounded-full" src={avatar} alt={name} /></Link>
+			<Link href={`/profile/${user_id}`} className="flex gap-3 items-center w-fit group">
+				<img className="h-10 w-10 shrink-0 rounded-full" src={avatar} alt={name} />
 				<div>
-					<Link href={`/profile/${user_id}`}><span className="font-bold hover:underline">{name}</span></Link>
-					<span className="text-gray-500 text-sm ml-3">{formatDateDistance(created_at)}</span>
+					<p className="font-bold group-hover:underline">{name}</p>
+					<p className="text-gray-500 text-sm">{formatDateDistance(created_at)}</p>
 				</div>
-			</div>
+			</Link>
 
 			<p className="mt-3">{content}</p>
 		</div>

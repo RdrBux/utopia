@@ -6,6 +6,7 @@ import LikeButtonServer from "@/app/ui/posts/like-button-server";
 import PostComments from "@/app/ui/posts/post-comments";
 import PostCountComments from "@/app/ui/posts/post-count-comments";
 import PostLikes from "@/app/ui/posts/post-likes";
+import RemovePostButton from "@/app/ui/posts/remove-post-button";
 import Link from "next/link";
 
 export default async function Home({ params }: { params: { id: string } }) {
@@ -19,15 +20,25 @@ export default async function Home({ params }: { params: { id: string } }) {
 	return (
 		<div className="main-layout">
 			<main className="flex flex-col gap-6 lg:col-start-2 bg-white py-6 rounded-lg border">
-				<div className="flex gap-3 items-center px-6 w-fit">
-					<Link href={`/profile/${user_id}`}><img className="h-10 w-10 shrink-0 rounded-full" src={avatar} alt={name} /></Link>
-					<div>
-						<Link href={`/profile/${user_id}`}><span className="font-bold hover:underline">{name}</span></Link>
-						<span className="text-gray-500 text-sm ml-3">{formatDateDistance(created_at)}</span>
-					</div>
+				<div className="flex justify-between items-center gap-3 -my-3 px-6">
+					<Link href={`/profile/${user_id}`} className="flex gap-3 items-center w-fit group">
+						<img className="h-10 w-10 shrink-0 rounded-full" src={avatar} alt={name} />
+						<div>
+							<p className="font-bold group-hover:underline">{name}</p>
+							<p className="text-gray-500 text-sm">{formatDateDistance(created_at)}</p>
+						</div>
+					</Link>
+
+					<RemovePostButton postId={id} />
 				</div>
 
-				{img_url && <img className="w-full" src={img_url} alt={title} />}
+				{
+					img_url ? (
+						<img className="w-full" src={img_url} alt={title} />
+					) : (
+						<hr />
+					)
+				}
 
 				<div className="px-6 flex flex-col gap-6">
 					<h4 className="text-xl font-bold leading-none">{title}</h4>

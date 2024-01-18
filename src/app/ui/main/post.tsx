@@ -18,8 +18,8 @@ export default function Post({ post }: { post: PostWithUser }) {
 			<Link href={`/profile/${user_id}`} className="flex gap-3 items-center px-6 py-3 w-fit group">
 				<img className="h-10 w-10 shrink-0 rounded-full" src={avatar} alt={name} />
 				<div>
-					<span className="font-bold group-hover:underline">{name}</span>
-					<span className="text-gray-500 text-sm ml-3">{formatDateDistance(created_at)}</span>
+					<p className="font-bold group-hover:underline">{name}</p>
+					<p className="text-gray-500 text-sm">{formatDateDistance(created_at)}</p>
 				</div>
 			</Link>
 

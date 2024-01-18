@@ -46,6 +46,25 @@ export async function postContent(formData: FormData) {
   redirect(`/`);
 }
 
+export async function deletePost(postId: string) {
+  const session = await getPageSession();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+
+  try {
+    await sql`
+      DELETE FROM posts
+      WHERE id = ${postId} AND user_id = ${session.user.userId}
+    `;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to delete post.');
+  }
+  revalidatePath('/');
+  redirect('/');
+}
+
 export async function commentPost(postId: string, content: string) {
   const session = await getPageSession();
   if (!session) {
