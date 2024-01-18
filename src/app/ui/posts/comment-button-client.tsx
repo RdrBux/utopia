@@ -1,10 +1,11 @@
-'use client'
+'use client';
 
-export function CommentButton() {
+export function CommentButtonClient() {
 	function handleComment() {
 		const chat = document.getElementById("content");
 		chat?.focus()
 	}
+
 	return (
 		<button onClick={handleComment} className="px-5 py-2.5 font-bold flex gap-2 items-center justify-center w-full hover:bg-gray-100 duration-100 hover:text-gray-900">
 			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">

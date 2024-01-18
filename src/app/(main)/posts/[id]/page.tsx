@@ -1,7 +1,7 @@
 import { getPostById } from "@/app/lib/data";
 import { formatDateDistance } from "@/app/lib/utils";
 import MacrosTable from "@/app/ui/main/macros-table";
-import { CommentButton } from "@/app/ui/posts/comment-button";
+import { CommentButtonClient } from "@/app/ui/posts/comment-button-client";
 import LikeButtonServer from "@/app/ui/posts/like-button-server";
 import PostComments from "@/app/ui/posts/post-comments";
 import PostCountComments from "@/app/ui/posts/post-count-comments";
@@ -19,7 +19,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 	return (
 		<div className="main-layout">
 			<main className="flex flex-col gap-6 lg:col-start-2 bg-white py-6 rounded-lg border">
-				<div className="flex gap-3 items-center px-6 group w-fit">
+				<div className="flex gap-3 items-center px-6 w-fit">
 					<Link href={`/profile/${user_id}`}><img className="h-10 w-10 shrink-0 rounded-full" src={avatar} alt={name} /></Link>
 					<div>
 						<Link href={`/profile/${user_id}`}><span className="font-bold hover:underline">{name}</span></Link>
@@ -56,7 +56,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 
 				<div className="flex border-y divide-x text-gray-600">
 					<LikeButtonServer postId={id} />
-					<CommentButton />
+					<CommentButtonClient />
 				</div>
 
 				<PostComments postId={id} />
