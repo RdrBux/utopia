@@ -1,3 +1,4 @@
+import { getUserById } from "@/app/lib/data";
 import { getPageSession } from "@/app/lib/utils";
 import SettingsContent from "@/app/ui/main/profile/settings/settings-content";
 import SettingsTabs from "@/app/ui/main/profile/settings/settings-tabs";
@@ -9,12 +10,14 @@ export default async function Home({ params }: { params: { id: string } }) {
 
 	if (session.user.userId !== params.id) redirect('/')
 
+	const userData = await getUserById(params.id);
+
 	return (
-		<div className="my-6">
-			<main className="bg-card md:flex max-w-3xl mx-auto">
+		<div className="main-layout">
+			<main className="bg-card lg:col-start-2 lg:flex">
 				<SettingsTabs />
 
-				<SettingsContent />
+				<SettingsContent userData={userData} />
 			</main>
 		</div>
 	)

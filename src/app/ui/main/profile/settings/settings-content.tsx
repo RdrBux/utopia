@@ -1,34 +1,39 @@
 'use client'
 
 import { useSearchParams } from "next/navigation"
+import ProfileTab from "./profile-tab";
+import { UserData } from "@/app/lib/definitions";
+import PrivacyTab from "./privacy-tab";
+import PasswordTab from "./password-tab";
+import AccountTab from "./account-tab";
 
-export default function SettingsContent() {
+export default function SettingsContent({ userData }: { userData: UserData }) {
 	const searchParams = useSearchParams()
 	const tab = searchParams.get('tab');
 
 	return (
-		<div className="px-6">
+		<div className="px-6 w-full">
 			{
 				(tab === 'profile' || tab === null) && (
-					<h1>Perfil</h1>
+					<ProfileTab userData={userData} />
 				)
 			}
 
 			{
 				tab === 'privacy' && (
-					<h1>Privacidad</h1>
+					<PrivacyTab />
 				)
 			}
 
 			{
 				tab === 'password' && (
-					<h1>Contraseña</h1>
+					<PasswordTab />
 				)
 			}
 
 			{
 				tab === 'account' && (
-					<h1>Cuenta</h1>
+					<AccountTab />
 				)
 			}
 		</div>
