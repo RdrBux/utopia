@@ -12,6 +12,7 @@ export type Post = {
   img_url?: string;
   post_type: 'food' | 'workout' | 'general';
   post_data: string | null;
+  post_privacy: 'all' | 'friends' | 'me';
   created_at: string;
 };
 

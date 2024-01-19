@@ -66,6 +66,28 @@ export async function deletePost(postId: string) {
   redirect('/');
 }
 
+export async function changePostPrivacy(
+  postId: string,
+  value: Post['post_privacy']
+) {
+  const session = await getPageSession();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+
+  try {
+    await sql`
+      UPDATE posts
+      SET post_privacy = ${value}
+      WHERE id = ${postId} AND user_id = ${session.user.userId}
+    `;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to change post privacy.');
+  }
+  revalidatePath('/');
+}
+
 export async function commentPost(postId: string, content: string) {
   const session = await getPageSession();
   if (!session) {
