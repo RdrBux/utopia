@@ -1,14 +1,8 @@
-'use client'
-
-import { Post } from "@/app/lib/definitions";
 import NewPostForm from "@/app/ui/posts/new/new-post-form";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 
-export default function Home() {
-	const searchParams = useSearchParams();
-
-	let type = searchParams.get('type') as Post['post_type'] | null
+export default function Home({ searchParams }: { searchParams: { type?: string } }) {
+	const type = searchParams.type || ''
 
 	return (
 		<div className="main-layout">
