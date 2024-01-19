@@ -28,6 +28,14 @@ export default function NewPostForm({ type }: { type: Post['post_type'] }) {
 				<Textarea label="Descripción" id="content" />
 				<InputFile id="img_url" label="Agregar imagen" />
 				<input type="hidden" id="post_type" name="post_type" value={type} />
+				<div>
+					<label htmlFor="post_privacy" className="block mb-2 text-sm font-medium text-gray-900">Visibilidad</label>
+					<select className="grid bg-gray-50 border w-fit border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 focus:ring-2 outline-none p-2.5" name="post_privacy" id="post_privacy">
+						<option className="" value="all" selected>Todas las personas</option>
+						<option className="" value="friends">Solo amigos</option>
+						<option className="" value="me">Solo yo</option>
+					</select>
+				</div>
 
 				{type === 'workout' && (
 					<div className="w-36">

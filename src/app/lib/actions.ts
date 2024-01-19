@@ -16,6 +16,7 @@ export async function postContent(formData: FormData) {
   const content = String(formData.get('content'));
   /* const img_url = formData.get('img_url') || ''; */
   const post_type = String(formData.get('post_type'));
+  const post_privacy = String(formData.get('post_privacy'));
 
   let post_data = null;
   if (post_type === 'food') {
@@ -34,8 +35,8 @@ export async function postContent(formData: FormData) {
 
   try {
     await sql<Post>`
-      INSERT INTO posts (user_id, title, content, post_data, post_type)
-      VALUES (${session.user.userId}, ${title}, ${content}, ${post_data}, ${post_type})
+      INSERT INTO posts (user_id, title, content, post_data, post_type, post_privacy)
+      VALUES (${session.user.userId}, ${title}, ${content}, ${post_data}, ${post_type}, ${post_privacy})
     `;
   } catch (error) {
     console.error('Database Error:', error);
