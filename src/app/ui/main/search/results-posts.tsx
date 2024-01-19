@@ -1,11 +1,17 @@
-import PostFood from "../post-food";
-import PostWorkout from "../post-workout";
+import { getPostsByQuery } from "@/app/lib/data";
+import Post from "../post";
 
-export default function ResultsPosts() {
+export default async function ResultsPosts({ query }: { query?: string }) {
+	if (!query) return;
+	if (query.length < 5) return;
+
+	const posts = await getPostsByQuery(query);
+
 	return (
 		<section className="flex flex-col gap-6">
-			<PostFood />
-			<PostWorkout />
+			{
+				posts.map(post => <Post key={post.id} post={post} />)
+			}
 		</section>
 	)
 }

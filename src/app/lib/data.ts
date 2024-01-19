@@ -18,6 +18,22 @@ export async function getUserById(id: string) {
   }
 }
 
+export async function getUsersByQuery(query: string, ignoreId: string) {
+  noStore();
+
+  try {
+    const data = await sql<UserData>`
+      SELECT * FROM auth_user
+      WHERE firstname || ' ' || lastname ILIKE '%' || ${query} || '%'
+      AND id != ${ignoreId}
+    `;
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch user data.');
+  }
+}
+
 export async function getPosts() {
   noStore();
 
@@ -44,6 +60,23 @@ export async function getPostById(id: string) {
       WHERE po.id = ${id};
     `;
     return data.rows[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch post data.');
+  }
+}
+
+export async function getPostsByQuery(query: string) {
+  noStore();
+
+  try {
+    const data = await sql<PostWithUser>`
+      SELECT us.id user_id, us.firstname, us.lastname, us.img_url user_img_url, po.id, po.title, po.content, po.img_url, po.post_type, po.post_data, po.created_at
+      FROM auth_user us JOIN posts po ON us.id = po.user_id
+      WHERE po.title ILIKE '%' || ${query} || '%' OR po.content ILIKE '%' || ${query} || '%'
+      ORDER BY created_at DESC
+      `;
+    return data.rows;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch post data.');

@@ -1,48 +1,34 @@
-export default function ResultsPeople() {
+import { getUsersByQuery } from "@/app/lib/data";
+import { getPageSession } from "@/app/lib/utils";
+import Link from "next/link";
+
+export default async function ResultsPeople({ query }: { query?: string }) {
+	if (!query) return;
+
+	const session = await getPageSession();
+	if (!session) return;
+
+	const users = await getUsersByQuery(query, session.user.userId);
+	if (users.length === 0) return;
+
 	return (
 		<section className="bg-card">
 			<h2 className="text-xl font-bold leading-none">Personas</h2>
 
 			<ul className="mt-3 divide-y divide-gray-200">
-				<li className="grid grid-cols-[auto_1fr] gap-3 py-3 items-center">
-					<div className="h-16 w-16 shrink-0 bg-primary-300 rounded-full"></div>
-					<div className="overflow-hidden">
-						<div className="font-medium">Juan Pérez</div>
-						<div className="text-sm text-gray-500 truncate">Lorem ipsum dolor sit amet consectetur adipisicing elit. Est eum eligendi ratione nihil similique! Eum dignissimos aliquid doloremque praesentium perferendis repellat soluta ab reprehenderit odit cupiditate iusto, quidem, tempora qui!</div>
-					</div>
-				</li>
 
-				<li className="grid grid-cols-[auto_1fr] gap-3 py-3 items-center">
-					<div className="h-16 w-16 shrink-0 bg-primary-300 rounded-full"></div>
-					<div className="overflow-hidden">
-						<div className="font-medium">Juan Pérez</div>
-						<div className="text-sm text-gray-500 truncate">Lorem ipsum dolor sit amet consectetur adipisicing elit. Est eum eligendi ratione nihil similique! Eum dignissimos aliquid doloremque praesentium perferendis repellat soluta ab reprehenderit odit cupiditate iusto, quidem, tempora qui!</div>
-					</div>
-				</li>
+				{users.map((user) => (
+					<li key={user.id}>
+						<Link href={`/profile/${user.id}`} className="grid grid-cols-[auto_1fr] gap-3 py-3 items-center">
+							<img className="h-16 w-16 shrink-0 rounded-full" src={user.img_url || '/avatar.svg'} alt={`${user.firstname} ${user.lastname}`} />
+							<div className="overflow-hidden">
+								<div className="font-medium">{user.firstname} {user.lastname}</div>
+								<div className="text-sm text-gray-500 truncate">{user.bio}</div>
+							</div>
+						</Link>
+					</li>
+				))}
 
-				<li className="grid grid-cols-[auto_1fr] gap-3 py-3 items-center">
-					<div className="h-16 w-16 shrink-0 bg-primary-300 rounded-full"></div>
-					<div className="overflow-hidden">
-						<div className="font-medium">Juan Pérez</div>
-						<div className="text-sm text-gray-500 truncate">Lorem ipsum dolor sit amet consectetur adipisicing elit. Est eum eligendi ratione nihil similique! Eum dignissimos aliquid doloremque praesentium perferendis repellat soluta ab reprehenderit odit cupiditate iusto, quidem, tempora qui!</div>
-					</div>
-				</li>
-
-				<li className="grid grid-cols-[auto_1fr] gap-3 py-3 items-center">
-					<div className="h-16 w-16 shrink-0 bg-primary-300 rounded-full"></div>
-					<div className="overflow-hidden">
-						<div className="font-medium">Juan Pérez</div>
-						<div className="text-sm text-gray-500 truncate">Lorem ipsum dolor sit amet consectetur adipisicing elit. Est eum eligendi ratione nihil similique! Eum dignissimos aliquid doloremque praesentium perferendis repellat soluta ab reprehenderit odit cupiditate iusto, quidem, tempora qui!</div>
-					</div>
-				</li>
-
-				<li className="grid grid-cols-[auto_1fr] gap-3 py-3 items-center">
-					<div className="h-16 w-16 shrink-0 bg-primary-300 rounded-full"></div>
-					<div className="overflow-hidden">
-						<div className="font-medium">Juan Pérez</div>
-
-					</div>
-				</li>
 			</ul>
 		</section>
 	)
