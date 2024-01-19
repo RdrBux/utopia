@@ -74,8 +74,8 @@ export default async function Home({ params }: { params: { id: string } }) {
 				</section>
 
 				<section className="flex flex-col gap-6">
-					<NewPostSection />
-					<ProfilePosts />
+					{session.user.userId === params.id && <NewPostSection />}
+					<ProfilePosts userId={params.id} />
 				</section>
 			</div>
 		</div>

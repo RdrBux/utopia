@@ -12,7 +12,7 @@ export default function SettingsContent({ userData }: { userData: UserData }) {
 	const tab = searchParams.get('tab');
 
 	return (
-		<div className="px-6 w-full">
+		<div className="lg:pl-6 w-full">
 			{
 				(tab === 'profile' || tab === null) && (
 					<ProfileTab userData={userData} />
