@@ -24,6 +24,8 @@ export const auth = lucia({
       lastname: data.lastname,
       img_url: data.img_url,
       bio: data.bio,
+      privacy_statistics: data.privacy_statistics,
+      privacy_friends: data.privacy_friends,
       date_of_birth: data.date_of_birth,
     };
   },

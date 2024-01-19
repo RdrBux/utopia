@@ -27,7 +27,7 @@ export default function UserMenu({ session }: { session: Session }) {
 
 	return (
 		<div className="relative">
-			<button ref={button} onClick={() => setShowMenu(prev => !prev)} className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300">
+			<button ref={button} onClick={() => setShowMenu(prev => !prev)} className="flex text-sm rounded-full focus:ring-4 focus:ring-gray-300">
 				<span className="sr-only">Abrir menú de usuario</span>
 				<img className="w-10 h-10 rounded-full" src={avatar} alt={`${session.user.firstname} ${session.user.lastname}`} />
 			</button>

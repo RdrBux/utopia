@@ -1,4 +1,6 @@
 /* USERS TABLE */
+CREATE TYPE privacy AS ENUM ('all', 'friends', 'me');
+
 CREATE TABLE IF NOT EXISTS auth_user (
 	id TEXT PRIMARY KEY,
 	email TEXT UNIQUE,
@@ -7,10 +9,13 @@ CREATE TABLE IF NOT EXISTS auth_user (
 	img_url TEXT,
 	bio TEXT,
 	date_of_birth DATE,
+	privacy_statistics privacy NOT NULL DEFAULT 'all',
+	privacy_friends privacy NOT NULL DEFAULT 'all',
 	created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 /* POSTS TABLE */
+CREATE TYPE post_types AS ENUM ('general', 'food', 'workout');
 CREATE TYPE post_types AS ENUM ('general', 'food', 'workout');
 
 CREATE TABLE IF NOT EXISTS posts (
@@ -21,6 +26,7 @@ CREATE TABLE IF NOT EXISTS posts (
 	img_url TEXT,
 	post_type post_types NOT NULL,
 	post_data TEXT,
+	post_privacy privacy NOT NULL,
 	created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
