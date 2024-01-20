@@ -3,6 +3,22 @@ import { unstable_noStore as noStore } from 'next/cache';
 import { CommentPost, PostWithUser, UserData, UserFriend } from './definitions';
 import { getPageSession } from './utils';
 
+export async function getUserData() {
+  const session = await getPageSession();
+  if (!session) return;
+
+  try {
+    const data = await sql<UserData>`
+    SELECT * FROM auth_user
+    WHERE id = ${session.user.userId};
+    `;
+    return data.rows[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch user data.');
+  }
+}
+
 export async function getUserById(id: string) {
   noStore();
 
