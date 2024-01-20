@@ -85,7 +85,7 @@ export async function changePostPrivacy(
     console.error('Database Error:', error);
     throw new Error('Failed to change post privacy.');
   }
-  revalidatePath('/');
+  revalidatePath(`/posts/${postId}`);
 }
 
 export async function commentPost(postId: string, content: string) {

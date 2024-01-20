@@ -55,7 +55,7 @@ export async function getPostById(id: string) {
 
   try {
     const data = await sql<PostWithUser>`
-      SELECT us.id user_id, us.firstname, us.lastname, us.img_url user_img_url, po.id, po.title, po.content, po.img_url, po.post_type, po.post_data, po.created_at
+      SELECT us.id user_id, us.firstname, us.lastname, us.img_url user_img_url, po.id, po.title, po.content, po.img_url, po.post_type, po.post_data, po.post_privacy, po.created_at
       FROM auth_user us JOIN posts po ON us.id = po.user_id
       WHERE po.id = ${id};
     `;

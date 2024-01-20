@@ -8,8 +8,6 @@ export default async function PostComments({ postId }: { postId: string }) {
 	if (!session) return;
 	const userData = await getUserById(session.user.userId);
 
-	if (!session) return;
-
 	const comments = await getPostComments(postId);
 
 	return (
@@ -18,7 +16,6 @@ export default async function PostComments({ postId }: { postId: string }) {
 			{
 				comments.map(comment => <PostComment comment={comment} key={comment.id} />)
 			}
-
 
 			<PostCreateComment postId={postId} userData={userData} />
 		</div>

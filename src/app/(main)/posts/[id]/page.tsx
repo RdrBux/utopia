@@ -1,5 +1,6 @@
 import { getPostById } from "@/app/lib/data";
 import { formatDateDistance, getPageSession } from "@/app/lib/utils";
+import DropdownPostPrivacy from "@/app/ui/dropdown-post-privacy";
 import MacrosTable from "@/app/ui/main/macros-table";
 import { CommentButtonClient } from "@/app/ui/posts/comment-button-client";
 import LikeButtonServer from "@/app/ui/posts/like-button-server";
@@ -15,7 +16,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 	if (!session) redirect('/login');
 
 	const post = await getPostById(params.id)
-	const { user_id, firstname, lastname, user_img_url, id, title, content, img_url, post_type, post_data, created_at } = post
+	const { user_id, firstname, lastname, user_img_url, id, title, content, img_url, post_type, post_data, post_privacy, created_at } = post
 	const name = `${firstname} ${lastname}`
 	const avatar = user_img_url && user_img_url?.length > 0 ? user_img_url : '/avatar.svg'
 	const data = post_data && JSON.parse(post_data)
@@ -33,7 +34,14 @@ export default async function Home({ params }: { params: { id: string } }) {
 						</div>
 					</Link>
 
-					{session.user.userId === user_id && <RemovePostButton postId={id} />}
+					{
+						session.user.userId === user_id && (
+							<div className="flex gap-3">
+								<DropdownPostPrivacy postId={id} privacy={post_privacy} />
+								<RemovePostButton postId={id} />
+							</div>
+						)
+					}
 				</div>
 
 				{
