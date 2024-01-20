@@ -1,6 +1,12 @@
 import { sql } from '@vercel/postgres';
 import { unstable_noStore as noStore } from 'next/cache';
-import { CommentPost, PostWithUser, UserData, UserFriend } from './definitions';
+import {
+  CommentPost,
+  Friend,
+  PostWithUser,
+  UserData,
+  UserFriend,
+} from './definitions';
 import { getPageSession } from './utils';
 
 export async function getUserData() {
@@ -214,5 +220,25 @@ export async function getRecommendedFriends() {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch recommended friends.');
+  }
+}
+
+export async function getFriendshipStatus(friendId: string) {
+  noStore();
+
+  const session = await getPageSession();
+  if (!session) return;
+
+  try {
+    const data = await sql<Friend>`
+      SELECT *
+      FROM friends
+      WHERE (source_id = ${session.user.userId} AND target_id = ${friendId})
+      OR (source_id = ${friendId} AND target_id = ${session.user.userId})
+    `;
+    return data.rows[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch friend status.');
   }
 }

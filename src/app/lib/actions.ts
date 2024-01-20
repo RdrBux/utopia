@@ -4,7 +4,7 @@ import { sql } from '@vercel/postgres';
 import { getPageSession } from './utils';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { Post } from './definitions';
+import { Friend, Post } from './definitions';
 
 export async function postContent(formData: FormData) {
   const session = await getPageSession();
@@ -147,4 +147,102 @@ export async function removeLikePost(postId: string) {
   }
 
   revalidatePath(`/posts/${postId}`);
+}
+
+export async function sendFriendRequest(targetId: string) {
+  const session = await getPageSession();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+
+  const userId = session.user.userId;
+
+  try {
+    await sql<Friend>`
+      INSERT INTO friends (source_id, target_id, status)
+      VALUES (${userId}, ${targetId}, 'pending')
+    `;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to send friend request.');
+  }
+}
+
+export async function acceptFriendRequest(sourceId: string) {
+  const session = await getPageSession();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+
+  const userId = session.user.userId;
+
+  try {
+    await sql<Friend>`
+      UPDATE friends
+      SET status = 'accepted'
+      WHERE source_id = ${sourceId} AND target_id = ${userId}
+    `;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to accept friend request.');
+  }
+}
+
+export async function rejectFriendRequest(sourceId: string) {
+  const session = await getPageSession();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+
+  const userId = session.user.userId;
+
+  try {
+    await sql<Friend>`
+      UPDATE friends
+      SET status = 'rejected'
+      WHERE source_id = ${sourceId} AND target_id = ${userId}
+    `;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to reject friend request.');
+  }
+}
+
+export async function cancelFriendRequest(targetId: string) {
+  const session = await getPageSession();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+
+  const userId = session.user.userId;
+
+  try {
+    await sql<Friend>`
+      DELETE FROM friends
+      WHERE source_id = ${userId} AND target_id = ${targetId}
+    `;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to cancel friend request.');
+  }
+}
+
+export async function removeFriend(targetId: string) {
+  const session = await getPageSession();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+
+  const userId = session.user.userId;
+
+  try {
+    await sql<Friend>`
+      DELETE FROM friends
+      WHERE source_id = ${targetId} AND target_id = ${userId}
+      OR source_id = ${userId} AND target_id = ${targetId}
+    `;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to remove friend.');
+  }
 }
