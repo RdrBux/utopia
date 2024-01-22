@@ -166,6 +166,7 @@ export async function sendFriendRequest(targetId: string) {
     console.error('Database Error:', error);
     throw new Error('Failed to send friend request.');
   }
+  revalidatePath(`/profile/${targetId}`);
 }
 
 export async function acceptFriendRequest(sourceId: string) {
@@ -186,6 +187,8 @@ export async function acceptFriendRequest(sourceId: string) {
     console.error('Database Error:', error);
     throw new Error('Failed to accept friend request.');
   }
+
+  revalidatePath(`/profile/${sourceId}`);
 }
 
 export async function rejectFriendRequest(sourceId: string) {
@@ -206,6 +209,8 @@ export async function rejectFriendRequest(sourceId: string) {
     console.error('Database Error:', error);
     throw new Error('Failed to reject friend request.');
   }
+
+  revalidatePath(`/profile/${sourceId}`);
 }
 
 export async function cancelFriendRequest(targetId: string) {
@@ -225,6 +230,8 @@ export async function cancelFriendRequest(targetId: string) {
     console.error('Database Error:', error);
     throw new Error('Failed to cancel friend request.');
   }
+
+  revalidatePath(`/profile/${targetId}`);
 }
 
 export async function removeFriend(targetId: string) {
@@ -245,4 +252,6 @@ export async function removeFriend(targetId: string) {
     console.error('Database Error:', error);
     throw new Error('Failed to remove friend.');
   }
+
+  revalidatePath(`/profile/${targetId}`);
 }

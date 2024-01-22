@@ -1,7 +1,8 @@
 import { getFriendshipStatus } from "@/app/lib/data"
 import Link from "next/link"
+import { AddButton, AddRejectedButton, CancelButton, DeleteButton, RespondButtons } from "./friendship-buttons"
 
-export default async function ExtraMenu({ viewerId, profileId }: { viewerId: string, profileId: string }) {
+export default async function FriendshipMenu({ viewerId, profileId }: { viewerId: string, profileId: string }) {
 
 	if (viewerId === profileId) return (
 		<Link href={`/profile/${profileId}/settings`} className="btn-secondary px-2.5 flex items-center gap-2">
@@ -16,29 +17,26 @@ export default async function ExtraMenu({ viewerId, profileId }: { viewerId: str
 	const friendship = await getFriendshipStatus(profileId)
 
 	if (!friendship) return (
-		<button className="btn-primary flex items-center gap-2">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-				<path d="M10 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM1.615 16.428a1.224 1.224 0 0 1-.569-1.175 6.002 6.002 0 0 1 11.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 0 1 7 18a9.953 9.953 0 0 1-5.385-1.572ZM16.25 5.75a.75.75 0 0 0-1.5 0v2h-2a.75.75 0 0 0 0 1.5h2v2a.75.75 0 0 0 1.5 0v-2h2a.75.75 0 0 0 0-1.5h-2v-2Z" />
-			</svg>
-			Agregar
-		</button>
+		<AddButton targetId={profileId} />
 	)
 
 	if (friendship.status === 'pending' && friendship.source_id === viewerId) return (
-		<button className="btn-primary flex items-center gap-2">
-			Cancelar solicitud
-		</button>
+		<CancelButton targetId={profileId} />
 	)
 
-	if (friendship.status === 'pending' && friendship.source_id === profileId) return (
-		<button className="btn-primary flex items-center gap-2">
-			Aceptar solicitud
-		</button>
+	if (friendship.status === 'pending' && friendship.source_id !== viewerId) return (
+		<RespondButtons sourceId={profileId} />
 	)
 
 	if (friendship.status === 'accepted') return (
-		<button className="btn-primary flex items-center gap-2">
-			Eliminar
-		</button>
+		<DeleteButton targetId={profileId} />
+	)
+
+	if (friendship.status === 'rejected' && friendship.source_id === viewerId) return (
+		<CancelButton targetId={profileId} />
+	)
+
+	if (friendship.status === 'rejected' && friendship.source_id !== viewerId) return (
+		<AddRejectedButton sourceId={profileId} />
 	)
 }

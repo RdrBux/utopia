@@ -2,7 +2,7 @@ import { getUserById } from "@/app/lib/data";
 import { getPageSession } from "@/app/lib/utils";
 import NewPostButton from "@/app/ui/main/new-post-button";
 import NewPostSection from "@/app/ui/main/new-post-section";
-import ExtraMenu from "@/app/ui/main/profile/extra-menu";
+import FriendshipMenu from "@/app/ui/main/profile/friendship-menu";
 import ProfilePosts from "@/app/ui/main/profile/profile-posts";
 import UserNotFound from "@/app/ui/main/profile/user-not-found";
 import Link from "next/link";
@@ -45,7 +45,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 						</ul>
 					</Link>
 					<div className="shrink-0 ml-auto">
-						<ExtraMenu viewerId={session.user.userId} profileId={params.id} />
+						<FriendshipMenu viewerId={session.user.userId} profileId={params.id} />
 					</div>
 				</div>
 
