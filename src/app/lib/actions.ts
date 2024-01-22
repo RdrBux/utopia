@@ -5,6 +5,7 @@ import { getPageSession } from './utils';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { Friend, Post } from './definitions';
+import { User } from 'lucia';
 
 export async function postContent(formData: FormData) {
   const session = await getPageSession();
@@ -254,4 +255,28 @@ export async function removeFriend(targetId: string) {
   }
 
   revalidatePath(`/profile/${targetId}`);
+}
+
+export async function updateProfile(formData: FormData) {
+  const session = await getPageSession();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+
+  const userId = session.user.userId;
+
+  const bio = String(formData.get('profile_bio'));
+
+  try {
+    await sql<User>`
+      UPDATE auth_user
+      SET bio = ${bio}
+      WHERE id = ${userId}
+    `;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to update profile.');
+  }
+
+  revalidatePath(`/profile/${userId}/settings`);
 }
