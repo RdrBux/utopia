@@ -34,7 +34,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 				</div>
 
 				<div className="mt-12 flex gap-6 items-end">
-					<Link href="/profile/me/friends" className="">
+					<Link href={`/profile/${params.id}/friends`} className="">
 						<h3 className="text-xl font-bold leading-none">Amigos</h3>
 						<ul className="flex mt-3">
 							<li><div className="bg-primary-600 -ml-2 h-10 w-10 rounded-full"></div></li>

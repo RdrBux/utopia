@@ -203,6 +203,26 @@ export async function getPostCommentsCount(id: string) {
   }
 }
 
+export async function getFriends(id: string) {
+  noStore();
+
+  try {
+    const data = await sql<UserFriend>`
+    SELECT id, firstname, lastname, img_url, bio
+    FROM auth_user
+    WHERE id IN (
+      SELECT target_id FROM friends WHERE source_id = ${id}
+      UNION
+      SELECT source_id FROM friends WHERE target_id = ${id}
+    );
+    `;
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch friends.');
+  }
+}
+
 export async function getRecommendedFriends() {
   noStore();
 
