@@ -2,6 +2,7 @@ import { getUserById } from "@/app/lib/data";
 import { getPageSession } from "@/app/lib/utils";
 import NewPostButton from "@/app/ui/main/new-post-button";
 import NewPostSection from "@/app/ui/main/new-post-section";
+import FriendsList from "@/app/ui/main/profile/friends-list";
 import FriendshipMenu from "@/app/ui/main/profile/friendship-menu";
 import ProfilePosts from "@/app/ui/main/profile/profile-posts";
 import UserNotFound from "@/app/ui/main/profile/user-not-found";
@@ -34,16 +35,8 @@ export default async function Home({ params }: { params: { id: string } }) {
 				</div>
 
 				<div className="mt-12 flex gap-6 items-end">
-					<Link href={`/profile/${params.id}/friends`} className="">
-						<h3 className="text-xl font-bold leading-none">Amigos</h3>
-						<ul className="flex mt-3">
-							<li><div className="bg-primary-600 -ml-2 h-10 w-10 rounded-full"></div></li>
-							<li><div className="bg-primary-500 -ml-2 h-10 w-10 rounded-full"></div></li>
-							<li><div className="bg-primary-400 -ml-2 h-10 w-10 rounded-full"></div></li>
-							<li><div className="bg-primary-300 -ml-2 h-10 w-10 rounded-full"></div></li>
-							<li><div className="bg-gray-500 -ml-2 h-10 w-10 rounded-full grid place-content-center text-white font-semibold pl-0.5">5+</div></li>
-						</ul>
-					</Link>
+					<FriendsList id={params.id} />
+
 					<div className="shrink-0 ml-auto">
 						<FriendshipMenu viewerId={session.user.userId} profileId={params.id} />
 					</div>
