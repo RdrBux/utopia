@@ -2,14 +2,12 @@ import Link from "next/link";
 
 export default function Logo() {
 	return (
-		<Link href='/' className="flex items-center gap-1.5">
-			{/* <svg className="w-8 h-8" width="32" height="40" viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-				<path fillRule="evenodd" clipRule="evenodd" d="M16 32H32L16 0H16V32Z" fill="#80D5CF" />
-				<path fillRule="evenodd" clipRule="evenodd" d="M16 0L0 32H16L16 0Z" fill="#66AAA6" />
-				<path d="M9.53991e-08 32L16 24L16 40L9.53991e-08 32Z" fill="#3B928E" />
-				<path d="M32 32L16 24L16 40L32 32Z" fill="#4AB7B2" />
-			</svg> */}
-			<div className="h-8 w-8 rounded-full bg-gradient-to-b from-primary-400 to-primary-500"></div>
+		<Link href='/' className="flex items-center gap-2">
+			<svg className="text-primary-500" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<rect width="32" height="32" rx="16" fill="currentColor" />
+				<path fillRule="evenodd" clipRule="evenodd" d="M31.2586 20.8282C30.9397 21.8372 30.5234 22.8029 30.0208 23.7144H19.5566C19.0043 23.7144 18.5566 23.2667 18.5566 22.7144V22.3577C17.7429 22.9546 17.5279 23.0706 16.8396 23.442L16.8388 23.4424C16.1499 23.8141 15.3715 24 14.5036 24C12.9737 24 11.7703 23.5104 10.8935 22.5313C10.0256 21.5431 9.59169 20.0109 9.59169 17.9347V12.8999C9.59169 12.3476 9.14398 11.8999 8.59169 11.8999H0.530192C0.796955 10.8907 1.15984 9.92062 1.60847 9H9.59169H12.5105C13.0628 9 13.5105 9.44772 13.5105 10V17.9619C13.5105 19.0136 13.6894 19.7706 14.0473 20.233C14.4141 20.6863 14.9644 20.913 15.698 20.913C16.2796 20.913 16.794 20.7996 17.2414 20.573C17.6888 20.3373 18.0556 20.0063 18.3419 19.5802V12.8999C18.3419 12.3476 17.8942 11.8999 17.3419 11.8999H17.1104V9H18.3419H21.2607C21.813 9 22.2607 9.44772 22.2607 10V19.8282C22.2607 20.3804 22.7084 20.8282 23.2607 20.8282H31.2586Z" fill="white" />
+			</svg>
+
 
 
 			<svg width="64" height="21" viewBox="0 0 64 21" fill="none" xmlns="http://www.w3.org/2000/svg">
