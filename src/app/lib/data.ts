@@ -234,6 +234,11 @@ export async function getRecommendedFriends() {
     SELECT id, firstname, lastname, img_url, bio
     FROM auth_user
     WHERE id != ${session.user.userId}
+    AND id NOT IN (
+      SELECT target_id FROM friends WHERE source_id = ${session.user.userId}
+      UNION
+      SELECT source_id FROM friends WHERE target_id = ${session.user.userId}
+    )
     LIMIT 5;
     `;
     return data.rows;
