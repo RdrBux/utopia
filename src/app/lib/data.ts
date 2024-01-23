@@ -14,11 +14,14 @@ import { getPageSession } from './utils';
 export async function getUserData() {
   noStore();
 
+  const client = createClient();
+  await client.connect();
+
   const session = await getPageSession();
   if (!session) return;
 
   try {
-    const data = await sql<UserData>`
+    const data = await client.sql<UserData>`
     SELECT * FROM auth_user
     WHERE id = ${session.user.userId};
     `;
@@ -26,6 +29,8 @@ export async function getUserData() {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch user data.');
+  } finally {
+    await client.end();
   }
 }
 

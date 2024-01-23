@@ -17,7 +17,7 @@ export default function Home({ searchParams }: { searchParams: { type?: string }
 						General
 					</Link>
 					<Link href="/posts/new?type=food" replace={true} className={`${type === 'food' ? 'text-gray-900 bg-gray-100' : ''} px-5 py-2.5 font-bold flex gap-2 items-center justify-center w-full hover:bg-gray-100 duration-100 hover:text-gray-900 active:bg-gray-200`}>
-						<svg className="w-4 h-4 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 234.18 207">
+						<svg className="w-4 h-4 text-emerald-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 234.18 207">
 							<path d="M130.1,70.91,160.54,0l19.57,8.35L154.26,68.86c4.38,1.88,8.21,4.25,12.33,5,2.15.39,5.62-1.43,7.11-3.33,10.59-13.41,20.36-27.11,30.84-40.65l17,12.66-20,26.84c22.26,6.71,36,26.12,31.95,49.51-3.82,23.71-12.26,45.27-28.81,63.09-15.44,16.62-34.5,25.06-57.31,24.92-19.84-.11-39.68-.21-59.51,0C35.64,209.14-.12,157.28,0,109,.12,84.94,20.93,66.67,45,68.31c4.61.32,9.16,1.61,13.77,2.15,1.62.19,3.8.05,5-.89C82.59,54.12,108.68,52.37,130.1,70.91ZM21.2,110.51H212.86c-.51-15.84-18.07-26.09-31.73-18.12-5.22,2.81-10.07,6.29-15.47,9.7-12-16.37-25.8-15.51-40.35-3.3-18.65-28-39.8-25.72-59.65-.37C50.11,84.37,21.85,86.25,21.2,110.51Z" fill="currentColor" />
 						</svg>
 						Comida
