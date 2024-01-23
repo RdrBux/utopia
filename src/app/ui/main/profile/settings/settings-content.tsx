@@ -4,7 +4,6 @@ import { useSearchParams } from "next/navigation"
 import ProfileTab from "./profile-tab";
 import { UserData } from "@/app/lib/definitions";
 import PrivacyTab from "./privacy-tab";
-import PasswordTab from "./password-tab";
 import AccountTab from "./account-tab";
 
 export default function SettingsContent({ userData }: { userData: UserData }) {
@@ -25,11 +24,11 @@ export default function SettingsContent({ userData }: { userData: UserData }) {
 				)
 			}
 
-			{
+			{/* {
 				tab === 'password' && (
 					<PasswordTab />
 				)
-			}
+			} */}
 
 			{
 				tab === 'account' && (

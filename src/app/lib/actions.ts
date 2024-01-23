@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { Friend, Post } from './definitions';
 import { User } from 'lucia';
+import { auth } from '@/auth/lucia';
 
 export async function postContent(formData: FormData) {
   const session = await getPageSession();
@@ -303,4 +304,21 @@ export async function updatePrivacy(formData: FormData) {
     throw new Error('Failed to update privacy.');
   }
   revalidatePath(`/profile/${userId}/settings`);
+}
+
+export async function deleteAccount() {
+  const session = await getPageSession();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+
+  const userId = session.user.userId;
+
+  try {
+    await auth.deleteUser(userId);
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to delete account.');
+  }
+  redirect('/login');
 }

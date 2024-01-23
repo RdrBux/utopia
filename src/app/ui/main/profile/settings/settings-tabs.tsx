@@ -26,14 +26,14 @@ export default function SettingsTabs() {
 					Privacidad
 				</Link>
 			</li>
-			<li>
+			{/* <li>
 				<Link href="?tab=password" className={`${tab === 'password' ? 'bg-primary-700 text-white' : 'bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-gray-900'} inline-flex items-center px-4 py-3 rounded-lg w-full`}>
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 me-2">
 						<path fillRule="evenodd" d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z" clipRule="evenodd" />
 					</svg>
 					Contraseña
 				</Link>
-			</li>
+			</li> */}
 			<li>
 				<Link href="?tab=account" className={`${tab === 'account' ? 'bg-primary-700 text-white' : 'bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-gray-900'} inline-flex items-center px-4 py-3 rounded-lg w-full`}>
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 me-2">
