@@ -6,6 +6,7 @@ export default async function ResultsPosts({ query }: { query?: string }) {
 	if (query.length < 5) return;
 
 	const posts = await getPostsByQuery(query);
+	if (!posts) return;
 
 	return (
 		<section className="flex flex-col gap-6">

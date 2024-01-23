@@ -45,9 +45,9 @@ export async function getUsersByQuery(query: string, ignoreId: string) {
 
   try {
     const data = await sql<UserData>`
-      SELECT * FROM auth_user
-      WHERE firstname || ' ' || lastname ILIKE '%' || ${query} || '%'
-      AND id != ${ignoreId}
+    SELECT * FROM auth_user
+    WHERE id != ${ignoreId} AND (firstname ILIKE ${`%${query}%`} OR lastname ILIKE ${`%${query}%`})
+    ORDER BY firstname
     `;
     return data.rows;
   } catch (error) {
@@ -59,10 +59,15 @@ export async function getUsersByQuery(query: string, ignoreId: string) {
 export async function getPosts() {
   noStore();
 
+  const session = await getPageSession();
+  if (!session) return;
+
   try {
     const data = await sql<PostWithUser>`
       SELECT us.id user_id, us.firstname, us.lastname, us.img_url user_img_url, po.id, po.title, po.content, po.img_url, po.post_type, po.post_data, po.created_at
       FROM auth_user us JOIN posts po ON us.id = po.user_id
+      WHERE po.post_privacy = 'all'
+      OR (po.post_privacy = 'friends' AND po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${session.user.userId} UNION SELECT source_id FROM friends WHERE target_id = ${session.user.userId}))
       ORDER BY created_at DESC
       `;
     return data.rows;
@@ -91,11 +96,19 @@ export async function getPostById(id: string) {
 export async function getPostsByQuery(query: string) {
   noStore();
 
+  const session = await getPageSession();
+  if (!session) return;
+
   try {
     const data = await sql<PostWithUser>`
       SELECT us.id user_id, us.firstname, us.lastname, us.img_url user_img_url, po.id, po.title, po.content, po.img_url, po.post_type, po.post_data, po.created_at
       FROM auth_user us JOIN posts po ON us.id = po.user_id
-      WHERE po.title ILIKE '%' || ${query} || '%' OR po.content ILIKE '%' || ${query} || '%'
+      WHERE (po.title ILIKE ${`%${query}%`} OR po.content ILIKE ${`%${query}%`})
+      AND (po.post_privacy = 'all' OR (po.post_privacy = 'friends' AND po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${
+        session.user.userId
+      } UNION SELECT source_id FROM friends WHERE target_id = ${
+      session.user.userId
+    })))
       ORDER BY created_at DESC
       `;
     return data.rows;
@@ -116,6 +129,8 @@ export async function getUserPosts(id: string) {
       SELECT us.id user_id, us.firstname, us.lastname, us.img_url user_img_url, po.id, po.title, po.content, po.img_url, po.post_type, po.post_data, po.created_at
       FROM auth_user us JOIN posts po ON us.id = po.user_id
       WHERE us.id = ${id}
+      AND po.post_privacy = 'all'
+      OR (po.post_privacy = 'friends' AND po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${session.user.userId} UNION SELECT source_id FROM friends WHERE target_id = ${session.user.userId}))
       ORDER BY created_at DESC
       `;
     return data.rows;
