@@ -1,6 +1,6 @@
 'use server';
 
-import { sql } from '@vercel/postgres';
+import { createClient, sql } from '@vercel/postgres';
 import { unstable_noStore as noStore } from 'next/cache';
 import {
   CommentPost,
@@ -47,8 +47,11 @@ export async function getUserById(id: string) {
 export async function getUsersByQuery(query: string, ignoreId: string) {
   noStore();
 
+  const client = createClient();
+  await client.connect();
+
   try {
-    const data = await sql<UserData>`
+    const data = await client.sql<UserData>`
     SELECT * FROM auth_user
     WHERE id != ${ignoreId} AND (firstname ILIKE ${`%${query}%`} OR lastname ILIKE ${`%${query}%`})
     ORDER BY firstname
@@ -57,17 +60,22 @@ export async function getUsersByQuery(query: string, ignoreId: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch user data.');
+  } finally {
+    await client.end();
   }
 }
 
 export async function getPosts() {
   noStore();
 
+  const client = createClient();
+  await client.connect();
+
   const session = await getPageSession();
   if (!session) return;
 
   try {
-    const data = await sql<PostWithUser>`
+    const data = await client.sql<PostWithUser>`
       SELECT us.id user_id, us.firstname, us.lastname, us.img_url user_img_url, po.id, po.title, po.content, po.img_url, po.post_type, po.post_data, po.created_at
       FROM auth_user us JOIN posts po ON us.id = po.user_id
       WHERE po.post_privacy = 'all'
@@ -78,6 +86,8 @@ export async function getPosts() {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch post data.');
+  } finally {
+    await client.end();
   }
 }
 
@@ -133,9 +143,9 @@ export async function getUserPosts(id: string) {
       SELECT us.id user_id, us.firstname, us.lastname, us.img_url user_img_url, po.id, po.title, po.content, po.img_url, po.post_type, po.post_data, po.created_at
       FROM auth_user us JOIN posts po ON us.id = po.user_id
       WHERE us.id = ${id}
-      AND po.post_privacy = 'all'
+      AND (po.post_privacy = 'all'
       OR (po.post_privacy = 'friends' AND po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${session.user.userId} UNION SELECT source_id FROM friends WHERE target_id = ${session.user.userId}))
-      OR (po.post_privacy = 'me' AND po.user_id = ${session.user.userId})
+      OR (po.post_privacy = 'me' AND po.user_id = ${session.user.userId}))
       ORDER BY created_at DESC
       `;
     return data.rows;
