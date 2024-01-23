@@ -5,6 +5,7 @@ import NewPostSection from "@/app/ui/main/new-post-section";
 import FriendsList from "@/app/ui/main/profile/friends-list";
 import FriendshipMenu from "@/app/ui/main/profile/friendship-menu";
 import ProfilePosts from "@/app/ui/main/profile/profile-posts";
+import Statistics from "@/app/ui/main/profile/statistics";
 import UserNotFound from "@/app/ui/main/profile/user-not-found";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -45,11 +46,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 			</section>
 
 			<div className="grid grid-cols-2 gap-6 mt-6">
-				<section className="bg-card h-fit flex flex-col gap-6">
-					<h2 className="form-title">Progreso personal</h2>
-					<div className="p-4 rounded-lg bg-primary-100 border border-primary-300 text-primary-900">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita quibusdam ut quod quo aperiam eaque maiores.</div>
-					<div className="p-4 rounded-lg bg-primary-100 border border-primary-300 text-primary-900">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita quibusdam ut quod quo aperiam eaque maiores.</div>
-				</section>
+				<Statistics />
 
 				<section className="flex flex-col gap-6">
 					{session.user.userId === params.id && <NewPostSection />}
