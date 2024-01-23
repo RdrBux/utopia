@@ -30,7 +30,7 @@ export default function SearchBar() {
 					</svg>
 				</div>
 				<input onChange={(e) => handleSearch(e.target.value)} defaultValue={searchParams.get('query')?.toString()} type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:ring-2 focus:border-primary-500 outline-none" placeholder="Personas, publicaciones..." required />
-				<button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2">Buscar</button>
+				<button type="button" className="text-white absolute end-2.5 bottom-2.5 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2">Buscar</button>
 			</div>
 		</form>
 	)

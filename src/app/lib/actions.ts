@@ -280,3 +280,27 @@ export async function updateProfile(formData: FormData) {
 
   revalidatePath(`/profile/${userId}/settings`);
 }
+
+export async function updatePrivacy(formData: FormData) {
+  const session = await getPageSession();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+
+  const userId = session.user.userId;
+
+  const privacy_statistics = String(formData.get('privacy-statistics'));
+  const privacy_friends = String(formData.get('privacy-friends'));
+
+  try {
+    await sql<User>`
+      UPDATE auth_user
+      SET privacy_statistics = ${privacy_statistics}, privacy_friends = ${privacy_friends}
+      WHERE id = ${userId}
+    `;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to update privacy.');
+  }
+  revalidatePath(`/profile/${userId}/settings`);
+}

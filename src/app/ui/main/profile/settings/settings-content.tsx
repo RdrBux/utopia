@@ -21,7 +21,7 @@ export default function SettingsContent({ userData }: { userData: UserData }) {
 
 			{
 				tab === 'privacy' && (
-					<PrivacyTab />
+					<PrivacyTab userData={userData} />
 				)
 			}
 
