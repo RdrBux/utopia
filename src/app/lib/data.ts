@@ -10,6 +10,8 @@ import {
 import { getPageSession } from './utils';
 
 export async function getUserData() {
+  noStore();
+
   const session = await getPageSession();
   if (!session) return;
 
@@ -131,6 +133,7 @@ export async function getUserPosts(id: string) {
       WHERE us.id = ${id}
       AND po.post_privacy = 'all'
       OR (po.post_privacy = 'friends' AND po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${session.user.userId} UNION SELECT source_id FROM friends WHERE target_id = ${session.user.userId}))
+      OR (po.post_privacy = 'me' AND po.user_id = ${session.user.userId})
       ORDER BY created_at DESC
       `;
     return data.rows;
@@ -221,6 +224,9 @@ export async function getPostCommentsCount(id: string) {
 export async function getFriends(id: string) {
   noStore();
 
+  const session = await getPageSession();
+  if (!session) return;
+
   try {
     const data = await sql<UserFriend>`
     SELECT id, firstname, lastname, img_url, bio
@@ -229,7 +235,8 @@ export async function getFriends(id: string) {
       SELECT target_id FROM friends WHERE source_id = ${id}
       UNION
       SELECT source_id FROM friends WHERE target_id = ${id}
-    );
+    )
+
     `;
     return data.rows;
   } catch (error) {

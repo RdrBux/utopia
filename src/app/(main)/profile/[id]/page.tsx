@@ -35,7 +35,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 				</div>
 
 				<div className="mt-12 flex gap-6 items-end">
-					<FriendsList id={params.id} />
+					<FriendsList id={params.id} userPrivacyFriends={userData.privacy_friends} />
 
 					<div className="shrink-0 ml-auto">
 						<FriendshipMenu viewerId={session.user.userId} profileId={params.id} />
