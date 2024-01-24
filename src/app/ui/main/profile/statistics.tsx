@@ -14,19 +14,19 @@ export default function Statistics() {
 
 					<div className="flex flex-col items-center">
 						<p>42%</p>
-						<p className="text-xl">32.6g</p>
+						<p className="text-xl font-bold">32.6g</p>
 						<p className="text-xs">proteínas</p>
 					</div>
 
 					<div className="flex flex-col items-center">
 						<p>42%</p>
-						<p className="text-xl">32.6g</p>
+						<p className="text-xl font-bold">32.6g</p>
 						<p className="text-xs">carbohidratos</p>
 					</div>
 
 					<div className="flex flex-col items-center">
 						<p>42%</p>
-						<p className="text-xl">32.6g</p>
+						<p className="text-xl font-bold">32.6g</p>
 						<p className="text-xs">grasas</p>
 					</div>
 				</div>
@@ -50,7 +50,7 @@ export default function Statistics() {
 					<h3 className="text-2xl font-bold leading-none">Descanso</h3>
 					<div className="flex w-40 flex-col items-center gap-2 justify-center rounded-full p-6 border border-indigo-300 aspect-square">
 						<div className="flex items-center gap-1"><p className="text-5xl font-bold">8.2</p><p className="font-bold">h</p></div>
-						<p className="text-xs text-center">descanso promedio diario</p>
+						<p className="text-xs text-center">sueño promedio diario</p>
 					</div>
 					<div className="text-center text-sm -mt-3"><span className="inline-block py-1.5 px-3 rounded-full border border-indigo-300 font-semibold">3</span> descansos en el periodo seleccionado</div>
 

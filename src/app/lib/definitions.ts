@@ -1,10 +1,12 @@
 import { User } from 'lucia';
+import { z } from 'zod';
+import { PostSchema } from './actions';
 
 export interface UserData extends User {
   id: string;
 }
 
-export type Post = {
+/* export type Post = {
   id: string;
   user_id: string;
   title: string;
@@ -14,7 +16,9 @@ export type Post = {
   post_data: string | null;
   post_privacy: 'all' | 'friends' | 'me';
   created_at: string;
-};
+}; */
+
+export type Post = z.infer<typeof PostSchema>;
 
 export interface PostWithUser extends Post {
   firstname: string;

@@ -7,6 +7,19 @@ import { redirect } from 'next/navigation';
 import { Friend, Post } from './definitions';
 import { User } from 'lucia';
 import { auth } from '@/auth/lucia';
+import { z } from 'zod';
+
+export const PostSchema = z.object({
+  id: z.string(),
+  user_id: z.string(),
+  title: z.string().min(1).max(200),
+  content: z.string().optional(),
+  img_url: z.string().optional(),
+  post_type: z.enum(['general', 'food', 'workout']),
+  post_data: z.string(),
+  post_privacy: z.enum(['all', 'friends', 'me']),
+  created_at: z.date(),
+});
 
 export async function postContent(formData: FormData) {
   const session = await getPageSession();

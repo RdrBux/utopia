@@ -287,6 +287,27 @@ export async function getRecommendedFriends() {
   }
 }
 
+export async function getFriendRequests() {
+  noStore();
+
+  const session = await getPageSession();
+  if (!session) return;
+
+  try {
+    const data = await sql<UserFriend>`
+    SELECT id, firstname, lastname, img_url, bio
+    FROM auth_user
+    WHERE id IN (
+      SELECT source_id FROM friends WHERE target_id = ${session.user.userId} AND status = 'pending'
+    )
+    `;
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch friend requests.');
+  }
+}
+
 export async function getFriendshipStatus(friendId: string) {
   noStore();
 
