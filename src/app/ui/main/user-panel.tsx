@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import { getPageSession } from "@/app/lib/utils";
 import Link from "next/link";
 import Form from "../form";
+import Statistics from "./profile/statistics";
+import UserPanelStatistics from "./user-panel-statistics";
 
 export default async function UserPanel() {
 	const session = await getPageSession();
@@ -19,9 +21,8 @@ export default async function UserPanel() {
 					<div className="text-sm text-gray-500">{bio}</div>
 				</div>
 			</Link>
-			<h5 className="text-xl font-bold leading-none mt-3">Progreso esta semana</h5>
-			<div className="p-4 rounded-lg bg-primary-100 border border-primary-300 text-primary-900">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita quibusdam ut quod quo aperiam eaque maiores.</div>
-			<div className="p-4 rounded-lg bg-primary-100 border border-primary-300 text-primary-900">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita quibusdam ut quod quo aperiam eaque maiores.</div>
+
+			<UserPanelStatistics />
 		</aside>
 	)
 }
