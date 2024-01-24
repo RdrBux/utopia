@@ -54,7 +54,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 
 				<div className="px-6 flex flex-col gap-6">
 					<h4 className="text-xl font-bold leading-none">{title}</h4>
-					<p className="">{content}</p>
+					{content && <p className="">{content}</p>}
 
 					{
 						post_type === 'workout' && (
@@ -70,7 +70,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 
 				</div>
 
-				<div className="flex items-center justify-between px-6 -mb-3">
+				<div className="flex items-center justify-between px-6 -my-3">
 					<PostLikes postId={id} />
 
 					<PostCountComments postId={id} />

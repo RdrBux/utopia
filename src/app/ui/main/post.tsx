@@ -23,7 +23,7 @@ export default function Post({ post }: { post: PostWithUser }) {
 				</div>
 			</Link>
 
-			<Link href={`/posts/${id}`} className="flex flex-col gap-6 pb-4">
+			<Link href={`/posts/${id}`} className="flex flex-col gap-6 pb-2">
 
 				{
 					img_url ? (
@@ -35,7 +35,7 @@ export default function Post({ post }: { post: PostWithUser }) {
 
 				<div className="px-6 flex flex-col gap-6">
 					<h4 className="text-xl font-bold leading-none">{title}</h4>
-					<p className="">{content}</p>
+					{content && <p className="">{content}</p>}
 
 					{
 						post_type === 'workout' && (

@@ -4,7 +4,7 @@ import Link from "next/link";
 export default async function PostLikes({ postId }: { postId: string }) {
 	const likesCount = await getPostLikesCount(postId);
 
-	if (likesCount.count < 1) return <div></div>
+	if (likesCount.count < 1) return <div className="h-5"></div>
 
 	return (
 		<Link title="Me gusta" href={`/posts/${postId}/likes`} className="group flex gap-1 text-sm items-center font-semibold">
