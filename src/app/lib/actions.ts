@@ -186,12 +186,23 @@ export async function changePostPrivacy(
   revalidatePath(`/posts/${postId}`);
 }
 
+const commentSchema = z.string().max(2000).min(1);
+
 export async function commentPost(postId: string, content: string) {
   const session = await getPageSession();
   if (!session) {
     throw new Error('Not authenticated');
   }
   const userId = session.user.userId;
+
+  const validatedComment = commentSchema.safeParse(content);
+
+  if (!validatedComment.success) {
+    return {
+      errors: validatedComment.error.flatten().fieldErrors,
+      message: 'No se ha podido crear el comentario.',
+    };
+  }
 
   try {
     await sql`
