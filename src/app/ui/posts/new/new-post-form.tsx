@@ -6,26 +6,54 @@ import Textarea from "../../textarea";
 import InputFile from "../../input-file";
 import InputMacros from "./input-macros";
 import { postContent } from "@/app/lib/actions";
+import FormPostButton from "./form-post-button";
+import { useFormState } from "react-dom";
+import { useState } from "react";
+import FormMacros from "./form-macros";
+
+const initialState = {
+	message: '',
+	errors: {}
+}
 
 export default function NewPostForm({ type }: { type: Post['post_type'] }) {
+	const [state, formAction] = useFormState(postContent, initialState)
+
+	const [titleInput, setTitleInput] = useState('');
+	const [contentInput, setContentInput] = useState('');
+
 	const title = {
 		general: 'contenido',
 		food: 'comida',
 		workout: 'actividad física',
 	}
 
-	function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-		e.preventDefault();
-		postContent(new FormData(e.target as HTMLFormElement));
+	function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
+		if (e.target.value.length > 200) return
+		setTitleInput(e.target.value)
+	}
+
+	function handleContentChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+		if (e.target.value.length > 2000) return
+		setContentInput(e.target.value)
 	}
 
 	return (
 		<div className="p-6">
 			<h3 className="text-xl font-bold leading-none">Agregar {title[type]}</h3>
 
-			<form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-6">
-				<Input label="Título" id="title" required />
-				<Textarea label="Descripción" id="content" />
+			<form action={formAction} className="mt-6 flex flex-col gap-6">
+
+				<div className="">
+					<label htmlFor="title" className="label flex justify-between">Título <span className={`${titleInput.length >= 200 ? 'text-red-500' : 'text-gray-500'}`}>({titleInput.length}/200)</span></label>
+					<input value={titleInput} onChange={handleTitleChange} id="title" name="title" className="input" required />
+				</div>
+
+				<div className="">
+					<label htmlFor="content" className="label flex justify-between">Descripción <span className={`${contentInput.length >= 2000 ? 'text-red-500' : 'text-gray-500'}`}>({contentInput.length}/2000)</span></label>
+					<textarea value={contentInput} onChange={handleContentChange} id="content" name="content" className="input" rows={4}></textarea>
+				</div>
+
 				<InputFile id="img_url" label="Agregar imagen" />
 				<input type="hidden" id="post_type" name="post_type" value={type} />
 				<div>
@@ -43,30 +71,21 @@ export default function NewPostForm({ type }: { type: Post['post_type'] }) {
 					</div>
 				)}
 
-				{type === 'food' && (
-					<div className="p-6 shadow w-fit bg-gradient-to-br from-primary-700 to-primary-300 text-white rounded-lg mt-6">
-						<div className="">
-							<h4 className="text-xl font-semibold leading-none">Macronutrientes (opcional)</h4>
-							<div className="flex flex-wrap gap-6 mt-6">
-								<InputMacros label="Proteínas" id="food-proteins" />
-								<InputMacros label="Carbohidratos" id="food-carbs" />
-								<InputMacros label="Grasas" id="food-fats" />
-								<div className="max-w-40 mb-2">
-									<div className="">
-										<label htmlFor="food-kcal" className="block mb-2 text-sm font-medium text-primary-50">Total kilocalorías</label>
-										<div className="flex">
-											<input type="number" min={0} defaultValue={0} id="food-kcal" name="food-kcal" className="peer bg-primary-700 border border-primary-500 rounded-l-lg focus:ring-primary-400 block w-20 text-right p-1.5 focus:ring-2 focus:border-primary-500 outline-none" />
-											<span title="kilocalorías" className="cursor-default p-1.5 px-3 rounded-r-lg bg-primary-600 border-y border-r border-primary-500 peer-focus:ring-2 peer-focus:ring-primary-400 peer-focus:border-primary-400">kcal</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+				{type === 'food' && <FormMacros />}
 
+				{state?.message && <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+					<span className="font-medium">Error:</span> {state?.message}
+
+					<div className="mt-2">
+						{
+							state.errors && Object.values(state.errors).map((value) => {
+								return <li key={value[0]}>{String(value)}</li>
+							})
+						}
 					</div>
-				)}
-
-				<button className="btn-primary">Publicar</button>
+				</div>
+				}
+				<FormPostButton />
 			</form>
 		</div>
 	)

@@ -9,57 +9,140 @@ import { User } from 'lucia';
 import { auth } from '@/auth/lucia';
 import { z } from 'zod';
 
-export const PostSchema = z.object({
+const PostSchema = z.object({
   id: z.string(),
   user_id: z.string(),
-  title: z.string().min(1).max(200),
-  content: z.string().optional(),
+  title: z
+    .string({ invalid_type_error: 'Se requiere un título.' })
+    .min(1, { message: 'Se requiere un título.' })
+    .max(200, { message: 'El título no puede superar los 200 caracteres.' }),
+  content: z
+    .string()
+    .max(2000, {
+      message: 'El contenido no puede superar los 2000 caracteres.',
+    })
+    .optional(),
   img_url: z.string().optional(),
-  post_type: z.enum(['general', 'food', 'workout']),
-  post_data: z.string(),
-  post_privacy: z.enum(['all', 'friends', 'me']),
+  post_type: z.enum(['general', 'food', 'workout'], {
+    invalid_type_error: 'Formato del post no válido.',
+  }),
+  post_data: z.string().nullable(),
+  post_privacy: z.enum(['all', 'friends', 'me'], {
+    invalid_type_error: 'Formato de la visibilidad no válido.',
+  }),
   created_at: z.date(),
 });
 
-export async function postContent(formData: FormData) {
+const CreatePost = PostSchema.omit({
+  id: true,
+  created_at: true,
+  post_data: true,
+});
+
+const foodDataSchema = z.object({
+  proteins: z.coerce
+    .number()
+    .nonnegative()
+    .max(10000, { message: 'Exceso de proteínas.' }),
+  carbs: z.coerce
+    .number()
+    .nonnegative()
+    .max(10000, { message: 'Exceso de carbohidratos.' }),
+  fats: z.coerce
+    .number()
+    .nonnegative()
+    .max(10000, { message: 'Exceso de grasas.' }),
+  kcals: z.coerce
+    .number()
+    .nonnegative()
+    .max(100000, { message: 'Exceso de kilocalorías.' }),
+});
+
+const workoutDataSchema = z.object({
+  duration: z.coerce.number().nonnegative(),
+});
+
+export async function postContent(prevState: any, formData: FormData) {
   const session = await getPageSession();
   if (!session) {
     throw new Error('Not authenticated');
   }
 
-  const title = String(formData.get('title'));
-  const content = String(formData.get('content'));
-  /* const img_url = formData.get('img_url') || ''; */
-  const post_type = String(formData.get('post_type'));
-  const post_privacy = String(formData.get('post_privacy'));
+  const validatedFields = CreatePost.safeParse({
+    user_id: session.user.userId,
+    title: formData.get('title'),
+    content: formData.get('content'),
+    /* img_url: String(formData.get('img_url')), */
+    post_type: formData.get('post_type'),
+    post_privacy: formData.get('post_privacy'),
+  });
 
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'No se ha podrido crear la publicación.',
+    };
+  }
+
+  const { user_id, title, content, post_type, post_privacy } =
+    validatedFields.data;
+
+  // Prepare post_data for insertion into the database
   let post_data = null;
+
   if (post_type === 'food') {
     const proteins = formData.get('food-proteins');
     const carbs = formData.get('food-carbs');
     const fats = formData.get('food-fats');
     const kcals = formData.get('food-kcal');
 
-    post_data = JSON.stringify({ proteins, carbs, fats, kcals });
+    const foodData = foodDataSchema.safeParse({
+      proteins,
+      carbs,
+      fats,
+      kcals,
+    });
+
+    if (!foodData.success) {
+      return {
+        /* errors: foodData.error.flatten().fieldErrors, */
+        message:
+          'Datos de los macronutrientes incorrectos. No se ha podido crear la publicación.',
+      };
+    }
+    post_data = JSON.stringify(foodData.data);
   }
   if (post_type === 'workout') {
     const duration = formData.get('workout-duration');
 
-    post_data = JSON.stringify({ duration });
+    const workoutData = workoutDataSchema.safeParse({
+      duration,
+    });
+
+    if (!workoutData.success) {
+      return {
+        /* errors: workoutData.error.flatten().fieldErrors, */
+        message:
+          'Duración del entrenamiento incorrecta. No se ha podido crear la publicación.',
+      };
+    }
+
+    post_data = JSON.stringify(workoutData.data);
   }
 
+  let result = null;
   try {
-    await sql<Post>`
+    result = await sql<Post>`
       INSERT INTO posts (user_id, title, content, post_data, post_type, post_privacy)
-      VALUES (${session.user.userId}, ${title}, ${content}, ${post_data}, ${post_type}, ${post_privacy})
+      VALUES (${user_id}, ${title}, ${content}, ${post_data}, ${post_type}, ${post_privacy})
+      RETURNING id
     `;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to create post.');
   }
 
-  revalidatePath(`/`);
-  redirect(`/`);
+  redirect(`/posts/${result?.rows[0].id}`);
 }
 
 export async function deletePost(postId: string) {
@@ -139,8 +222,6 @@ export async function likePost(postId: string) {
     console.error('Database Error:', error);
     throw new Error('Failed to like post.');
   }
-  console.log('clicked');
-
   revalidatePath(`/posts/${postId}`);
 }
 
