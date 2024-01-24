@@ -2,16 +2,19 @@
 
 import { deletePost } from "@/app/lib/actions";
 import { useRef } from "react"
+import { useFormStatus } from "react-dom";
+import FormRemoveButton from "./form-remove-button";
 
 export default function RemovePostButton({ postId }: { postId: string }) {
+	const { pending } = useFormStatus();
 	const dialog = useRef<HTMLDialogElement>(null);
 
 	function handleClick() {
 		dialog.current?.showModal();
 	}
 
-	function handleDelete() {
-		deletePost(postId);
+	async function handleDelete() {
+		await deletePost(postId);
 	}
 
 	return (
@@ -35,10 +38,10 @@ export default function RemovePostButton({ postId }: { postId: string }) {
 
 
 					<h4 className="text-lg font-semibold px-6 text-gray-900">¿Deseas eliminar esta publicación?</h4>
-					<div className="flex gap-3 mt-5">
-						<button onClick={() => dialog.current?.close()} className="btn-secondary w-fit">Cancelar</button>
-						<button onClick={handleDelete} className="btn-red w-fit">Sí, confirmar</button>
-					</div>
+					<form action={handleDelete} className="flex gap-3 mt-5">
+						<button type="button" onClick={() => dialog.current?.close()} className="btn-secondary w-fit">Cancelar</button>
+						<FormRemoveButton />
+					</form>
 
 				</div>
 			</dialog>
