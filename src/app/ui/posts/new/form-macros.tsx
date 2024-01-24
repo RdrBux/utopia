@@ -24,7 +24,7 @@ export default function FormMacros() {
 	}
 
 	return (
-		<div className="p-6 shadow w-fit bg-gradient-to-br from-primary-700 to-primary-300 text-white rounded-lg mt-6">
+		<div className="p-6 shadow w-fit bg-gradient-to-br from-primary-700 to-primary-400 text-white rounded-lg mt-6">
 			<div className="">
 				<h4 className="text-xl font-semibold leading-none">Macronutrientes (opcional)</h4>
 				<div className="flex flex-wrap gap-6 mt-6">
