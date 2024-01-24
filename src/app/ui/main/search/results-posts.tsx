@@ -3,7 +3,7 @@ import Post from "../post";
 
 export default async function ResultsPosts({ query }: { query?: string }) {
 	if (!query) return;
-	if (query.length < 5) return;
+	if (query.length < 4) return;
 
 	const posts = await getPostsByQuery(query);
 	if (!posts) return;
