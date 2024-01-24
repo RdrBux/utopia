@@ -2,9 +2,7 @@
 
 import { Post } from "@/app/lib/definitions";
 import Input from "../../input";
-import Textarea from "../../textarea";
 import InputFile from "../../input-file";
-import InputMacros from "./input-macros";
 import { postContent } from "@/app/lib/actions";
 import FormPostButton from "./form-post-button";
 import { useFormState } from "react-dom";

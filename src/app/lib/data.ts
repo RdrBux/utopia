@@ -37,8 +37,11 @@ export async function getUserData() {
 export async function getUserById(id: string) {
   noStore();
 
+  const client = createClient();
+  await client.connect();
+
   try {
-    const data = await sql<UserData>`
+    const data = await client.sql<UserData>`
     SELECT * FROM auth_user
     WHERE id = ${id};
     `;
@@ -46,6 +49,8 @@ export async function getUserById(id: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch user data.');
+  } finally {
+    await client.end();
   }
 }
 

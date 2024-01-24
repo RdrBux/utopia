@@ -58,7 +58,7 @@ export default function Post({ post }: { post: PostWithUser }) {
 				<PostCountComments postId={id} />
 
 			</div>
-			<div className="flex border-y divide-x text-gray-600">
+			<div className="grid grid-cols-2 border-y divide-x text-gray-600">
 				<LikeButtonServer postId={id} />
 				<CommentButtonServer postId={id} />
 			</div>

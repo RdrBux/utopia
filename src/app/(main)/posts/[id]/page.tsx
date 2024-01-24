@@ -77,7 +77,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 
 				</div>
 
-				<div className="flex border-y divide-x text-gray-600">
+				<div className="grid grid-cols-2 border-y divide-x text-gray-600">
 					<LikeButtonServer postId={id} />
 					<CommentButtonClient />
 				</div>
