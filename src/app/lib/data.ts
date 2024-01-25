@@ -5,6 +5,8 @@ import { unstable_noStore as noStore } from 'next/cache';
 import {
   CommentPost,
   Friend,
+  Notification,
+  NotificationWithUser,
   Post,
   PostWithUser,
   UserData,
@@ -91,7 +93,7 @@ export async function getPosts() {
       SELECT us.id user_id, us.firstname, us.lastname, us.img_url user_img_url, po.id, po.title, po.content, po.img_url, po.post_type, po.post_data, po.created_at
       FROM auth_user us JOIN posts po ON us.id = po.user_id
       WHERE po.post_privacy = 'all'
-      OR (po.post_privacy = 'friends' AND po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${session.user.userId} UNION SELECT source_id FROM friends WHERE target_id = ${session.user.userId}))
+      OR (po.post_privacy = 'friends' AND po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${session.user.userId} AND status = 'accepted' UNION SELECT source_id FROM friends WHERE target_id = ${session.user.userId} AND status = 'accepted'))
       ORDER BY created_at DESC
       `;
     return data.rows;
@@ -140,9 +142,9 @@ export async function getPostsByQuery(query: string) {
       WHERE (po.title ILIKE ${`%${query}%`} OR po.content ILIKE ${`%${query}%`})
       AND (po.post_privacy = 'all' OR (po.post_privacy = 'friends' AND po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${
         session.user.userId
-      } UNION SELECT source_id FROM friends WHERE target_id = ${
+      } AND status = 'accepted' UNION SELECT source_id FROM friends WHERE target_id = ${
       session.user.userId
-    })))
+    } AND status = 'accepted')))
       ORDER BY created_at DESC
       `;
     return data.rows;
@@ -169,7 +171,7 @@ export async function getUserPosts(id: string) {
       FROM auth_user us JOIN posts po ON us.id = po.user_id
       WHERE us.id = ${id}
       AND (po.post_privacy = 'all'
-      OR (po.post_privacy = 'friends' AND po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${session.user.userId} UNION SELECT source_id FROM friends WHERE target_id = ${session.user.userId}))
+      OR (po.post_privacy = 'friends' AND po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${session.user.userId} AND status = 'accepted' UNION SELECT source_id FROM friends WHERE target_id = ${session.user.userId} AND status = 'accepted'))
       OR (po.post_privacy = 'me' AND po.user_id = ${session.user.userId}))
       ORDER BY created_at DESC
       `;
@@ -271,9 +273,9 @@ export async function getFriends(id: string) {
     SELECT id, firstname, lastname, img_url, bio
     FROM auth_user
     WHERE id IN (
-      SELECT target_id FROM friends WHERE source_id = ${id}
+      SELECT target_id FROM friends WHERE source_id = ${id} AND status = 'accepted'
       UNION
-      SELECT source_id FROM friends WHERE target_id = ${id}
+      SELECT source_id FROM friends WHERE target_id = ${id} AND status = 'accepted'
     )
 
     `;
@@ -397,5 +399,28 @@ export async function getUserWorkouts(id: string, period: PeriodType) {
     throw new Error('Failed to fetch user workouts.');
   } finally {
     await client.end();
+  }
+}
+
+export async function getNotifications() {
+  noStore();
+
+  const session = await getPageSession();
+  if (!session) return;
+
+  const client = createClient();
+  await client.connect();
+
+  try {
+    const data = await client.sql<NotificationWithUser>`
+    SELECT notif.*, us.firstname, us.lastname, us.img_url
+    FROM notifications notif JOIN auth_user us ON notif.sender_id = us.id
+    WHERE notif.user_id = ${session.user.userId}
+    ORDER BY notif.created_at DESC
+    `;
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch notifications.');
   }
 }

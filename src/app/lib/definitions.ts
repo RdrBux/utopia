@@ -114,3 +114,24 @@ export type UserFriend = {
   img_url?: string;
   bio?: string;
 };
+
+export type Notification = {
+  id: string;
+  user_id: string;
+  sender_id: string;
+  post_id?: string;
+  notification_type:
+    | 'friend_request'
+    | 'friend_accepted'
+    | 'post_like'
+    | 'post_comment'
+    | 'friend_new_content';
+  is_read: boolean;
+  created_at: string;
+};
+
+export interface NotificationWithUser extends Notification {
+  firstname: string;
+  lastname: string;
+  img_url: string;
+}

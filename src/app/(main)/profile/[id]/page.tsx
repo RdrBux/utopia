@@ -2,6 +2,7 @@ import { getUserById } from "@/app/lib/data";
 import { getPageSession } from "@/app/lib/utils";
 import NewPostButton from "@/app/ui/main/new-post-button";
 import NewPostSection from "@/app/ui/main/new-post-section";
+import { PeriodType } from "@/app/ui/main/profile/dropdown-statistics";
 import FriendsList from "@/app/ui/main/profile/friends-list";
 import FriendshipMenu from "@/app/ui/main/profile/friendship-menu";
 import ProfilePosts from "@/app/ui/main/profile/profile-posts";
@@ -10,7 +11,7 @@ import UserNotFound from "@/app/ui/main/profile/user-not-found";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-export default async function Home({ params, searchParams }: { params: { id: string }, searchParams: { period?: string } }) {
+export default async function Home({ params, searchParams }: { params: { id: string }, searchParams: { period?: PeriodType } }) {
 	const session = await getPageSession();
 	if (!session) redirect('/login')
 
