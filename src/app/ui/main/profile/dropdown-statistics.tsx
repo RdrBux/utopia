@@ -9,14 +9,11 @@ export default function DropdownStatistics() {
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
 	let periodUrl = searchParams.get('period') ?? 'today';
-	if (!(periodUrl in ['today', 'week', 'month'])) {
-		periodUrl = 'today';
-	}
 
 	const { replace } = useRouter();
 
 	const [showMenu, setShowMenu] = useState(false)
-	const [period, setPeriod] = useState(periodUrl as PeriodType)
+	const [period, setPeriod] = useState<PeriodType>(periodUrl as PeriodType)
 
 
 	const menu = useRef<HTMLDivElement>(null);
