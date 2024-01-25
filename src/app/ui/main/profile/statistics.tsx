@@ -1,5 +1,6 @@
 import DropdownStatistics, { PeriodType } from "./dropdown-statistics";
 import StatsFood from "./stats-food";
+import StatsWorkout from "./stats-workout";
 
 export default function Statistics({ paramsId, period = 'today' }: { paramsId: string, period?: PeriodType }) {
 	return (
@@ -13,15 +14,7 @@ export default function Statistics({ paramsId, period = 'today' }: { paramsId: s
 			<StatsFood paramsId={paramsId} period={period} />
 
 			<div className="grid grid-cols-2 gap-6">
-				<div className="border border-amber-300 bg-amber-50 text-amber-950 rounded-lg p-6 flex flex-col items-center gap-6">
-					<h3 className="text-2xl font-bold leading-none">Actividad física</h3>
-					<div className="flex w-40 flex-col items-center gap-2 justify-center rounded-full p-6 border border-amber-300 aspect-square">
-						<div className="flex items-center gap-1"><p className="text-5xl font-bold">94</p><p className="font-bold">min</p></div>
-						<p className="text-xs text-center">duración promedio por entrenamiento</p>
-					</div>
-					<div className="text-center text-sm -mt-3"><span className="inline-block py-1.5 px-3 rounded-full border border-amber-300 font-semibold">2</span> entrenamientos en el periodo seleccionado</div>
-
-				</div>
+				<StatsWorkout paramsId={paramsId} period={period} />
 
 				<div className="border border-indigo-300 bg-indigo-50 text-indigo-950 rounded-lg p-6 flex flex-col items-center gap-6">
 					<h3 className="text-2xl font-bold leading-none">Descanso</h3>
@@ -31,7 +24,7 @@ export default function Statistics({ paramsId, period = 'today' }: { paramsId: s
 					</div>
 					<div className="text-center text-sm -mt-3"><span className="inline-block py-1.5 px-3 rounded-full border border-indigo-300 font-semibold">3</span> descansos en el periodo seleccionado</div>
 
-				</div>
+					S</div>
 			</div>
 		</section>
 	)

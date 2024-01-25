@@ -130,8 +130,11 @@ export async function getPostsByQuery(query: string) {
   const session = await getPageSession();
   if (!session) return;
 
+  const client = createClient();
+  await client.connect();
+
   try {
-    const data = await sql<PostWithUser>`
+    const data = await client.sql<PostWithUser>`
       SELECT us.id user_id, us.firstname, us.lastname, us.img_url user_img_url, po.id, po.title, po.content, po.img_url, po.post_type, po.post_data, po.created_at
       FROM auth_user us JOIN posts po ON us.id = po.user_id
       WHERE (po.title ILIKE ${`%${query}%`} OR po.content ILIKE ${`%${query}%`})
@@ -146,6 +149,8 @@ export async function getPostsByQuery(query: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch post data.');
+  } finally {
+    await client.end();
   }
 }
 
@@ -365,6 +370,31 @@ export async function getUserFoods(id: string, period: PeriodType) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch user foods.');
+  } finally {
+    await client.end();
+  }
+}
+
+export async function getUserWorkouts(id: string, period: PeriodType) {
+  noStore();
+
+  const interval = period === 'today' ? '0' : period === 'week' ? '6' : '29';
+
+  const client = createClient();
+  await client.connect();
+
+  try {
+    const data = await client.sql<Post>`
+      SELECT *
+      FROM posts
+      WHERE user_id = ${id}
+      AND post_type = 'workout'
+      AND created_at > current_date - CAST(${interval} AS INTEGER) * INTERVAL '1 DAY'
+    `;
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch user workouts.');
   } finally {
     await client.end();
   }
