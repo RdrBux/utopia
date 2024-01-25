@@ -7,7 +7,7 @@ export default function Home({ searchParams }: { searchParams: { type?: string }
 	return (
 		<div className="main-layout">
 			<main className="bg-card p-0 lg:col-start-2">
-				<h1 className="form-title p-6">Crear publicación</h1>
+				<h1 className="form-title p-6">Nueva publicación</h1>
 				<div className="flex border-y divide-x text-gray-600">
 					<Link href="/posts/new?type=general" className={`${type === 'general' ? 'text-gray-900 bg-gray-100' : ''} px-5 py-2.5 font-bold flex gap-2 items-center justify-center w-full hover:bg-gray-100 duration-100 hover:text-gray-900 active:bg-gray-200`}>
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 text-blue-600">

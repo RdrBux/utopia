@@ -21,9 +21,9 @@ export default function NewPostForm({ type }: { type: Post['post_type'] }) {
 	const [contentInput, setContentInput] = useState('');
 
 	const title = {
-		general: 'contenido',
-		food: 'comida',
-		workout: 'actividad física',
+		general: 'Contenido general',
+		food: 'Comida',
+		workout: 'Actividad física',
 	}
 
 	function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -38,7 +38,7 @@ export default function NewPostForm({ type }: { type: Post['post_type'] }) {
 
 	return (
 		<div className="p-6">
-			<h3 className="text-xl font-bold leading-none">Agregar {title[type]}</h3>
+			<h3 className="text-xl font-bold leading-none">{title[type]}</h3>
 
 			<form action={formAction} className="mt-6 flex flex-col gap-6">
 
