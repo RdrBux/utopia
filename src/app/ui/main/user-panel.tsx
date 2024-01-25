@@ -1,11 +1,9 @@
 import { redirect } from "next/navigation";
 import { getPageSession } from "@/app/lib/utils";
 import Link from "next/link";
-import Form from "../form";
-import Statistics from "./profile/statistics";
 import UserPanelStatistics from "./user-panel-statistics";
 
-export default async function UserPanel() {
+export default async function UserPanel({ paramsId }: { paramsId: string }) {
 	const session = await getPageSession();
 	if (!session) redirect("/login");
 

@@ -5,11 +5,13 @@ import { unstable_noStore as noStore } from 'next/cache';
 import {
   CommentPost,
   Friend,
+  Post,
   PostWithUser,
   UserData,
   UserFriend,
 } from './definitions';
 import { getPageSession } from './utils';
+import { PeriodType } from '../ui/main/profile/dropdown-statistics';
 
 export async function getUserData() {
   noStore();
@@ -104,8 +106,11 @@ export async function getPosts() {
 export async function getPostById(id: string) {
   noStore();
 
+  const client = createClient();
+  await client.connect();
+
   try {
-    const data = await sql<PostWithUser>`
+    const data = await client.sql<PostWithUser>`
       SELECT us.id user_id, us.firstname, us.lastname, us.img_url user_img_url, po.id, po.title, po.content, po.img_url, po.post_type, po.post_data, po.post_privacy, po.created_at
       FROM auth_user us JOIN posts po ON us.id = po.user_id
       WHERE po.id = ${id};
@@ -114,6 +119,8 @@ export async function getPostById(id: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch post data.');
+  } finally {
+    await client.end();
   }
 }
 
@@ -148,8 +155,11 @@ export async function getUserPosts(id: string) {
   const session = await getPageSession();
   if (!session) return;
 
+  const client = createClient();
+  await client.connect();
+
   try {
-    const data = await sql<PostWithUser>`
+    const data = await client.sql<PostWithUser>`
       SELECT us.id user_id, us.firstname, us.lastname, us.img_url user_img_url, po.id, po.title, po.content, po.img_url, po.post_type, po.post_data, po.created_at
       FROM auth_user us JOIN posts po ON us.id = po.user_id
       WHERE us.id = ${id}
@@ -162,6 +172,8 @@ export async function getUserPosts(id: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch post data.');
+  } finally {
+    await client.end();
   }
 }
 
@@ -330,5 +342,30 @@ export async function getFriendshipStatus(friendId: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch friend status.');
+  }
+}
+
+export async function getUserFoods(id: string, period: PeriodType) {
+  noStore();
+
+  const interval = period === 'today' ? '0' : period === 'week' ? '6' : '29';
+
+  const client = createClient();
+  await client.connect();
+
+  try {
+    const data = await client.sql<Post>`
+      SELECT *
+      FROM posts
+      WHERE user_id = ${id}
+      AND post_type = 'food'
+      AND created_at > current_date - CAST(${interval} AS INTEGER) * INTERVAL '1 DAY'
+    `;
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch user foods.');
+  } finally {
+    await client.end();
   }
 }

@@ -17,3 +17,22 @@ export const getPageSession = cache(() => {
   const authRequest = auth.handleRequest('GET', context);
   return authRequest.validate();
 });
+
+export const roundTo100 = (arr: number[]) => {
+  let output = [];
+  let acc = 0;
+
+  for (let i = 0; i < arr.length; i++) {
+    let roundedCur = Math.round(arr[i]);
+    const currentAcc = acc;
+    if (acc == 0) {
+      output.push(roundedCur);
+      acc += arr[i];
+      continue;
+    }
+    acc += arr[i];
+    output.push(Math.round(acc) - Math.round(currentAcc));
+  }
+
+  return output;
+};

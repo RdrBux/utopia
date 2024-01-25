@@ -28,7 +28,7 @@ export default function DropdownPostPrivacy({ postId, privacy }: { postId: strin
 
 	return (
 		<div ref={menu} className="relative">
-			<button title="Visibilidad" onClick={() => setShowMenu(!showMenu)} className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-700 bg-white rounded-lg border hover:text-gray-900 hover:border-gray-500 focus:ring-4 focus:outline-none focus:ring-gray-50 duration-100" type="button">
+			<button title="Visibilidad" onClick={() => setShowMenu(prev => !prev)} className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-700 bg-white rounded-lg border hover:text-gray-900 hover:border-gray-500 focus:ring-4 focus:outline-none focus:ring-gray-50 duration-100" type="button">
 				{privacy === 'all' && all}
 				{privacy === 'friends' && friends}
 				{privacy === 'me' && me}

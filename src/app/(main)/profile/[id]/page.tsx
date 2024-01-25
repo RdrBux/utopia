@@ -10,7 +10,7 @@ import UserNotFound from "@/app/ui/main/profile/user-not-found";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-export default async function Home({ params }: { params: { id: string } }) {
+export default async function Home({ params, searchParams }: { params: { id: string }, searchParams: { period?: string } }) {
 	const session = await getPageSession();
 	if (!session) redirect('/login')
 
@@ -46,7 +46,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 			</section>
 
 			<div className="grid grid-cols-2 gap-6 mt-6">
-				<Statistics />
+				<Statistics paramsId={params.id} period={searchParams.period} />
 
 				<section className="flex flex-col gap-6">
 					{session.user.userId === params.id && <NewPostSection />}

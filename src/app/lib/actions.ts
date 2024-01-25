@@ -4,58 +4,15 @@ import { sql } from '@vercel/postgres';
 import { getPageSession } from './utils';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { Friend, Post } from './definitions';
+import { Friend, Post, PostSchema, foodDataSchema } from './definitions';
 import { User } from 'lucia';
 import { auth } from '@/auth/lucia';
 import { z } from 'zod';
-
-const PostSchema = z.object({
-  id: z.string(),
-  user_id: z.string(),
-  title: z
-    .string({ invalid_type_error: 'Se requiere un título.' })
-    .min(1, { message: 'Se requiere un título.' })
-    .max(200, { message: 'El título no puede superar los 200 caracteres.' }),
-  content: z
-    .string()
-    .max(2000, {
-      message: 'El contenido no puede superar los 2000 caracteres.',
-    })
-    .optional(),
-  img_url: z.string().optional(),
-  post_type: z.enum(['general', 'food', 'workout'], {
-    invalid_type_error: 'Formato del post no válido.',
-  }),
-  post_data: z.string().nullable(),
-  post_privacy: z.enum(['all', 'friends', 'me'], {
-    invalid_type_error: 'Formato de la visibilidad no válido.',
-  }),
-  created_at: z.date(),
-});
 
 const CreatePost = PostSchema.omit({
   id: true,
   created_at: true,
   post_data: true,
-});
-
-const foodDataSchema = z.object({
-  proteins: z.coerce
-    .number()
-    .nonnegative()
-    .max(10000, { message: 'Exceso de proteínas.' }),
-  carbs: z.coerce
-    .number()
-    .nonnegative()
-    .max(10000, { message: 'Exceso de carbohidratos.' }),
-  fats: z.coerce
-    .number()
-    .nonnegative()
-    .max(10000, { message: 'Exceso de grasas.' }),
-  kcals: z.coerce
-    .number()
-    .nonnegative()
-    .max(100000, { message: 'Exceso de kilocalorías.' }),
 });
 
 const workoutDataSchema = z.object({

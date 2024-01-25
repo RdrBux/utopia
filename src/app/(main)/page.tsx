@@ -4,12 +4,12 @@ import NewPostSection from "../ui/main/new-post-section";
 import RecommendedFriends from "../ui/main/recommended-friends";
 import UserPanel from "../ui/main/user-panel";
 
-export default function Home() {
+export default function Home({ params }: { params: { id: string } }) {
 	return (
 		<div className="grid grid-cols-[1fr_2fr_1fr] gap-6 my-6">
 			<NewPostButton />
 
-			<UserPanel />
+			<UserPanel paramsId={params.id} />
 
 			<main className="flex flex-col gap-6">
 				<NewPostSection />
