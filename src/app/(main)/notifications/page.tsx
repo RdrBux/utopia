@@ -1,5 +1,6 @@
 'use client'
 
+import { markNotificationsAsRead } from "@/app/lib/actions";
 import { getNotifications } from "@/app/lib/data";
 import { NotificationWithUser } from "@/app/lib/definitions";
 import { Spinner } from "@/app/ui/loading";
@@ -8,7 +9,7 @@ import { es } from "date-fns/locale/es";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export function formatDateDistance(date: string) {
+function formatDateDistance(date: string) {
 	return formatDistanceToNowStrict(date, { locale: es });
 }
 
@@ -22,7 +23,18 @@ export default function Home() {
 		}
 
 		fetchNotifications()
+
 	}, [])
+
+	useEffect(() => {
+		async function markAsRead() {
+			await markNotificationsAsRead();
+		}
+
+		if (notifications && notifications.length > 0) {
+			markAsRead();
+		}
+	}, [notifications])
 
 	if (notifications === null) return (
 		<div className="main-layout"><div className="bg-card lg:col-start-2 grid place-content-center h-40"><Spinner /></div></div>

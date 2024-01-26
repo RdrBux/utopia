@@ -337,8 +337,11 @@ export async function getFriendshipStatus(friendId: string) {
   const session = await getPageSession();
   if (!session) return;
 
+  const client = createClient();
+  await client.connect();
+
   try {
-    const data = await sql<Friend>`
+    const data = await client.sql<Friend>`
       SELECT *
       FROM friends
       WHERE (source_id = ${session.user.userId} AND target_id = ${friendId})
@@ -348,6 +351,8 @@ export async function getFriendshipStatus(friendId: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch friend status.');
+  } finally {
+    await client.end();
   }
 }
 
@@ -421,29 +426,6 @@ export async function getNotifications() {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch notifications.');
-  } finally {
-    await client.end();
-  }
-}
-
-export async function markNotificationsAsRead() {
-  noStore();
-
-  const session = await getPageSession();
-  if (!session) return;
-
-  const client = createClient();
-  await client.connect();
-
-  try {
-    await client.sql`
-    UPDATE notifications
-    SET is_read = true
-    WHERE user_id = ${session.user.userId}
-    `;
-  } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to mark notification as read.');
   } finally {
     await client.end();
   }

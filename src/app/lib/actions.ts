@@ -4,7 +4,13 @@ import { sql } from '@vercel/postgres';
 import { getPageSession } from './utils';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { Friend, Post, PostSchema, foodDataSchema } from './definitions';
+import {
+  Friend,
+  Notification,
+  Post,
+  PostSchema,
+  foodDataSchema,
+} from './definitions';
 import { User } from 'lucia';
 import { auth } from '@/auth/lucia';
 import { z } from 'zod';
@@ -383,4 +389,24 @@ export async function deleteAccount() {
     throw new Error('Failed to delete account.');
   }
   redirect('/login');
+}
+
+export async function markNotificationsAsRead() {
+  const session = await getPageSession();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+
+  const userId = session.user.userId;
+
+  try {
+    await sql<Notification>`
+      UPDATE notifications
+      SET is_read = true
+      WHERE user_id = ${userId}
+    `;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to mark notifications as read.');
+  }
 }
