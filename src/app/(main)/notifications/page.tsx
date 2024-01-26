@@ -1,9 +1,31 @@
-import { getNotifications } from "@/app/lib/data";
-import Link from "next/link";
+'use client'
 
-export default async function Home() {
-	const notifications = await getNotifications();
-	if (!notifications || notifications.length === 0) {
+import { getNotifications } from "@/app/lib/data";
+import { NotificationWithUser } from "@/app/lib/definitions";
+import { formatDistanceToNowStrict } from "date-fns";
+import { es } from "date-fns/locale/es";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+
+export function formatDateDistance(date: string) {
+	return formatDistanceToNowStrict(date, { locale: es });
+}
+
+export default function Home() {
+	const [notifications, setNotifications] = useState<NotificationWithUser[] | null>(null);
+
+	useEffect(() => {
+		async function fetchNotifications() {
+			const notifs = await getNotifications();
+			setNotifications(notifs ?? []);
+		}
+
+		fetchNotifications()
+	}, [])
+
+	if (notifications === null) return;
+
+	if (notifications.length === 0) {
 		return (
 			<div className="main-layout">
 				<div className="bg-card lg:col-start-2 flex flex-col items-center gap-6">
@@ -29,7 +51,10 @@ export default async function Home() {
 									<li key={notification.id}>
 										<Link href={`/profile/${notification.sender_id}`} className={`${notification.is_read ? 'opacity-50' : ''} grid grid-cols-[auto_1fr] gap-3 py-3 items-center`}>
 											<img src={notification.img_url || '/avatar.svg'} alt={`${notification.firstname} ${notification.lastname}`} className="h-16 w-16 shrink-0 rounded-full" />
-											<div>Tienes una nueva solicitud de amistad de <b>{notification.firstname} {notification.lastname}</b>.</div>
+											<div>
+												<div>Tienes una nueva solicitud de amistad de <b>{notification.firstname} {notification.lastname}</b>.</div>
+												<div className="text-sm text-gray-500">{formatDateDistance(notification.created_at)}</div>
+											</div>
 										</Link>
 									</li>
 								)
@@ -40,7 +65,10 @@ export default async function Home() {
 									<li key={notification.id}>
 										<Link href={`/profile/${notification.sender_id}`} className={`${notification.is_read ? 'opacity-50' : ''} grid grid-cols-[auto_1fr] gap-3 py-3 items-center`}>
 											<img src={notification.img_url || '/avatar.svg'} alt={`${notification.firstname} ${notification.lastname}`} className="h-16 w-16 shrink-0 rounded-full" />
-											<div><b>{notification.firstname} {notification.lastname}</b> ha aceptado tu solicitud de amistad.</div>
+											<div>
+												<div><b>{notification.firstname} {notification.lastname}</b> ha aceptado tu solicitud de amistad.</div>
+												<div className="text-sm text-gray-500">{formatDateDistance(notification.created_at)}</div>
+											</div>
 										</Link>
 									</li>
 								)
@@ -51,7 +79,10 @@ export default async function Home() {
 									<li key={notification.id}>
 										<Link href={`/posts/${notification.post_id}`} className={`${notification.is_read ? 'opacity-50' : ''} grid grid-cols-[auto_1fr] gap-3 py-3 items-center`}>
 											<img src={notification.img_url || '/avatar.svg'} alt={`${notification.firstname} ${notification.lastname}`} className="h-16 w-16 shrink-0 rounded-full" />
-											<div>A <b>{notification.firstname} {notification.lastname}</b> le ha gustado tu publicación.</div>
+											<div>
+												<div>A <b>{notification.firstname} {notification.lastname}</b> le ha gustado tu publicación.</div>
+												<div className="text-sm text-gray-500">{formatDateDistance(notification.created_at)}</div>
+											</div>
 										</Link>
 									</li>
 								)
@@ -62,7 +93,10 @@ export default async function Home() {
 									<li key={notification.id}>
 										<Link href={`/posts/${notification.post_id}`} className={`${notification.is_read ? 'opacity-50' : ''} grid grid-cols-[auto_1fr] gap-3 py-3 items-center`}>
 											<img src={notification.img_url || '/avatar.svg'} alt={`${notification.firstname} ${notification.lastname}`} className="h-16 w-16 shrink-0 rounded-full" />
-											<div><b>{notification.firstname} {notification.lastname}</b> ha comentado tu publicación.</div>
+											<div>
+												<div><b>{notification.firstname} {notification.lastname}</b> ha comentado tu publicación.</div>
+												<div className="text-sm text-gray-500">{formatDateDistance(notification.created_at)}</div>
+											</div>
 										</Link>
 									</li>
 								)
@@ -73,35 +107,16 @@ export default async function Home() {
 									<li key={notification.id}>
 										<Link href={`/posts/${notification.post_id}`} className={`${notification.is_read ? 'opacity-50' : ''} grid grid-cols-[auto_1fr] gap-3 py-3 items-center`}>
 											<img src={notification.img_url || '/avatar.svg'} alt={`${notification.firstname} ${notification.lastname}`} className="h-16 w-16 shrink-0 rounded-full" />
-											<div><b>{notification.firstname} {notification.lastname}</b> ha publicado nuevo contenido.</div>
+											<div>
+												<div><b>{notification.firstname} {notification.lastname}</b> ha publicado nuevo contenido.</div>
+												<div className="text-sm text-gray-500">{formatDateDistance(notification.created_at)}</div>
+											</div>
 										</Link>
 									</li>
 								)
 							}
 						})
-
-
 					}
-
-					<li className="grid grid-cols-[auto_1fr] gap-3 py-3 items-center">
-						<div className="h-16 w-16 shrink-0 bg-primary-300 rounded-full"></div>
-						<div className=""><b>Juan Pérez</b> a publicado nuevo contenido.</div>
-					</li>
-
-					<li className="grid grid-cols-[auto_1fr] gap-3 py-3 items-center">
-						<div className="h-16 w-16 shrink-0 bg-primary-300 rounded-full"></div>
-						<div className=""><b>Juan Pérez</b> a comentado tu publicación.</div>
-					</li>
-
-					<li className="grid grid-cols-[auto_1fr] gap-3 py-3 items-center">
-						<div className="h-16 w-16 shrink-0 bg-primary-300 rounded-full"></div>
-						<div className="text-gray-500"><b>Juan Pérez</b> le ha dado me gusta a tu publicación.</div>
-					</li>
-
-					<li className="grid grid-cols-[auto_1fr] gap-3 py-3 items-center">
-						<div className="h-16 w-16 shrink-0 bg-primary-300 rounded-full"></div>
-						<div className="text-gray-500">Tienes una nueva solicitud de amistad de <b>Juan Pérez</b>.</div>
-					</li>
 
 				</ul>
 			</div>

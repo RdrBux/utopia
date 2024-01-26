@@ -1,11 +1,10 @@
 'use server';
 
 import { createClient, sql } from '@vercel/postgres';
-import { unstable_noStore as noStore } from 'next/cache';
+import { unstable_noStore as noStore, revalidatePath } from 'next/cache';
 import {
   CommentPost,
   Friend,
-  Notification,
   NotificationWithUser,
   Post,
   PostWithUser,
@@ -422,5 +421,55 @@ export async function getNotifications() {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch notifications.');
+  } finally {
+    await client.end();
+  }
+}
+
+export async function markNotificationsAsRead() {
+  noStore();
+
+  const session = await getPageSession();
+  if (!session) return;
+
+  const client = createClient();
+  await client.connect();
+
+  try {
+    await client.sql`
+    UPDATE notifications
+    SET is_read = true
+    WHERE user_id = ${session.user.userId}
+    `;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to mark notification as read.');
+  } finally {
+    await client.end();
+  }
+}
+
+export async function getNotificationsCount() {
+  noStore();
+
+  const session = await getPageSession();
+  if (!session) return;
+
+  const client = createClient();
+  await client.connect();
+
+  try {
+    const data = await client.sql<{ count: number }>`
+    SELECT COUNT(*) as count
+    FROM notifications
+    WHERE user_id = ${session.user.userId}
+    AND is_read = false
+    `;
+    return data.rows[0].count;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch notifications count.');
+  } finally {
+    await client.end();
   }
 }
