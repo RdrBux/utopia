@@ -2,15 +2,12 @@
 
 import { updatePrivacy } from "@/app/lib/actions";
 import { UserData } from "@/app/lib/definitions";
+import FormSettingsButtons from "./form-settings-buttons";
 
 export default function PrivacyTab({ userData }: { userData: UserData }) {
-	function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-		e.preventDefault();
-		updatePrivacy(new FormData(e.currentTarget));
-	}
 
 	return (
-		<form onSubmit={handleSubmit} className="flex flex-col gap-6">
+		<form action={updatePrivacy} className="flex flex-col gap-6">
 			<h1 className="form-title">Privacidad</h1>
 
 			<div>
@@ -31,10 +28,7 @@ export default function PrivacyTab({ userData }: { userData: UserData }) {
 				</select>
 			</div>
 
-			<div className="flex gap-3 mt-6">
-				<button className="btn-primary">Guardar cambios</button>
-				<button className="btn-secondary">Cancelar</button>
-			</div>
+			<FormSettingsButtons id={userData.id} />
 		</form>
 	)
 }
