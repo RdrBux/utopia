@@ -31,7 +31,7 @@ export default async function Home({ params, searchParams }: { params: { id: str
 					<img className="rounded-full w-28 lg:w-40 aspect-square shrink-0" src={avatar} alt={name} />
 
 					<div className="">
-						<h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl">{name}</h1>
+						<h1 className="mb-4 text-4xl font-extrabold leading-none text-gray-900 md:text-5xl">{name}</h1>
 						<p className="text-gray-500">{bio}</p>
 					</div>
 				</div>

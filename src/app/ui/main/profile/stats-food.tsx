@@ -40,26 +40,26 @@ export default async function StatsFood({ paramsId, period }: { paramsId: string
 			{period === 'today' && <div className="text-center text-sm"><span className="inline-block py-1.5 px-3 mr-1.5 rounded-full border border-emerald-300 font-semibold">{(foodData.reduce((acc, curr) => acc + curr.kcals, 0)).toFixed(0)}</span> kilocalorías acumuladas diarias</div>}
 			<div className="flex items-center flex-col lg:flex-row gap-6">
 				<div className="flex flex-col items-center justify-center rounded-full p-6 border border-emerald-300 aspect-square">
-					<p className="text-5xl font-bold">{(sums.kcals / foodData.length).toFixed(0)}</p>
-					<p className="text-xs">kcal por comida</p>
+					<p className="text-5xl font-bold">{sums.kcals > 0 ? (sums.kcals / foodData.length).toFixed(0) : 0}</p>
+					<p className="text-xs text-center">kcal por comida</p>
 				</div>
 
 				<div className="flex items-center justify-evenly gap-3 w-full">
 					<div className="flex flex-col items-center">
-						<p>{percentage[0]}%</p>
-						<p className="text-xl font-bold">{(sums.proteins / foodData.length).toFixed(0)}g</p>
+						{!isNaN(percentage[0]) && <p>{percentage[0]}%</p>}
+						<p className="text-xl font-bold">{sums.proteins > 0 ? (sums.proteins / foodData.length).toFixed(0) : 0}g</p>
 						<p className="text-xs">proteínas</p>
 					</div>
 
 					<div className="flex flex-col items-center">
-						<p>{percentage[1]}%</p>
-						<p className="text-xl font-bold">{(sums.carbs / foodData.length).toFixed(0)}g</p>
+						{!isNaN(percentage[1]) && <p>{percentage[1]}%</p>}
+						<p className="text-xl font-bold">{sums.carbs > 0 ? (sums.carbs / foodData.length).toFixed(0) : 0}g</p>
 						<p className="text-xs">carbohidratos</p>
 					</div>
 
 					<div className="flex flex-col items-center">
-						<p>{percentage[2]}%</p>
-						<p className="text-xl font-bold">{(sums.fats / foodData.length).toFixed(0)}g</p>
+						{!isNaN(percentage[2]) && <p>{percentage[2]}%</p>}
+						<p className="text-xl font-bold">{sums.fats > 0 ? (sums.fats / foodData.length).toFixed(0) : 0}g</p>
 						<p className="text-xs">grasas</p>
 					</div>
 				</div>
