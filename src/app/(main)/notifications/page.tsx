@@ -2,6 +2,7 @@
 
 import { getNotifications } from "@/app/lib/data";
 import { NotificationWithUser } from "@/app/lib/definitions";
+import { Spinner } from "@/app/ui/loading";
 import { formatDistanceToNowStrict } from "date-fns";
 import { es } from "date-fns/locale/es";
 import Link from "next/link";
@@ -23,7 +24,9 @@ export default function Home() {
 		fetchNotifications()
 	}, [])
 
-	if (notifications === null) return;
+	if (notifications === null) return (
+		<div className="main-layout"><div className="bg-card lg:col-start-2 grid place-content-center h-40"><Spinner /></div></div>
+	);
 
 	if (notifications.length === 0) {
 		return (
