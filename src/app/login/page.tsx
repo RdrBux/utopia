@@ -11,11 +11,11 @@ export default async function Home() {
 	if (session) redirect("/");
 
 	return (
-		<div className="flex flex-col my-6 items-center justify-center gap-6">
+		<div className="flex flex-col my-6 px-4 items-center justify-center gap-6">
 			<Logo />
-			<div className="flex flex-col gap-6 bg-card">
+			<div className="flex flex-col gap-6 bg-card w-full max-w-md">
 				<h1 className="form-title">Iniciar Sesión</h1>
-				<div className="flex gap-3">
+				<div className="flex flex-col gap-3">
 					<ButtonGoogle />
 					<ButtonGuest />
 				</div>

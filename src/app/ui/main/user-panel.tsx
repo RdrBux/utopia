@@ -11,7 +11,7 @@ export default async function UserPanel({ paramsId }: { paramsId: string }) {
 	const avatar = img_url && img_url?.length > 0 ? img_url : '/avatar.svg'
 
 	return (
-		<aside className="flex flex-col gap-6 bg-card h-fit">
+		<aside className="hidden lg:flex flex-col gap-6 bg-card h-fit">
 			<Link href={`/profile/${userId}`} className="flex flex-col gap-6">
 				<img className="rounded-full self-center w-24 h-24" src={avatar} alt="profile picture" />
 				<div className="text-center -mt-3">

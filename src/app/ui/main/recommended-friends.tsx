@@ -6,7 +6,7 @@ export default async function RecommendedFriends() {
 	if (!recommendedFriends || recommendedFriends.length === 0) return;
 
 	return (
-		<aside className="bg-card h-fit pb-3">
+		<aside className="hidden lg:block bg-card h-fit pb-3">
 			<h5 className="text-xl font-bold leading-none">Agregar amigos</h5>
 			<ul className="mt-3 divide-y divide-gray-200">
 				{

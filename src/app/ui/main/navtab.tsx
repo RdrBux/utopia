@@ -8,7 +8,7 @@ export default function Navtab() {
 	if (pathname !== '/') return;
 
 	return (
-		<div className="absolute left-1/2 -translate-x-1/2 -bottom-[1px]">
+		<div className="hidden lg:block absolute left-1/2 -translate-x-1/2 -bottom-[1px]">
 			<div className="flex">
 				<button className="text-primary-600 flex items-center gap-2 px-6 py-4 font-medium border-b-2 border-primary-600">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">

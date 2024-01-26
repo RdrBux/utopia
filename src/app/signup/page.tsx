@@ -10,7 +10,7 @@ const Page = async () => {
 	if (session) redirect("/");
 
 	return (
-		<div className="my-6 flex flex-col gap-6 items-center">
+		<div className="my-6 px-4 flex flex-col gap-6 items-center">
 			<Logo />
 			<div className="flex flex-col gap-6 bg-card">
 				<h1 className="form-title">Crea una cuenta nueva</h1>
@@ -38,7 +38,7 @@ const Page = async () => {
 							<label className="label" htmlFor="repeat-password">Repetir contraseña</label>
 							<input className="input" name="repeat-password" id="repeat-password" type="password" placeholder="••••••••" required />
 						</div>
-						<div>
+						<div className="w-1/2">
 							<label className="label" htmlFor="date-of-birth">Fecha de nacimiento</label>
 							<input className="input" name="date-of-birth" id="date-of-birth" type="date" required />
 						</div>

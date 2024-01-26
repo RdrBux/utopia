@@ -28,7 +28,7 @@ export default async function Home({ params, searchParams }: { params: { id: str
 
 			<section className="bg-card">
 				<div className="flex gap-6 items-center">
-					<img className="rounded-full w-40 h-40 shrink-0" src={avatar} alt={name} />
+					<img className="rounded-full w-28 lg:w-40 aspect-square shrink-0" src={avatar} alt={name} />
 
 					<div className="">
 						<h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl">{name}</h1>
@@ -46,7 +46,7 @@ export default async function Home({ params, searchParams }: { params: { id: str
 
 			</section>
 
-			<div className="grid grid-cols-2 gap-6 mt-6">
+			<div className="grid lg:grid-cols-2 gap-6 mt-6">
 				<Statistics paramsId={params.id} period={searchParams.period} />
 
 				<section className="flex flex-col gap-6">

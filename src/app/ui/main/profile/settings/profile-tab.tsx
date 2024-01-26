@@ -26,7 +26,7 @@ export default function ProfileTab({ userData }: { userData: UserData }) {
 				<InputFile id="profile_img" label="Subir imagen" />
 			</div>
 
-			<TextareaBio text={String(bio)} />
+			<TextareaBio text={bio ?? ''} />
 
 			<div className="flex gap-3 mt-6">
 				<button className="btn-primary">Guardar cambios</button>

@@ -6,7 +6,7 @@ import UserPanel from "../ui/main/user-panel";
 
 export default function Home({ params }: { params: { id: string } }) {
 	return (
-		<div className="grid grid-cols-[1fr_2fr_1fr] gap-6 my-6">
+		<div className="grid lg:grid-cols-[1fr_2fr_1fr] gap-6 my-6">
 			<NewPostButton />
 
 			<UserPanel paramsId={params.id} />
