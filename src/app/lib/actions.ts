@@ -14,6 +14,7 @@ import {
 import { User } from 'lucia';
 import { auth } from '@/auth/lucia';
 import { z } from 'zod';
+import { put } from '@vercel/blob';
 
 const CreatePost = PostSchema.omit({
   id: true,
@@ -334,12 +335,17 @@ export async function updateProfile(formData: FormData) {
 
   const userId = session.user.userId;
 
+  const image = formData.get('profile_img') as File;
+  const blob = await put(`profile/${userId}/image`, image, {
+    access: 'public',
+  });
+  console.log({ image });
   const bio = String(formData.get('profile_bio'));
 
   try {
     await sql<User>`
       UPDATE auth_user
-      SET bio = ${bio}
+      SET bio = ${bio}, img_url = ${blob.url}
       WHERE id = ${userId}
     `;
   } catch (error) {
