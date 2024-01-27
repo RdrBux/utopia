@@ -12,7 +12,7 @@ export default async function Navbar() {
 
 	return (
 		<nav className="bg-white border-b sticky top-0 z-20">
-			<div className="flex justify-between items-center container mx-auto px-2">
+			<div className="flex justify-between items-center container mx-auto px-4">
 				<div className="py-3"><Logo /></div>
 
 				<Navtab />

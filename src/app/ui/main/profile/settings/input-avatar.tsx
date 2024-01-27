@@ -8,14 +8,14 @@ import FilePondPluginImageCrop from 'filepond-plugin-image-crop'
 import FilePondPluginImageResize from 'filepond-plugin-image-resize'
 import FilePondPluginImageTransform from 'filepond-plugin-image-transform'
 import FilePondPluginImageEdit from 'filepond-plugin-image-edit'
-import { useRef, useState } from 'react'
 
 import 'filepond/dist/filepond.min.css'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
+import { useState } from 'react'
 
 
-export default function InputAvatar() {
-	const input = useRef<HTMLInputElement>(null);
+export default function InputAvatar({ avatar }: { avatar: string }) {
+	const [showPreview, setShowPreview] = useState(true);
 
 	registerPlugin(
 		FilePondPluginFileValidateType,
@@ -24,21 +24,28 @@ export default function InputAvatar() {
 		FilePondPluginImageCrop,
 		FilePondPluginImageResize,
 		FilePondPluginImageTransform,
-		FilePondPluginImageEdit
+		FilePondPluginImageEdit,
 	);
 
 	return (
 		<div>
+			{showPreview && <img className="rounded-full w-40 aspect-square mx-auto mb-3" src={avatar} alt="profile picture" />}
+
 			<FilePond
 				name="profile_img"
+				allowImageEdit={true}
 				acceptedFileTypes={['image/*']}
 				labelIdle='Arrastrar y soltar imagen o <span class="filepond--label-action">Explorar</span>'
-				imagePreviewHeight={200}
 				imageCropAspectRatio='1:1'
-				imageResizeTargetHeight={200}
-				imageResizeTargetWidth={200}
-				imageTransformOutputQuality={0.5}
+				imagePreviewHeight={160}
+				imageResizeTargetHeight={160}
+				imageResizeTargetWidth={160}
+				imageTransformOutputMimeType={'image/jpeg'}
 				storeAsFile={true}
+				credits={false}
+				onaddfile={() => {
+					setShowPreview(false)
+				}}
 			/>
 		</div>
 	)

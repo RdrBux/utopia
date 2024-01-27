@@ -14,14 +14,7 @@ export const POST = async (request: NextRequest) => {
   const repeatPassword = formData.get('repeat-password');
 
   const dateOfBirth = formData.get('date-of-birth');
-  console.log({
-    email,
-    firstname,
-    lastname,
-    password,
-    repeatPassword,
-    dateOfBirth,
-  });
+
   // basic check
   if (
     typeof firstname !== 'string' ||

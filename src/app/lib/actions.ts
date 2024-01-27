@@ -338,8 +338,8 @@ export async function updateProfile(formData: FormData) {
   const image = formData.get('profile_img') as File;
   const blob = await put(`profile/${userId}/image`, image, {
     access: 'public',
+    addRandomSuffix: false,
   });
-  console.log({ image });
   const bio = String(formData.get('profile_bio'));
 
   try {
