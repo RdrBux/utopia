@@ -14,7 +14,7 @@ import {
 import { User } from 'lucia';
 import { auth } from '@/auth/lucia';
 import { z } from 'zod';
-import { put } from '@vercel/blob';
+import { del, put } from '@vercel/blob';
 
 const CreatePost = PostSchema.omit({
   id: true,
@@ -33,15 +33,11 @@ export async function postContent(prevState: any, formData: FormData) {
   }
 
   const image = formData.get('img_url') as File;
-  const blob = await put(`posts/${image.name}`, image, {
-    access: 'public',
-  });
 
   const validatedFields = CreatePost.safeParse({
     user_id: session.user.userId,
     title: formData.get('title'),
     content: formData.get('content'),
-    img_url: blob.url,
     post_type: formData.get('post_type'),
     post_privacy: formData.get('post_privacy'),
   });
@@ -53,7 +49,7 @@ export async function postContent(prevState: any, formData: FormData) {
     };
   }
 
-  const { user_id, title, content, img_url, post_type, post_privacy } =
+  const { user_id, title, content, post_type, post_privacy } =
     validatedFields.data;
 
   // Prepare post_data for insertion into the database
@@ -100,7 +96,17 @@ export async function postContent(prevState: any, formData: FormData) {
   }
 
   let result = null;
+
   try {
+    let blob;
+    if (image.size > 0) {
+      blob = await put(`posts/${image.name}`, image, {
+        access: 'public',
+      });
+    }
+
+    const img_url = blob && blob.url ? blob.url : null;
+
     result = await sql<Post>`
       INSERT INTO posts (user_id, title, content, img_url, post_data, post_type, post_privacy)
       VALUES (${user_id}, ${title}, ${content}, ${img_url}, ${post_data}, ${post_type}, ${post_privacy})
@@ -121,10 +127,15 @@ export async function deletePost(postId: string) {
   }
 
   try {
-    await sql`
+    const result = await sql`
       DELETE FROM posts
       WHERE id = ${postId} AND user_id = ${session.user.userId}
+      RETURNING img_url
     `;
+
+    if (result.rows[0].img_url) {
+      await del(result.rows[0].img_url);
+    }
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to delete post.');
