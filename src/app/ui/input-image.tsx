@@ -26,8 +26,8 @@ export default function InputImage({ id, label }: { id: string, label: string })
 
 	return (
 		<div>
-			<label className="block mb-2 text-sm font-medium cursor-pointer text-gray-900" htmlFor={id}>
-				{label}
+			<label className="mb-2 text-sm flex justify-between font-medium cursor-pointer text-gray-900" htmlFor={id}>
+				{label} <span className="text-gray-500">(máximo 4.5 MB)</span>
 			</label>
 			<FilePond
 				name="img_url"

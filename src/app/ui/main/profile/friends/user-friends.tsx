@@ -12,7 +12,7 @@ export default async function UserFriends({ userId }: { userId: string }) {
 
 	if (user.privacy_friends === 'me' && userId !== session.user.userId) return <div></div>
 
-	if (user.privacy_friends === 'friends') {
+	if (user.privacy_friends === 'friends' && userId !== session.user.userId) {
 		const friendshipStatus = await getFriendshipStatus(userId);
 		if (friendshipStatus?.status !== 'accepted') return <div></div>;
 	}

@@ -35,8 +35,8 @@ export default function UserPanelStatistics() {
 
 			</div>
 
-			<div className="grid grid-cols-2 gap-3">
-				<div className="border border-amber-300 bg-amber-50 text-amber-950 rounded-lg p-6 flex flex-col items-center gap-4">
+			<div className="grid gap-3">
+				<div className="border border-amber-300 bg-amber-50 text-amber-950 rounded-lg p-3 flex flex-col items-center gap-4">
 					<h3 className="text-xl font-bold leading-none">Actividad física</h3>
 					<div className="flex w-28 flex-col items-center gap-1 justify-center rounded-full p-4 border border-amber-300 aspect-square">
 						<div className="flex items-center gap-1"><p className="text-4xl font-bold">94</p><p className="font-bold">min</p></div>
@@ -46,8 +46,8 @@ export default function UserPanelStatistics() {
 
 				</div>
 
-				<div className="border border-indigo-300 bg-indigo-50 text-indigo-950 rounded-lg p-6 flex flex-col items-center gap-4">
-					<h3 className="text-xl font-bold leading-none">Descanso <span className="invisible">diario</span></h3>
+				<div className="border border-indigo-300 bg-indigo-50 text-indigo-950 rounded-lg p-3 flex flex-col items-center gap-4">
+					<h3 className="text-xl font-bold leading-none">Descanso</h3>
 					<div className="flex w-28 flex-col items-center gap-1 justify-center rounded-full p-6 border border-indigo-300 aspect-square">
 						<div className="flex items-center gap-1"><p className="text-4xl font-bold">8.2</p><p className="font-bold">h</p></div>
 						<p className="text-xs text-center">diarias</p>

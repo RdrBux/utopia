@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import '@/app/ui/globals.css'
+import '../app/ui/globals.css'
 /* import { robotoSlab } from './ui/fonts' */
 import { Roboto_Slab } from 'next/font/google'
 
