@@ -2,7 +2,7 @@
 
 import { Post } from "@/app/lib/definitions";
 import Input from "../../input";
-import InputFile from "../../input-file";
+import InputImage from "../../input-image";
 import { postContent } from "@/app/lib/actions";
 import FormPostButton from "./form-post-button";
 import { useFormState } from "react-dom";
@@ -52,7 +52,7 @@ export default function NewPostForm({ type }: { type: Post['post_type'] }) {
 					<textarea value={contentInput} onChange={handleContentChange} id="content" name="content" className="input" rows={4}></textarea>
 				</div>
 
-				<InputFile id="img_url" label="Agregar imagen" />
+				<InputImage id="img_url" label="Agregar imagen" />
 				<input type="hidden" id="post_type" name="post_type" value={type} />
 				<div>
 					<label htmlFor="post_privacy" className="block mb-2 text-sm font-medium text-gray-900">Visibilidad</label>
