@@ -2,7 +2,7 @@ import DropdownStatistics, { PeriodType } from "./dropdown-statistics";
 import StatsFood from "./stats-food";
 import StatsWorkout from "./stats-workout";
 
-export default function Statistics({ paramsId, period = 'today' }: { paramsId: string, period?: PeriodType }) {
+export default function Statistics({ paramsId, period = 'all' }: { paramsId: string, period?: PeriodType }) {
 	return (
 		<section className="bg-card h-fit flex flex-col gap-6">
 			<div className="flex items-center gap-2 justify-between">

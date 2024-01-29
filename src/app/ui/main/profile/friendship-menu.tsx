@@ -1,6 +1,6 @@
 import { getFriendshipStatus } from "@/app/lib/data"
 import Link from "next/link"
-import { AddButton, AddRejectedButton, CancelButton, DeleteButton, RespondButtons } from "./friendship-buttons"
+import { AddButton, AddRejectedButton, CancelButton, DeleteButton, RespondButtons } from "./friendship-forms"
 
 export default async function FriendshipMenu({ viewerId, profileId }: { viewerId: string, profileId: string }) {
 
