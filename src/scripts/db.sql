@@ -8,7 +8,6 @@ CREATE TABLE IF NOT EXISTS auth_user (
 	lastname TEXT NOT NULL,
 	img_url TEXT,
 	bio TEXT,
-	date_of_birth DATE,
 	privacy_statistics privacy NOT NULL DEFAULT 'all',
 	privacy_friends privacy NOT NULL DEFAULT 'all',
 	created_at TIMESTAMPTZ DEFAULT NOW()

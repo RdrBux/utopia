@@ -12,10 +12,21 @@ export const POST = async (request: NextRequest) => {
   const lastname = formData.get('lastname');
   const password = formData.get('password');
   const repeatPassword = formData.get('repeat-password');
-
-  const dateOfBirth = formData.get('date-of-birth');
+  const terms = formData.get('terms');
 
   // basic check
+  if (terms !== 'on') {
+    return NextResponse.json(
+      {
+        error: 'Debe aceptar los términos y condiciones',
+        type: 'terms',
+      },
+      {
+        status: 200,
+      }
+    );
+  }
+
   if (
     typeof firstname !== 'string' ||
     firstname.length < 1 ||
@@ -23,10 +34,11 @@ export const POST = async (request: NextRequest) => {
   ) {
     return NextResponse.json(
       {
-        error: 'Invalid firstname',
+        error: 'Nombre inválido',
+        type: 'firstname',
       },
       {
-        status: 400,
+        status: 200,
       }
     );
   }
@@ -37,10 +49,11 @@ export const POST = async (request: NextRequest) => {
   ) {
     return NextResponse.json(
       {
-        error: 'Invalid lastname',
+        error: 'Apellido inválido',
+        type: 'lastname',
       },
       {
-        status: 400,
+        status: 200,
       }
     );
   }
@@ -51,7 +64,8 @@ export const POST = async (request: NextRequest) => {
   ) {
     return NextResponse.json(
       {
-        error: 'Invalid password',
+        error: 'Contraseña debe tener entre 6 y 255 caracteres',
+        type: 'password',
       },
       {
         status: 400,
@@ -61,30 +75,22 @@ export const POST = async (request: NextRequest) => {
   if (password !== repeatPassword) {
     return NextResponse.json(
       {
-        error: 'Passwords do not match',
+        error: 'Las contraseñas no coinciden',
+        type: 'repeat-password',
       },
       {
-        status: 400,
+        status: 200,
       }
     );
   }
   if (typeof email !== 'string' || validateEmail(email) === false) {
     return NextResponse.json(
       {
-        error: 'Invalid email',
+        error: 'Formato de correo inválido',
+        type: 'email',
       },
       {
-        status: 400,
-      }
-    );
-  }
-  if (typeof dateOfBirth !== 'string' || dateOfBirth.length < 1) {
-    return NextResponse.json(
-      {
-        error: 'Invalid date of birth',
-      },
-      {
-        status: 400,
+        status: 200,
       }
     );
   }
@@ -99,7 +105,8 @@ export const POST = async (request: NextRequest) => {
         email,
         firstname,
         lastname,
-        date_of_birth: dateOfBirth,
+        privacy_statistics: 'all',
+        privacy_friends: 'all',
       },
     });
     const session = await auth.createSession({
@@ -114,22 +121,18 @@ export const POST = async (request: NextRequest) => {
         Location: '/', // redirect to profile page
       },
     });
-  } catch (e) {
-    // this part depends on the database you're using
-    // check for unique constraint error in user table
-    /* if (
-			e instanceof SomeDatabaseError &&
-			e.message === USER_TABLE_UNIQUE_CONSTRAINT_ERROR
-		) {
-			return NextResponse.json(
-				{
-					error: "Username already taken"
-				},
-				{
-					status: 400
-				}
-			);
-		} */
+  } catch (e: any) {
+    if (e.code === '23505') {
+      return NextResponse.json(
+        {
+          error: 'Ya existe una cuenta con ese correo',
+          type: 'email',
+        },
+        {
+          status: 200,
+        }
+      );
+    }
 
     return NextResponse.json(
       {

@@ -26,7 +26,6 @@ export const auth = lucia({
       bio: data.bio,
       privacy_statistics: data.privacy_statistics,
       privacy_friends: data.privacy_friends,
-      date_of_birth: data.date_of_birth,
     };
   },
 });

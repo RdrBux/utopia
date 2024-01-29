@@ -14,7 +14,7 @@ export default function ProfileTab({ userData }: { userData: UserData }) {
 		<form action={updateProfile} className="flex flex-col gap-6">
 			<h1 className="form-title">Perfil</h1>
 			<div className="flex gap-3 flex-col">
-				<p className="label flex justify-between">Foto de perfil <span className="text-gray-500">(máximo 4.5 MB)</span></p>
+				<p className="label flex justify-between">Foto de perfil <span className="text-gray-500 font-normal">(máximo 4.5 MB)</span></p>
 				<InputAvatar avatar={avatar} />
 			</div>
 
