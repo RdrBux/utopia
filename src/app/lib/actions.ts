@@ -343,6 +343,8 @@ export async function removeFriend(targetId: string) {
   revalidatePath(`/profile/${targetId}`);
 }
 
+const bioSchema = z.string().max(40);
+
 export async function updateProfile(formData: FormData) {
   const session = await getPageSession();
   if (!session) {
@@ -352,16 +354,28 @@ export async function updateProfile(formData: FormData) {
   const userId = session.user.userId;
 
   const image = formData.get('profile_img') as File;
-  const blob = await put(`profile/${userId}/image`, image, {
-    access: 'public',
-    addRandomSuffix: false,
-  });
   const bio = String(formData.get('profile_bio'));
 
+  if (!bioSchema.safeParse(bio).success) {
+    throw new Error('Invalid bio');
+  }
+
   try {
+    let blob;
+    if (image.size > 0) {
+      blob = await put(`profile/${userId}/image`, image, {
+        access: 'public',
+        addRandomSuffix: false,
+      });
+    }
+
+    const img_url = blob && blob.url ? blob.url : null;
+
+    // Update bio and img_url only if there is a new image
     await sql<User>`
-      UPDATE auth_user
-      SET bio = ${bio}, img_url = ${blob.url}
+      UPDATE auth_user SET
+      bio = ${bio},
+      img_url = COALESCE(${img_url}, img_url)
       WHERE id = ${userId}
     `;
   } catch (error) {
