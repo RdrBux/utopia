@@ -3,7 +3,7 @@
 import { usePathname, useSearchParams, useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 
-export type PeriodType = 'today' | 'week' | 'month';
+export type PeriodType = 'today' | 'week' | 'month' | 'all';
 
 export default function DropdownStatistics() {
 	const pathname = usePathname();
@@ -41,6 +41,7 @@ export default function DropdownStatistics() {
 		today: 'Hoy',
 		week: '7 días',
 		month: '30 días',
+		all: 'Mostrar todo'
 	}
 
 	return (
@@ -52,24 +53,29 @@ export default function DropdownStatistics() {
 				</svg>
 			</button>
 
-			<div ref={menu} className={`${showMenu ? 'block' : 'hidden'} z-10 absolute right-0 top-10 bg-white divide-y divide-gray-100 rounded-lg border shadow w-28`}>
+			<div ref={menu} className={`${showMenu ? 'block' : 'hidden'} z-10 absolute right-0 top-10 bg-white divide-y divide-gray-100 rounded-lg border shadow w-32`}>
 				<div className="px-4 py-3 text-sm text-gray-900">
 					<div className="font-medium">Periodo</div>
 				</div>
 				<ul className="py-2 text-sm text-gray-700" aria-labelledby="dropdownMenuIconButton">
 					<li>
 						<button onClick={() => handleClick('today')} className={`${period === 'today' ? 'font-semibold' : ''} w-full px-4 py-2 hover:bg-gray-100 flex gap-3 items-center`}>
-							Hoy
+							{value.today}
 						</button>
 					</li>
 					<li>
 						<button onClick={() => handleClick('week')} className={`${period === 'week' ? 'font-semibold' : ''} w-full px-4 py-2 hover:bg-gray-100 flex gap-3 items-center`}>
-							7 días
+							{value.week}
 						</button>
 					</li>
 					<li>
 						<button onClick={() => handleClick('month')} className={`${period === 'month' ? 'font-semibold' : ''} w-full px-4 py-2 hover:bg-gray-100 flex gap-3 items-center`}>
-							30 días
+							{value.month}
+						</button>
+					</li>
+					<li>
+						<button onClick={() => handleClick('all')} className={`${period === 'all' ? 'font-semibold' : ''} w-full px-4 py-2 hover:bg-gray-100 flex gap-3 items-center`}>
+							{value.all}
 						</button>
 					</li>
 				</ul>

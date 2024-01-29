@@ -359,7 +359,14 @@ export async function getFriendshipStatus(friendId: string) {
 export async function getUserFoods(id: string, period: PeriodType) {
   noStore();
 
-  const interval = period === 'today' ? '0' : period === 'week' ? '6' : '29';
+  const interval =
+    period === 'today'
+      ? '0'
+      : period === 'week'
+      ? '6'
+      : period === 'month'
+      ? '29'
+      : '10000';
 
   const client = createClient();
   await client.connect();
@@ -384,7 +391,14 @@ export async function getUserFoods(id: string, period: PeriodType) {
 export async function getUserWorkouts(id: string, period: PeriodType) {
   noStore();
 
-  const interval = period === 'today' ? '0' : period === 'week' ? '6' : '29';
+  const interval =
+    period === 'today'
+      ? '0'
+      : period === 'week'
+      ? '6'
+      : period === 'month'
+      ? '29'
+      : '10000';
 
   const client = createClient();
   await client.connect();
