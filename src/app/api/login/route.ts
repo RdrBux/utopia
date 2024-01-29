@@ -14,24 +14,26 @@ export const POST = async (request: NextRequest) => {
   if (typeof email !== 'string' || validateEmail(email) === false) {
     return NextResponse.json(
       {
-        error: 'Invalid email',
+        error: 'Formato de correo inválido',
+        type: 'email',
       },
       {
-        status: 400,
+        status: 200,
       }
     );
   }
   if (
     typeof password !== 'string' ||
-    password.length < 1 ||
+    password.length < 6 ||
     password.length > 255
   ) {
     return NextResponse.json(
       {
-        error: 'Invalid password',
+        error: 'Contraseña debe tener entre 6 y 255 caracteres',
+        type: 'password',
       },
       {
-        status: 400,
+        status: 200,
       }
     );
   }
@@ -52,24 +54,35 @@ export const POST = async (request: NextRequest) => {
       },
     });
   } catch (e) {
-    if (
-      e instanceof LuciaError &&
-      (e.message === 'AUTH_INVALID_KEY_ID' ||
-        e.message === 'AUTH_INVALID_PASSWORD')
-    ) {
+    if (e instanceof LuciaError && e.message === 'AUTH_INVALID_KEY_ID') {
       // user does not exist or invalid password
       return NextResponse.json(
         {
-          error: 'Incorrect username or password',
+          error: 'Correo electrónico incorrecto',
+          type: 'email',
         },
         {
-          status: 400,
+          status: 200,
         }
       );
     }
+
+    if (e instanceof LuciaError && e.message === 'AUTH_INVALID_PASSWORD') {
+      // user does not exist
+      return NextResponse.json(
+        {
+          error: 'Contraseña incorrecta',
+          type: 'password',
+        },
+        {
+          status: 200,
+        }
+      );
+    }
+
     return NextResponse.json(
       {
-        error: 'An unknown error occurred',
+        error: 'Ha habido un problema. Intente nuevamente',
       },
       {
         status: 500,
