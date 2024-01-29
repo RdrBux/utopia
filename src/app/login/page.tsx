@@ -12,7 +12,9 @@ export default async function Home() {
 	return (
 		<div className="container mx-auto px-4 my-6">
 			<div className="grid lg:grid-cols-2 bg-card lg:rounded-3xl lg:p-3">
-				<div className="hidden lg:block bg-primary-600 w-full h-full rounded-2xl"></div>
+				<div className="hidden lg:block bg-primary-600 h-full w-full relative rounded-2xl overflow-hidden">
+					<img className="absolute inset-0 h-full w-full object-cover" src="https://hips.hearstapps.com/hmg-prod/images/female-runner-running-at-summer-park-trail-healthy-royalty-free-image-1591373138.jpg?crop=0.627xw:0.985xh;0.163xw,0.0151xh&resize=1200:*" alt="" />
+				</div>
 
 				<div className="flex flex-col gap-6 lg:px-28 lg:py-6 w-full">
 					<div className="self-center justify-start mb-6"><Logo /></div>
