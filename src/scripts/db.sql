@@ -204,3 +204,20 @@ CREATE TRIGGER friend_new_content_trigger
 AFTER INSERT ON posts
 FOR EACH ROW
 EXECUTE FUNCTION notify_friend_new_content();
+
+-- Trigger function for cancelling friend request
+CREATE OR REPLACE FUNCTION cancel_friend_request_trigger()
+RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM notifications
+    WHERE user_id = OLD.target_id AND sender_id = OLD.source_id AND notification_type = 'friend_request';
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger for cancelling friend request
+CREATE TRIGGER cancel_friend_request_trigger
+AFTER DELETE ON friends
+FOR EACH ROW
+WHEN (OLD.status = 'pending')  -- Adjust the condition based on your requirements
+EXECUTE FUNCTION cancel_friend_request_trigger();
