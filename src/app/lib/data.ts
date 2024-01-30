@@ -14,8 +14,10 @@ import {
 import { getPageSession } from './utils';
 import { PeriodType } from '../ui/main/profile/dropdown-statistics';
 
-export async function getUserData() {
+/* export async function getUserData() {
   noStore();
+
+  console.log('getUserData');
 
   const client = createClient();
   await client.connect();
@@ -35,7 +37,7 @@ export async function getUserData() {
   } finally {
     await client.end();
   }
-}
+} */
 
 export async function getUserById(id: string) {
   noStore();

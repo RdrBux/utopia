@@ -1,9 +1,12 @@
-import { getUserData } from "@/app/lib/data";
+import { getPageSession } from "@/app/lib/utils";
 import Link from "next/link";
 
 export default async function NewPostSection() {
-	const userData = await getUserData();
-	if (!userData) return;
+	const session = await getPageSession();
+	if (!session) return;
+
+	const userData = session.user
+
 	const avatar = userData.img_url && userData.img_url.length > 0 ? userData?.img_url : '/avatar.svg';
 	const name = `${userData.firstname} ${userData.lastname}`
 

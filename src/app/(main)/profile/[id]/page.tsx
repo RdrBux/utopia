@@ -8,8 +8,9 @@ import FriendshipMenu from "@/app/ui/main/profile/friendship-menu";
 import ProfilePosts from "@/app/ui/main/profile/profile-posts";
 import Statistics from "@/app/ui/main/profile/statistics";
 import UserNotFound from "@/app/ui/main/profile/user-not-found";
-import Link from "next/link";
+import { SkeletonButton, SkeletonPosts } from "@/app/ui/skeletons";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function Home({ params, searchParams }: { params: { id: string }, searchParams: { period?: PeriodType } }) {
 	const session = await getPageSession();
@@ -37,10 +38,10 @@ export default async function Home({ params, searchParams }: { params: { id: str
 				</div>
 
 				<div className="mt-12 flex gap-6 items-end">
-					<FriendsList id={params.id} userPrivacyFriends={userData.privacy_friends} />
+					<Suspense fallback={null}><FriendsList id={params.id} userPrivacyFriends={userData.privacy_friends} /></Suspense>
 
 					<div className="shrink-0 ml-auto">
-						<FriendshipMenu viewerId={session.user.userId} profileId={params.id} />
+						<Suspense fallback={<SkeletonButton />}><FriendshipMenu viewerId={session.user.userId} profileId={params.id} /></Suspense>
 					</div>
 				</div>
 
@@ -51,7 +52,9 @@ export default async function Home({ params, searchParams }: { params: { id: str
 
 				<section className="flex flex-col gap-6">
 					{session.user.userId === params.id && <NewPostSection />}
-					<ProfilePosts userId={params.id} />
+					<Suspense fallback={<SkeletonPosts />}>
+						<ProfilePosts userId={params.id} />
+					</Suspense>
 				</section>
 			</div>
 		</div>

@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import { getPageSession } from "@/app/lib/utils";
 import Link from "next/link";
-import UserPanelStatistics from "./user-panel-statistics";
 
 export default async function UserPanel() {
 	const session = await getPageSession();
@@ -19,8 +18,6 @@ export default async function UserPanel() {
 					<div className="text-sm text-gray-500">{bio}</div>
 				</div>
 			</Link>
-
-			{/* <UserPanelStatistics /> */}
 		</aside>
 	)
 }

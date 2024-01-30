@@ -6,6 +6,8 @@ import PostLikes from "../posts/post-likes";
 import PostCountComments from "../posts/post-count-comments";
 import LikeButtonServer from "../posts/like-button-server";
 import { CommentButtonServer } from "../posts/comment-button-server";
+import { Suspense } from "react";
+import { SkeletonLikeButton } from "../skeletons";
 
 export default function Post({ post }: { post: PostWithUser }) {
 	const { user_id, firstname, lastname, user_img_url, id, title, content, img_url, post_type, post_data, created_at } = post;
@@ -19,7 +21,7 @@ export default function Post({ post }: { post: PostWithUser }) {
 				<img className="h-10 w-10 shrink-0 rounded-full" src={avatar} alt={name} />
 				<div>
 					<p className="font-bold group-hover:underline">{name}</p>
-					<p className="text-gray-500 text-sm">{formatDateDistance(created_at)}</p>
+					<p className="text-gray-500 text-sm">{formatDateDistance(String(created_at))}</p>
 				</div>
 			</Link>
 
@@ -52,14 +54,18 @@ export default function Post({ post }: { post: PostWithUser }) {
 				</div>
 
 			</Link>
-			<div className="flex items-center justify-between px-6 pb-1">
+			<Suspense fallback={<div className="h-6 pb-1"></div>}>
+				<div className="flex items-center justify-between px-6 pb-1 h-6">
 
-				<PostLikes postId={id} />
-				<PostCountComments postId={id} />
+					<PostLikes postId={id} />
+					<PostCountComments postId={id} />
 
-			</div>
+				</div>
+			</Suspense>
 			<div className="grid grid-cols-2 border-y divide-x text-gray-600">
-				<LikeButtonServer postId={id} />
+				<Suspense fallback={<SkeletonLikeButton />}>
+					<LikeButtonServer postId={id} />
+				</Suspense>
 				<CommentButtonServer postId={id} />
 			</div>
 		</div>
