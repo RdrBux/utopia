@@ -4,16 +4,16 @@ import NewPostSection from "../ui/main/new-post-section";
 import RecommendedFriends from "../ui/main/recommended-friends";
 import UserPanel from "../ui/main/user-panel";
 
-export default function Home({ params }: { params: { id: string } }) {
+export default function Home({ searchParams }: { searchParams: { posts?: string } }) {
 	return (
 		<div className="grid lg:grid-cols-[1fr_2fr_1fr] gap-6 my-6">
 			<NewPostButton />
 
-			<UserPanel paramsId={params.id} />
+			<UserPanel />
 
 			<main className="flex flex-col gap-6">
 				<NewPostSection />
-				<HomePosts />
+				<HomePosts filterPosts={searchParams.posts} />
 			</main>
 
 			<RecommendedFriends />

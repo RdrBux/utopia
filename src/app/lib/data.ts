@@ -81,11 +81,11 @@ export async function getUsersByQuery(query: string, ignoreId: string) {
 export async function getPosts() {
   noStore();
 
-  const client = createClient();
-  await client.connect();
-
   const session = await getPageSession();
   if (!session) return;
+
+  const client = createClient();
+  await client.connect();
 
   try {
     const data = await client.sql<PostWithUser>`
@@ -93,6 +93,32 @@ export async function getPosts() {
       FROM auth_user us JOIN posts po ON us.id = po.user_id
       WHERE po.post_privacy = 'all'
       OR (po.post_privacy = 'friends' AND po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${session.user.userId} AND status = 'accepted' UNION SELECT source_id FROM friends WHERE target_id = ${session.user.userId} AND status = 'accepted'))
+      ORDER BY created_at DESC
+      `;
+    return data.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch post data.');
+  } finally {
+    await client.end();
+  }
+}
+
+export async function getFriendsPosts() {
+  noStore();
+
+  const session = await getPageSession();
+  if (!session) return;
+
+  const client = createClient();
+  await client.connect();
+
+  try {
+    const data = await client.sql<PostWithUser>`
+      SELECT us.id user_id, us.firstname, us.lastname, us.img_url user_img_url, po.id, po.title, po.content, po.img_url, po.post_type, po.post_data, po.created_at
+      FROM auth_user us JOIN posts po ON us.id = po.user_id
+      WHERE (po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${session.user.userId} AND status = 'accepted' UNION SELECT source_id FROM friends WHERE target_id = ${session.user.userId} AND status = 'accepted'))
+      AND (po.post_privacy = 'friends' OR po.post_privacy = 'all')
       ORDER BY created_at DESC
       `;
     return data.rows;
