@@ -1,14 +1,30 @@
+import { deleteComment } from "@/app/lib/actions";
 import { CommentPost } from "@/app/lib/definitions";
-import { formatDateDistance } from "@/app/lib/utils";
+import { formatDateDistance, getPageSession } from "@/app/lib/utils";
 import Link from "next/link";
+import DeleteCommentButton from "./delete-comment-button";
 
-export default function PostComment({ comment }: { comment: CommentPost }) {
-	const { user_id, firstname, lastname, img_url, id, content, created_at } = comment;
+export default async function PostComment({ comment }: { comment: CommentPost }) {
+	const session = await getPageSession();
+	if (!session) return;
+
+	const { user_id, firstname, lastname, post_id, img_url, id, content, created_at } = comment;
 	const name = `${firstname} ${lastname}`
 	const avatar = img_url && img_url?.length > 0 ? img_url : '/avatar.svg'
 
+	async function handleDelete() {
+		'use server'
+		await deleteComment(id, post_id)
+	}
+
 	return (
-		<div className="py-6">
+		<div className="py-6 relative">
+			{session.user.userId === user_id && (
+				<form action={handleDelete}>
+					<DeleteCommentButton />
+				</form>
+			)
+			}
 			<Link href={`/profile/${user_id}`} className="flex gap-3 items-center w-fit group">
 				<img className="h-10 w-10 shrink-0 rounded-full" src={avatar} alt={name} />
 				<div>

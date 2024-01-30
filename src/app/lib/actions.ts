@@ -197,6 +197,25 @@ export async function commentPost(postId: string, content: string) {
   revalidatePath(`/posts/${postId}`);
 }
 
+export async function deleteComment(commentId: string, postId: string) {
+  const session = await getPageSession();
+  if (!session) {
+    throw new Error('Not authenticated');
+  }
+
+  try {
+    await sql`
+      DELETE FROM post_comments
+      WHERE id = ${commentId} AND user_id = ${session.user.userId}
+    `;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to delete post comment.');
+  }
+
+  revalidatePath(`/posts/${postId}`);
+}
+
 export async function likePost(postId: string) {
   const session = await getPageSession();
   if (!session) {
