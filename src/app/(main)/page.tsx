@@ -1,4 +1,5 @@
 import HomePosts from "../ui/main/home-posts";
+import HomePostsFilter from "../ui/main/home-posts-filter";
 import NewPostButton from "../ui/main/new-post-button";
 import NewPostSection from "../ui/main/new-post-section";
 import RecommendedFriends from "../ui/main/recommended-friends";
@@ -13,6 +14,7 @@ export default function Home({ searchParams }: { searchParams: { posts?: string 
 
 			<main className="flex flex-col gap-6">
 				<NewPostSection />
+				<div className="lg:hidden"><HomePostsFilter /></div>
 				<HomePosts filterPosts={searchParams.posts} />
 			</main>
 

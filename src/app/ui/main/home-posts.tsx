@@ -2,6 +2,7 @@ import { getFriendsPosts, getPosts, getUserPosts } from "@/app/lib/data"
 import Post from "./post";
 import { PostWithUser } from "@/app/lib/definitions";
 import { getPageSession } from "@/app/lib/utils";
+import HomePostsFilter from "./home-posts-filter";
 
 export default async function HomePosts({ filterPosts }: { filterPosts?: string }) {
 	let posts: PostWithUser[] = []
@@ -26,3 +27,4 @@ export default async function HomePosts({ filterPosts }: { filterPosts?: string 
 		</section>
 	)
 }
+
