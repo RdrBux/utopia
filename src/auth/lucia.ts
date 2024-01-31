@@ -3,6 +3,7 @@ import { webcrypto } from 'node:crypto';
 import { Lucia } from 'lucia';
 import pg from 'pg';
 import { db } from '@vercel/postgres';
+import { Google } from 'arctic';
 
 const adapter = new NodePostgresAdapter(db, {
   user: 'auth_user',
@@ -33,6 +34,12 @@ export const lucia = new Lucia(adapter, {
     };
   },
 });
+
+export const google = new Google(
+  process.env.GOOGLE_CLIENT_ID!,
+  process.env.GOOGLE_CLIENT_SECRET!,
+  'http://localhost:3000/login/google/callback'
+);
 
 /* export const googleAuth = google(auth, {
   clientId: process.env.GOOGLE_CLIENT_ID ?? '',
