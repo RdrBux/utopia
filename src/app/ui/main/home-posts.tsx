@@ -1,8 +1,7 @@
 import { getFriendsPosts, getPosts, getUserPosts } from "@/app/lib/data"
 import Post from "./post";
 import { PostWithUser } from "@/app/lib/definitions";
-import { getPageSession } from "@/app/lib/utils";
-import HomePostsFilter from "./home-posts-filter";
+import { getUser } from "@/app/lib/utils";
 
 export default async function HomePosts({ filterPosts }: { filterPosts?: string }) {
 	let posts: PostWithUser[] = []
@@ -10,9 +9,9 @@ export default async function HomePosts({ filterPosts }: { filterPosts?: string 
 	if (filterPosts === 'friends') {
 		posts = await getFriendsPosts() ?? [];
 	} else if (filterPosts === 'me') {
-		const session = await getPageSession();
-		if (!session) return;
-		posts = await getUserPosts(session.user.userId) ?? [];
+		const user = await getUser();
+		if (!user) return;
+		posts = await getUserPosts(user.id) ?? [];
 	} else {
 		posts = await getPosts() ?? [];
 	}

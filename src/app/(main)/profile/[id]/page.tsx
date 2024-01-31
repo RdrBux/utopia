@@ -1,5 +1,5 @@
 import { getUserById } from "@/app/lib/data";
-import { getPageSession } from "@/app/lib/utils";
+import { getUser } from "@/app/lib/utils";
 import NewPostButton from "@/app/ui/main/new-post-button";
 import NewPostSection from "@/app/ui/main/new-post-section";
 import { PeriodType } from "@/app/ui/main/profile/dropdown-statistics";
@@ -13,8 +13,8 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export default async function Home({ params, searchParams }: { params: { id: string }, searchParams: { period?: PeriodType } }) {
-	const session = await getPageSession();
-	if (!session) redirect('/login')
+	const user = await getUser();
+	if (!user) redirect('/login')
 
 	const userData = await getUserById(params.id);
 	if (!userData) return <UserNotFound />
@@ -41,7 +41,7 @@ export default async function Home({ params, searchParams }: { params: { id: str
 					<Suspense fallback={null}><FriendsList id={params.id} userPrivacyFriends={userData.privacy_friends} /></Suspense>
 
 					<div className="shrink-0 ml-auto">
-						<Suspense fallback={<SkeletonButton />}><FriendshipMenu viewerId={session.user.userId} profileId={params.id} /></Suspense>
+						<Suspense fallback={<SkeletonButton />}><FriendshipMenu viewerId={user.id} profileId={params.id} /></Suspense>
 					</div>
 				</div>
 
@@ -51,7 +51,7 @@ export default async function Home({ params, searchParams }: { params: { id: str
 				<Statistics paramsId={params.id} period={searchParams.period} />
 
 				<section className="flex flex-col gap-6">
-					{session.user.userId === params.id && <NewPostSection />}
+					{user.id === params.id && <NewPostSection />}
 					<Suspense fallback={<SkeletonPosts />}>
 						<ProfilePosts userId={params.id} />
 					</Suspense>

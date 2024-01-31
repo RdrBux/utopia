@@ -1,12 +1,12 @@
 import { getPostComments, getUserById } from "@/app/lib/data"
 import PostComment from "./post-comment";
 import PostCreateComment from "./post-create-comment";
-import { getPageSession } from "@/app/lib/utils";
+import { getUser } from "@/app/lib/utils";
 
 export default async function PostComments({ postId }: { postId: string }) {
-	const session = await getPageSession();
-	if (!session) return;
-	const userData = await getUserById(session.user.userId);
+	const user = await getUser();
+	if (!user) return;
+	const userData = await getUserById(user.id);
 
 	const comments = await getPostComments(postId);
 

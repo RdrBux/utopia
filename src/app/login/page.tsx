@@ -2,12 +2,12 @@ import Logo from "../ui/logo";
 import { redirect } from "next/navigation";
 import { ButtonGoogle, ButtonGuest } from "../ui/buttons";
 import Link from "next/link";
-import { getPageSession } from "../lib/utils";
+import { getUser } from "../lib/utils";
 import LoginForm from "../ui/login/login-form";
 
 export default async function Home() {
-	const session = await getPageSession();
-	if (session) redirect("/");
+	const user = await getUser();
+	if (user) redirect("/");
 
 	return (
 		<div className="container mx-auto px-4 my-6">

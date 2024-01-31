@@ -1,7 +1,7 @@
 'use server';
 
 import { sql } from '@vercel/postgres';
-import { getPageSession } from './utils';
+import { getUser } from './utils';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import {
@@ -12,7 +12,6 @@ import {
   foodDataSchema,
 } from './definitions';
 import { User } from 'lucia';
-import { auth } from '@/auth/lucia';
 import { z } from 'zod';
 import { del, put } from '@vercel/blob';
 
@@ -27,15 +26,15 @@ const workoutDataSchema = z.object({
 });
 
 export async function postContent(prevState: any, formData: FormData) {
-  const session = await getPageSession();
-  if (!session) {
+  const user = await getUser();
+  if (!user) {
     throw new Error('Not authenticated');
   }
 
   const image = formData.get('img_url') as File;
 
   const validatedFields = CreatePost.safeParse({
-    user_id: session.user.userId,
+    user_id: user.id,
     title: formData.get('title'),
     content: formData.get('content'),
     post_type: formData.get('post_type'),
@@ -121,15 +120,15 @@ export async function postContent(prevState: any, formData: FormData) {
 }
 
 export async function deletePost(postId: string) {
-  const session = await getPageSession();
-  if (!session) {
+  const user = await getUser();
+  if (!user) {
     throw new Error('Not authenticated');
   }
 
   try {
     const result = await sql`
       DELETE FROM posts
-      WHERE id = ${postId} AND user_id = ${session.user.userId}
+      WHERE id = ${postId} AND user_id = ${user.id}
       RETURNING img_url
     `;
 
@@ -148,8 +147,8 @@ export async function changePostPrivacy(
   postId: string,
   value: Post['post_privacy']
 ) {
-  const session = await getPageSession();
-  if (!session) {
+  const user = await getUser();
+  if (!user) {
     throw new Error('Not authenticated');
   }
 
@@ -157,7 +156,7 @@ export async function changePostPrivacy(
     await sql`
       UPDATE posts
       SET post_privacy = ${value}
-      WHERE id = ${postId} AND user_id = ${session.user.userId}
+      WHERE id = ${postId} AND user_id = ${user.id}
     `;
   } catch (error) {
     console.error('Database Error:', error);
@@ -169,11 +168,11 @@ export async function changePostPrivacy(
 const commentSchema = z.string().max(2000).min(1);
 
 export async function commentPost(postId: string, content: string) {
-  const session = await getPageSession();
-  if (!session) {
+  const user = await getUser();
+  if (!user) {
     throw new Error('Not authenticated');
   }
-  const userId = session.user.userId;
+  const userId = user.id;
 
   const validatedComment = commentSchema.safeParse(content);
 
@@ -198,15 +197,15 @@ export async function commentPost(postId: string, content: string) {
 }
 
 export async function deleteComment(commentId: string, postId: string) {
-  const session = await getPageSession();
-  if (!session) {
+  const user = await getUser();
+  if (!user) {
     throw new Error('Not authenticated');
   }
 
   try {
     await sql`
       DELETE FROM post_comments
-      WHERE id = ${commentId} AND user_id = ${session.user.userId}
+      WHERE id = ${commentId} AND user_id = ${user.id}
     `;
   } catch (error) {
     console.error('Database Error:', error);
@@ -217,12 +216,11 @@ export async function deleteComment(commentId: string, postId: string) {
 }
 
 export async function likePost(postId: string) {
-  const session = await getPageSession();
-  if (!session) {
+  const user = await getUser();
+  if (!user) {
     throw new Error('Not authenticated');
   }
-  const userId = session.user.userId;
-
+  const userId = user.id;
   try {
     await sql`
       INSERT INTO post_likes (post_id, user_id)
@@ -236,12 +234,12 @@ export async function likePost(postId: string) {
 }
 
 export async function removeLikePost(postId: string) {
-  const session = await getPageSession();
-  if (!session) {
+  const user = await getUser();
+  if (!user) {
     throw new Error('Not authenticated');
   }
 
-  const userId = session.user.userId;
+  const userId = user.id;
   try {
     await sql`
       DELETE FROM post_likes
@@ -256,12 +254,12 @@ export async function removeLikePost(postId: string) {
 }
 
 export async function sendFriendRequest(targetId: string) {
-  const session = await getPageSession();
-  if (!session) {
+  const user = await getUser();
+  if (!user) {
     throw new Error('Not authenticated');
   }
 
-  const userId = session.user.userId;
+  const userId = user.id;
 
   try {
     await sql<Friend>`
@@ -276,12 +274,12 @@ export async function sendFriendRequest(targetId: string) {
 }
 
 export async function acceptFriendRequest(sourceId: string) {
-  const session = await getPageSession();
-  if (!session) {
+  const user = await getUser();
+  if (!user) {
     throw new Error('Not authenticated');
   }
 
-  const userId = session.user.userId;
+  const userId = user.id;
 
   try {
     await sql<Friend>`
@@ -298,12 +296,12 @@ export async function acceptFriendRequest(sourceId: string) {
 }
 
 export async function rejectFriendRequest(sourceId: string) {
-  const session = await getPageSession();
-  if (!session) {
+  const user = await getUser();
+  if (!user) {
     throw new Error('Not authenticated');
   }
 
-  const userId = session.user.userId;
+  const userId = user.id;
 
   try {
     await sql<Friend>`
@@ -320,12 +318,12 @@ export async function rejectFriendRequest(sourceId: string) {
 }
 
 export async function cancelFriendRequest(targetId: string) {
-  const session = await getPageSession();
-  if (!session) {
+  const user = await getUser();
+  if (!user) {
     throw new Error('Not authenticated');
   }
 
-  const userId = session.user.userId;
+  const userId = user.id;
 
   try {
     await sql<Friend>`
@@ -341,12 +339,12 @@ export async function cancelFriendRequest(targetId: string) {
 }
 
 export async function removeFriend(targetId: string) {
-  const session = await getPageSession();
-  if (!session) {
+  const user = await getUser();
+  if (!user) {
     throw new Error('Not authenticated');
   }
 
-  const userId = session.user.userId;
+  const userId = user.id;
 
   try {
     await sql<Friend>`
@@ -365,12 +363,12 @@ export async function removeFriend(targetId: string) {
 const bioSchema = z.string().max(40);
 
 export async function updateProfile(formData: FormData) {
-  const session = await getPageSession();
-  if (!session) {
+  const user = await getUser();
+  if (!user) {
     throw new Error('Not authenticated');
   }
 
-  const userId = session.user.userId;
+  const userId = user.id;
 
   const image = formData.get('profile_img') as File;
   const bio = String(formData.get('profile_bio'));
@@ -406,12 +404,12 @@ export async function updateProfile(formData: FormData) {
 }
 
 export async function updatePrivacy(formData: FormData) {
-  const session = await getPageSession();
-  if (!session) {
+  const user = await getUser();
+  if (!user) {
     throw new Error('Not authenticated');
   }
 
-  const userId = session.user.userId;
+  const userId = user.id;
 
   const privacy_statistics = String(formData.get('privacy-statistics'));
   const privacy_friends = String(formData.get('privacy-friends'));
@@ -429,13 +427,13 @@ export async function updatePrivacy(formData: FormData) {
   revalidatePath(`/profile/${userId}/settings`);
 }
 
-export async function deleteAccount() {
-  const session = await getPageSession();
-  if (!session) {
+/* export async function deleteAccount() {
+  const user = await getUser();
+  if (!user) {
     throw new Error('Not authenticated');
   }
 
-  const userId = session.user.userId;
+  const userId = user.id;
 
   try {
     await auth.deleteUser(userId);
@@ -444,15 +442,15 @@ export async function deleteAccount() {
     throw new Error('Failed to delete account.');
   }
   redirect('/login');
-}
+} */
 
 export async function markNotificationsAsRead() {
-  const session = await getPageSession();
-  if (!session) {
+  const user = await getUser();
+  if (!user) {
     throw new Error('Not authenticated');
   }
 
-  const userId = session.user.userId;
+  const userId = user.id;
 
   try {
     await sql<Notification>`

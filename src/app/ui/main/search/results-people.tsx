@@ -1,14 +1,14 @@
 import { getUsersByQuery } from "@/app/lib/data";
-import { getPageSession } from "@/app/lib/utils";
+import { getUser } from "@/app/lib/utils";
 import Link from "next/link";
 
 export default async function ResultsPeople({ query }: { query?: string }) {
 	if (!query) return;
 
-	const session = await getPageSession();
-	if (!session) return;
+	const user = await getUser();
+	if (!user) return;
 
-	const users = await getUsersByQuery(query, session.user.userId);
+	const users = await getUsersByQuery(query, user.id);
 	if (users.length === 0) return;
 
 	return (

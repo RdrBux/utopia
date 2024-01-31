@@ -1,18 +1,18 @@
 import { getFriends, getFriendshipStatus, getUserById } from "@/app/lib/data"
-import { getPageSession } from "@/app/lib/utils";
+import { getUser } from "@/app/lib/utils";
 import Link from "next/link";
 
 export default async function UserFriends({ userId }: { userId: string }) {
 	const user = await getUserById(userId);
-	const session = await getPageSession();
-	if (!session) return;
+	const sessionUser = await getUser();
+	if (!sessionUser) return;
 
 	const friends = await getFriends(userId)
 	if (!friends) return;
 
-	if (user.privacy_friends === 'me' && userId !== session.user.userId) return <div></div>
+	if (user.privacy_friends === 'me' && userId !== sessionUser.id) return <div></div>
 
-	if (user.privacy_friends === 'friends' && userId !== session.user.userId) {
+	if (user.privacy_friends === 'friends' && userId !== sessionUser.id) {
 		const friendshipStatus = await getFriendshipStatus(userId);
 		if (friendshipStatus?.status !== 'accepted') return <div></div>;
 	}

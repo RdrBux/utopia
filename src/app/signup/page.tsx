@@ -1,11 +1,11 @@
 import Logo from "../ui/logo";
 import { redirect } from "next/navigation";
-import { getPageSession } from "../lib/utils";
+import { getUser } from "../lib/utils";
 import SignupForm from "../ui/signup/signup-form";
 
 const Page = async () => {
-	const session = await getPageSession();
-	if (session) redirect("/");
+	const user = await getUser();
+	if (user) redirect("/");
 
 	return (
 		<div className="my-6 px-4 flex flex-col gap-6 items-center">

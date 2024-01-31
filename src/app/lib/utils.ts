@@ -1,8 +1,8 @@
-import { auth } from '@/auth/lucia';
+import { lucia } from '@/auth/lucia';
 import { formatDistanceToNowStrict } from 'date-fns';
 import { es } from 'date-fns/locale/es';
 import { cache } from 'react';
-import * as context from 'next/headers';
+import { cookies } from 'next/headers';
 
 export function formatDateDistance(date: string) {
   return formatDistanceToNowStrict(date, { locale: es });
@@ -13,10 +13,10 @@ export function validateEmail(email: string) {
   return re.test(email);
 }
 
-export const getPageSession = cache(() => {
+/* export const getPageSession = cache(() => {
   const authRequest = auth.handleRequest('GET', context);
   return authRequest.validate();
-});
+}); */
 
 export const roundTo100 = (arr: number[]) => {
   let output = [];
@@ -36,3 +36,30 @@ export const roundTo100 = (arr: number[]) => {
 
   return output;
 };
+
+export const getUser = cache(async () => {
+  const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
+  if (!sessionId) return null;
+  const { user, session } = await lucia.validateSession(sessionId);
+  try {
+    if (session && session.fresh) {
+      const sessionCookie = lucia.createSessionCookie(session.id);
+      cookies().set(
+        sessionCookie.name,
+        sessionCookie.value,
+        sessionCookie.attributes
+      );
+    }
+    if (!session) {
+      const sessionCookie = lucia.createBlankSessionCookie();
+      cookies().set(
+        sessionCookie.name,
+        sessionCookie.value,
+        sessionCookie.attributes
+      );
+    }
+  } catch {
+    // Next.js throws error when attempting to set cookies when rendering page
+  }
+  return user;
+});

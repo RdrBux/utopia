@@ -1,5 +1,5 @@
 import { getPostById } from "@/app/lib/data";
-import { formatDateDistance, getPageSession } from "@/app/lib/utils";
+import { formatDateDistance, getUser } from "@/app/lib/utils";
 import DropdownPostPrivacy from "@/app/ui/dropdown-post-privacy";
 import MacrosTable from "@/app/ui/main/macros-table";
 import { CommentButtonClient } from "@/app/ui/posts/comment-button-client";
@@ -12,8 +12,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function Home({ params }: { params: { id: string } }) {
-	const session = await getPageSession();
-	if (!session) redirect('/login');
+	const user = await getUser();
+	if (!user) redirect('/login');
 
 	const post = await getPostById(params.id)
 	const { user_id, firstname, lastname, user_img_url, id, title, content, img_url, post_type, post_data, post_privacy, created_at } = post
@@ -30,12 +30,12 @@ export default async function Home({ params }: { params: { id: string } }) {
 						<img className="h-10 w-10 shrink-0 rounded-full" src={avatar} alt={name} />
 						<div>
 							<p className="font-bold group-hover:underline">{name}</p>
-							<p className="text-gray-500 text-sm">{formatDateDistance(created_at)}</p>
+							<p className="text-gray-500 text-sm">{formatDateDistance(String(created_at))}</p>
 						</div>
 					</Link>
 
 					{
-						session.user.userId === user_id && (
+						user.id === user_id && (
 							<div className="flex gap-3">
 								<DropdownPostPrivacy postId={id} privacy={post_privacy} />
 								<RemovePostButton postId={id} />

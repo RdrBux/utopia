@@ -3,12 +3,12 @@ import Logo from "../logo";
 import Navtab from "./navtab";
 import NotificationsCounter from "./notifications-counter";
 import UserMenu from "./user-menu";
-import { getPageSession } from "@/app/lib/utils";
+import { getUser } from "@/app/lib/utils";
 import { redirect } from "next/navigation";
 
 export default async function Navbar() {
-	const session = await getPageSession();
-	if (!session) redirect('/login');
+	const user = await getUser();
+	if (!user) redirect('/login');
 
 	return (
 		<nav className="bg-white border-b sticky top-0 z-20">
@@ -30,7 +30,7 @@ export default async function Navbar() {
 						</svg>
 						<NotificationsCounter />
 					</Link>
-					<UserMenu session={session} />
+					<UserMenu user={user} />
 				</div>
 
 			</div>

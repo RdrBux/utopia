@@ -11,7 +11,7 @@ import {
   UserData,
   UserFriend,
 } from './definitions';
-import { getPageSession } from './utils';
+import { getUser } from './utils';
 import { PeriodType } from '../ui/main/profile/dropdown-statistics';
 
 /* export async function getUserData() {
@@ -22,13 +22,13 @@ import { PeriodType } from '../ui/main/profile/dropdown-statistics';
   const client = createClient();
   await client.connect();
 
-  const session = await getPageSession();
-  if (!session) return;
+  const user = await getUser();
+  if (!user) return;
 
   try {
     const data = await client.sql<UserData>`
     SELECT * FROM auth_user
-    WHERE id = ${session.user.userId};
+    WHERE id = ${user.id};
     `;
     return data.rows[0];
   } catch (error) {
@@ -83,8 +83,8 @@ export async function getUsersByQuery(query: string, ignoreId: string) {
 export async function getPosts() {
   noStore();
 
-  const session = await getPageSession();
-  if (!session) return;
+  const user = await getUser();
+  if (!user) return;
 
   const client = createClient();
   await client.connect();
@@ -94,7 +94,7 @@ export async function getPosts() {
       SELECT us.id user_id, us.firstname, us.lastname, us.img_url user_img_url, po.id, po.title, po.content, po.img_url, po.post_type, po.post_data, po.created_at
       FROM auth_user us JOIN posts po ON us.id = po.user_id
       WHERE po.post_privacy = 'all'
-      OR (po.post_privacy = 'friends' AND po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${session.user.userId} AND status = 'accepted' UNION SELECT source_id FROM friends WHERE target_id = ${session.user.userId} AND status = 'accepted'))
+      OR (po.post_privacy = 'friends' AND po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${user.id} AND status = 'accepted' UNION SELECT source_id FROM friends WHERE target_id = ${user.id} AND status = 'accepted'))
       ORDER BY created_at DESC
       `;
     return data.rows;
@@ -109,8 +109,8 @@ export async function getPosts() {
 export async function getFriendsPosts() {
   noStore();
 
-  const session = await getPageSession();
-  if (!session) return;
+  const user = await getUser();
+  if (!user) return;
 
   const client = createClient();
   await client.connect();
@@ -119,7 +119,7 @@ export async function getFriendsPosts() {
     const data = await client.sql<PostWithUser>`
       SELECT us.id user_id, us.firstname, us.lastname, us.img_url user_img_url, po.id, po.title, po.content, po.img_url, po.post_type, po.post_data, po.created_at
       FROM auth_user us JOIN posts po ON us.id = po.user_id
-      WHERE (po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${session.user.userId} AND status = 'accepted' UNION SELECT source_id FROM friends WHERE target_id = ${session.user.userId} AND status = 'accepted'))
+      WHERE (po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${user.id} AND status = 'accepted' UNION SELECT source_id FROM friends WHERE target_id = ${user.id} AND status = 'accepted'))
       AND (po.post_privacy = 'friends' OR po.post_privacy = 'all')
       ORDER BY created_at DESC
       `;
@@ -156,8 +156,8 @@ export async function getPostById(id: string) {
 export async function getPostsByQuery(query: string) {
   noStore();
 
-  const session = await getPageSession();
-  if (!session) return;
+  const user = await getUser();
+  if (!user) return;
 
   const client = createClient();
   await client.connect();
@@ -168,9 +168,9 @@ export async function getPostsByQuery(query: string) {
       FROM auth_user us JOIN posts po ON us.id = po.user_id
       WHERE (po.title ILIKE ${`%${query}%`} OR po.content ILIKE ${`%${query}%`})
       AND (po.post_privacy = 'all' OR (po.post_privacy = 'friends' AND po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${
-        session.user.userId
+        user.id
       } AND status = 'accepted' UNION SELECT source_id FROM friends WHERE target_id = ${
-      session.user.userId
+      user.id
     } AND status = 'accepted')))
       ORDER BY created_at DESC
       `;
@@ -186,8 +186,8 @@ export async function getPostsByQuery(query: string) {
 export async function getUserPosts(id: string) {
   noStore();
 
-  const session = await getPageSession();
-  if (!session) return;
+  const user = await getUser();
+  if (!user) return;
 
   const client = createClient();
   await client.connect();
@@ -198,8 +198,8 @@ export async function getUserPosts(id: string) {
       FROM auth_user us JOIN posts po ON us.id = po.user_id
       WHERE us.id = ${id}
       AND (po.post_privacy = 'all'
-      OR (po.post_privacy = 'friends' AND po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${session.user.userId} AND status = 'accepted' UNION SELECT source_id FROM friends WHERE target_id = ${session.user.userId} AND status = 'accepted'))
-      OR (po.post_privacy = 'me' AND po.user_id = ${session.user.userId}))
+      OR (po.post_privacy = 'friends' AND po.user_id IN (SELECT target_id FROM friends WHERE source_id = ${user.id} AND status = 'accepted' UNION SELECT source_id FROM friends WHERE target_id = ${user.id} AND status = 'accepted'))
+      OR (po.post_privacy = 'me' AND po.user_id = ${user.id}))
       ORDER BY created_at DESC
       `;
     return data.rows;
@@ -247,12 +247,12 @@ export async function getPostLikes(id: string) {
 export async function postIsLiked(id: string) {
   noStore();
 
-  const session = await getPageSession();
-  if (!session) return;
+  const user = await getUser();
+  if (!user) return;
 
   try {
     const data = await sql<{ count: number }>`
-      SELECT COUNT(*) count FROM post_likes WHERE post_id = ${id} AND user_id = ${session.user.userId};
+      SELECT COUNT(*) count FROM post_likes WHERE post_id = ${id} AND user_id = ${user.id};
     `;
     return data.rows[0];
   } catch (error) {
@@ -292,8 +292,8 @@ export async function getPostCommentsCount(id: string) {
 export async function getFriends(id: string) {
   noStore();
 
-  const session = await getPageSession();
-  if (!session) return;
+  const user = await getUser();
+  if (!user) return;
 
   try {
     const data = await sql<UserFriend>`
@@ -316,18 +316,18 @@ export async function getFriends(id: string) {
 export async function getRecommendedFriends() {
   noStore();
 
-  const session = await getPageSession();
-  if (!session) return;
+  const user = await getUser();
+  if (!user) return;
 
   try {
     const data = await sql<UserFriend>`
     SELECT id, firstname, lastname, img_url, bio
     FROM auth_user
-    WHERE id != ${session.user.userId}
+    WHERE id != ${user.id}
     AND id NOT IN (
-      SELECT target_id FROM friends WHERE source_id = ${session.user.userId}
+      SELECT target_id FROM friends WHERE source_id = ${user.id}
       UNION
-      SELECT source_id FROM friends WHERE target_id = ${session.user.userId}
+      SELECT source_id FROM friends WHERE target_id = ${user.id}
     )
     LIMIT 5;
     `;
@@ -341,15 +341,15 @@ export async function getRecommendedFriends() {
 export async function getFriendRequests() {
   noStore();
 
-  const session = await getPageSession();
-  if (!session) return;
+  const user = await getUser();
+  if (!user) return;
 
   try {
     const data = await sql<UserFriend>`
     SELECT id, firstname, lastname, img_url, bio
     FROM auth_user
     WHERE id IN (
-      SELECT source_id FROM friends WHERE target_id = ${session.user.userId} AND status = 'pending'
+      SELECT source_id FROM friends WHERE target_id = ${user.id} AND status = 'pending'
     )
     `;
     return data.rows;
@@ -362,8 +362,8 @@ export async function getFriendRequests() {
 export async function getFriendshipStatus(friendId: string) {
   noStore();
 
-  const session = await getPageSession();
-  if (!session) return;
+  const user = await getUser();
+  if (!user) return;
 
   const client = createClient();
   await client.connect();
@@ -372,8 +372,8 @@ export async function getFriendshipStatus(friendId: string) {
     const data = await client.sql<Friend>`
       SELECT *
       FROM friends
-      WHERE (source_id = ${session.user.userId} AND target_id = ${friendId})
-      OR (source_id = ${friendId} AND target_id = ${session.user.userId})
+      WHERE (source_id = ${user.id} AND target_id = ${friendId})
+      OR (source_id = ${friendId} AND target_id = ${user.id})
     `;
     return data.rows[0];
   } catch (error) {
@@ -451,8 +451,8 @@ export async function getUserWorkouts(id: string, period: PeriodType) {
 export async function getNotifications() {
   noStore();
 
-  const session = await getPageSession();
-  if (!session) return;
+  const user = await getUser();
+  if (!user) return;
 
   const client = createClient();
   await client.connect();
@@ -461,7 +461,7 @@ export async function getNotifications() {
     const data = await client.sql<NotificationWithUser>`
     SELECT notif.*, us.firstname, us.lastname, us.img_url
     FROM notifications notif JOIN auth_user us ON notif.sender_id = us.id
-    WHERE notif.user_id = ${session.user.userId}
+    WHERE notif.user_id = ${user.id}
     ORDER BY notif.created_at DESC
     `;
     return data.rows;
@@ -476,8 +476,8 @@ export async function getNotifications() {
 export async function getNotificationsCount() {
   noStore();
 
-  const session = await getPageSession();
-  if (!session) return;
+  const user = await getUser();
+  if (!user) return;
 
   const client = createClient();
   await client.connect();
@@ -486,7 +486,7 @@ export async function getNotificationsCount() {
     const data = await client.sql<{ count: number }>`
     SELECT COUNT(*) as count
     FROM notifications
-    WHERE user_id = ${session.user.userId}
+    WHERE user_id = ${user.id}
     AND is_read = false
     `;
     return data.rows[0].count;

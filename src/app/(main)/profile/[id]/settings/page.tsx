@@ -1,14 +1,14 @@
 import { getUserById } from "@/app/lib/data";
-import { getPageSession } from "@/app/lib/utils";
+import { getUser } from "@/app/lib/utils";
 import SettingsContent from "@/app/ui/main/profile/settings/settings-content";
 import SettingsTabs from "@/app/ui/main/profile/settings/settings-tabs";
 import { redirect } from "next/navigation";
 
 export default async function Home({ params }: { params: { id: string } }) {
-	const session = await getPageSession();
-	if (!session) redirect('/login')
+	const user = await getUser();
+	if (!user) redirect('/login')
 
-	if (session.user.userId !== params.id) redirect('/')
+	if (user.id !== params.id) redirect('/')
 
 	const userData = await getUserById(params.id);
 

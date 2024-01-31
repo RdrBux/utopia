@@ -10,8 +10,7 @@
     "seed": "node -r dotenv/config ./src/scripts/seed.js"
   },
   "dependencies": {
-    "@lucia-auth/adapter-postgresql": "^2.0.2",
-    "@lucia-auth/oauth": "^3.5.1",
+    "@lucia-auth/adapter-postgresql": "^3.0.0",
     "@vercel/blob": "^0.19.0",
     "@vercel/postgres": "^0.5.1",
     "bcrypt": "^5.1.1",
@@ -25,8 +24,10 @@
     "filepond-plugin-image-resize": "^2.0.10",
     "filepond-plugin-image-transform": "^3.8.7",
     "geist": "^1.2.0",
-    "lucia": "^2.7.6",
+    "lucia": "^3.0.1",
     "next": "^14.1.0",
+    "oslo": "^1.0.3",
+    "pg": "^8.11.3",
     "react": "^18",
     "react-dom": "^18",
     "react-filepond": "^7.1.2",

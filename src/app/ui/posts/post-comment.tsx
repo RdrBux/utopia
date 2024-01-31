@@ -1,12 +1,12 @@
 import { deleteComment } from "@/app/lib/actions";
 import { CommentPost } from "@/app/lib/definitions";
-import { formatDateDistance, getPageSession } from "@/app/lib/utils";
+import { formatDateDistance, getUser } from "@/app/lib/utils";
 import Link from "next/link";
 import DeleteCommentButton from "./delete-comment-button";
 
 export default async function PostComment({ comment }: { comment: CommentPost }) {
-	const session = await getPageSession();
-	if (!session) return;
+	const user = await getUser();
+	if (!user) return;
 
 	const { user_id, firstname, lastname, post_id, img_url, id, content, created_at } = comment;
 	const name = `${firstname} ${lastname}`
@@ -19,7 +19,7 @@ export default async function PostComment({ comment }: { comment: CommentPost })
 
 	return (
 		<div className="py-6 relative">
-			{session.user.userId === user_id && (
+			{user.id === user_id && (
 				<form action={handleDelete}>
 					<DeleteCommentButton />
 				</form>

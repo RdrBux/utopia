@@ -1,21 +1,21 @@
-import { getPageSession } from "@/app/lib/utils";
+import { getUser } from "@/app/lib/utils";
 import FriendRequests from "@/app/ui/main/profile/friends/friend-requests";
 import UserFriends from "@/app/ui/main/profile/friends/user-friends";
 import RecommendedFriends from "@/app/ui/main/recommended-friends";
 import { redirect } from "next/navigation";
 
 export default async function Home({ params }: { params: { id: string } }) {
-	const session = await getPageSession();
-	if (!session) redirect('/login')
+	const user = await getUser();
+	if (!user) redirect('/login')
 
 	return (
 		<div className="main-layout">
 
-			{session.user.userId === params.id && <FriendRequests />}
+			{user.id === params.id && <FriendRequests />}
 
 			<UserFriends userId={params.id} />
 
-			{session.user.userId === params.id && <RecommendedFriends />}
+			{user.id === params.id && <RecommendedFriends />}
 		</div>
 	)
 }

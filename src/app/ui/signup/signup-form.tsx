@@ -5,38 +5,39 @@ import { useState } from "react"
 import CheckboxTerms from "./checkbox-terms";
 import Link from "next/link";
 import SignupButton from "./signup-button";
+import { signup } from "@/app/lib/authActions";
 
 export default function SignupForm() {
 	const [pending, setPending] = useState(false);
 	const [response, setResponse] = useState({ type: '', error: '' });
 
-	const router = useRouter();
-	const action = '/api/signup'
+	/* const router = useRouter(); */
+	/* const action = '/api/signup' */
 
 	return (
 		<form
-			action={action}
-			method="post"
-			onSubmit={async (e) => {
-				e.preventDefault();
-				setPending(true);
-				const formData = new FormData(e.currentTarget);
-				const response = await fetch(action, {
-					method: "POST",
-					body: formData,
-					redirect: "manual"
-				});
-				if (response.status === 200) {
-					const responseText = await response.text();
-					setResponse(JSON.parse(responseText));
-				}
-				if (response.status === 0) {
-					// redirected
-					// when using `redirect: "manual"`, response status 0 is returned
-					return router.refresh();
-				}
-				setPending(false);
-			}}
+			action={signup}
+		/* method="post"
+		onSubmit={async (e) => {
+			e.preventDefault();
+			setPending(true);
+			const formData = new FormData(e.currentTarget);
+			const response = await fetch(action, {
+				method: "POST",
+				body: formData,
+				redirect: "manual"
+			});
+			if (response.status === 200) {
+				const responseText = await response.text();
+				setResponse(JSON.parse(responseText));
+			}
+			if (response.status === 0) {
+				// redirected
+				// when using `redirect: "manual"`, response status 0 is returned
+				return router.refresh();
+			}
+			setPending(false);
+		}} */
 		>
 			<div className="flex flex-col gap-6">
 				<div>

@@ -5,7 +5,7 @@ import NewPostButton from "../ui/main/new-post-button";
 import NewPostSection from "../ui/main/new-post-section";
 import RecommendedFriends from "../ui/main/recommended-friends";
 import UserPanel from "../ui/main/user-panel";
-import { SkeletonPost, SkeletonPosts, SkeletonRecommendedFriends } from "../ui/skeletons";
+import { SkeletonPosts, SkeletonRecommendedFriends } from "../ui/skeletons";
 
 export default function Home({ searchParams }: { searchParams: { posts?: string } }) {
 	return (
