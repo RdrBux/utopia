@@ -1,6 +1,10 @@
 'use client'
 
-export default function LoginButton({ pending }: { pending: boolean }) {
+import { useFormStatus } from "react-dom"
+
+export default function LoginButton() {
+	const { pending } = useFormStatus();
+
 	if (pending) {
 		return (
 			<button disabled className="btn-primary flex items-center gap-2 justify-center" type="submit">

@@ -17,7 +17,6 @@ import { PeriodType } from '../ui/main/profile/dropdown-statistics';
 /* export async function getUserData() {
   noStore();
 
-  console.log('getUserData');
 
   const client = createClient();
   await client.connect();

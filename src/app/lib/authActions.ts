@@ -7,12 +7,7 @@ import { generateId } from 'lucia';
 import { lucia } from '@/auth/lucia';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { NextResponse } from 'next/server';
 import { sql } from '@vercel/postgres';
-
-/* interface ActionResult {
-  error: string;
-} */
 
 export async function signup(/* _: any, */ formData: FormData) {
   const email = formData.get('email');
@@ -82,11 +77,10 @@ export async function signup(/* _: any, */ formData: FormData) {
   const userId = generateId(15);
 
   try {
-    console.log('trying');
     await sql`INSERT INTO auth_user (id, email, firstname, lastname) VALUES (${userId}, ${email.toLowerCase()}, ${firstname}, ${lastname})`;
     await sql`INSERT INTO password (hashed_password, user_id) VALUES (${hashedPassword}, ${userId})`;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return {
       error: 'Error al registrar usuario',
       status: 500,
@@ -103,7 +97,7 @@ export async function signup(/* _: any, */ formData: FormData) {
   return redirect('/');
 }
 
-export async function login(formData: FormData) {
+export async function login(_: any, formData: FormData) {
   const email = formData.get('email');
   const password = formData.get('password');
   // basic check
@@ -111,7 +105,6 @@ export async function login(formData: FormData) {
     return {
       error: 'Formato de correo inválido',
       type: 'email',
-      status: 200,
     };
   }
   if (
@@ -122,7 +115,6 @@ export async function login(formData: FormData) {
     return {
       error: 'Contraseña debe tener entre 6 y 255 caracteres',
       type: 'password',
-      status: 200,
     };
   }
 
@@ -131,11 +123,10 @@ export async function login(formData: FormData) {
 			SELECT * FROM auth_user
 			WHERE email = ${email}
 		`;
-    if (existingUser.rows.length === 0) {
+    if (!existingUser || existingUser.rows.length === 0) {
       return {
-        error: 'Usuario no encontrado',
+        error: 'No hay ninguna cuenta asociada a este correo',
         type: 'email',
-        status: 200,
       };
     }
 
@@ -150,11 +141,8 @@ export async function login(formData: FormData) {
       return {
         error: 'Contraseña incorrecta',
         type: 'password',
-        status: 200,
       };
     }
-    console.log(hashed_password);
-    console.log(typeof hashed_password);
 
     const validPassword = await new Argon2id().verify(
       hashed_password,
@@ -165,7 +153,6 @@ export async function login(formData: FormData) {
       return {
         error: 'Contraseña incorrecta',
         type: 'password',
-        status: 200,
       };
     }
     const session = await lucia.createSession(existingUser.rows[0].id, {});
@@ -177,10 +164,10 @@ export async function login(formData: FormData) {
     );
     return redirect('/');
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return {
       error: 'Error al iniciar sesión',
-      status: 500,
+      type: 'Server',
     };
   }
 }
