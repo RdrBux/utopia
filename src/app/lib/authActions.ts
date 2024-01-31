@@ -9,7 +9,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { sql } from '@vercel/postgres';
 
-export async function signup(/* _: any, */ formData: FormData) {
+export async function signup(_: any, formData: FormData) {
   const email = formData.get('email');
   const firstname = formData.get('firstname');
   const lastname = formData.get('lastname');
@@ -21,7 +21,6 @@ export async function signup(/* _: any, */ formData: FormData) {
     return {
       error: 'Debe aceptar los términos y condiciones',
       type: 'terms',
-      status: 200,
     };
   }
 
@@ -33,7 +32,6 @@ export async function signup(/* _: any, */ formData: FormData) {
     return {
       error: 'Nombre inválido',
       type: 'firstname',
-      status: 200,
     };
   }
   if (
@@ -44,7 +42,6 @@ export async function signup(/* _: any, */ formData: FormData) {
     return {
       error: 'Apellido inválido',
       type: 'lastname',
-      status: 200,
     };
   }
   if (
@@ -55,21 +52,18 @@ export async function signup(/* _: any, */ formData: FormData) {
     return {
       error: 'Contraseña debe tener entre 6 y 255 caracteres',
       type: 'password',
-      status: 400,
     };
   }
   if (password !== repeatPassword) {
     return {
       error: 'Las contraseñas no coinciden',
       type: 'repeat-password',
-      status: 200,
     };
   }
   if (typeof email !== 'string' || validateEmail(email) === false) {
     return {
       error: 'Formato de correo inválido',
       type: 'email',
-      status: 200,
     };
   }
 
@@ -83,7 +77,7 @@ export async function signup(/* _: any, */ formData: FormData) {
     console.error(error);
     return {
       error: 'Error al registrar usuario',
-      status: 500,
+      type: 'terms',
     };
   }
 
