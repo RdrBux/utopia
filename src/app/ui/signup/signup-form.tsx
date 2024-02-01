@@ -37,13 +37,13 @@ export default function SignupForm() {
 					{state.type === 'lastname' && <p className="mt-2 text-sm text-red-600 -mb-3">{state.error}</p>}
 				</div>
 				<div>
-					<label className="label flex justify-between" htmlFor="password">Contraseña <span className="text-gray-500 font-normal">(mínimo 8 caracteres)</span></label>
-					<input className="input" name="password" id="password" type="password" minLength={8} maxLength={255} placeholder="••••••••" required />
+					<label className="label flex justify-between" htmlFor="password">Contraseña <span className="text-gray-500 font-normal">(mínimo 6 caracteres)</span></label>
+					<input className="input" name="password" id="password" type="password" minLength={6} maxLength={255} placeholder="••••••••" required />
 					{state.type === 'password' && <p className="mt-2 text-sm text-red-600 -mb-3">{state.error}</p>}
 				</div>
 				<div>
 					<label className="label" htmlFor="repeat-password">Repetir contraseña</label>
-					<input className="input" name="repeat-password" id="repeat-password" type="password" minLength={8} maxLength={255} placeholder="••••••••" required />
+					<input className="input" name="repeat-password" id="repeat-password" type="password" minLength={6} maxLength={255} placeholder="••••••••" required />
 					{state.type === 'repeat-password' && <p className="mt-2 text-sm text-red-600 -mb-3">{state.error}</p>}
 				</div>
 				<CheckboxTerms />

@@ -496,3 +496,15 @@ export async function getNotificationsCount() {
     await client.end();
   }
 }
+
+export async function isExistingToken(tokenId: string) {
+  try {
+    const data = await sql<{
+      count: number;
+    }>`SELECT COUNT(*) count FROM password_reset_token WHERE id = ${tokenId}`;
+    return data.rows[0].count > 0;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to check if token exists.');
+  }
+}

@@ -156,7 +156,6 @@ export async function login(_: any, formData: FormData) {
       sessionCookie.value,
       sessionCookie.attributes
     );
-    return redirect('/');
   } catch (error) {
     console.error(error);
     return {
@@ -164,6 +163,7 @@ export async function login(_: any, formData: FormData) {
       type: 'Server',
     };
   }
+  return redirect('/');
 }
 
 export async function logout(): Promise<ActionResult> {

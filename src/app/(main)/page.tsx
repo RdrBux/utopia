@@ -8,6 +8,7 @@ import UserPanel from "../ui/main/user-panel";
 import { SkeletonPosts, SkeletonRecommendedFriends } from "../ui/skeletons";
 
 export default function Home({ searchParams }: { searchParams: { posts?: string } }) {
+
 	return (
 		<div className="grid lg:grid-cols-[1fr_2fr_1fr] gap-6 my-6">
 			<NewPostButton />

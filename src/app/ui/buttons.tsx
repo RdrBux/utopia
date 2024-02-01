@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 export function Button({ children }: { children: React.ReactNode }) {
-	return <button type="button" className="w-full text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">{children}</button>
+	return <button type="submit" className="w-full text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5">{children}</button>
 }
 
 export function ButtonGoogle() {

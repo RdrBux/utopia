@@ -1,7 +1,7 @@
 'use server';
 
 import { sql } from '@vercel/postgres';
-import { getUser } from './utils';
+import { getUser, validateEmail } from './utils';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import {
@@ -11,9 +11,12 @@ import {
   PostSchema,
   foodDataSchema,
 } from './definitions';
-import { User } from 'lucia';
+import { User, generateId } from 'lucia';
 import { z } from 'zod';
 import { del, put } from '@vercel/blob';
+import { isWithinExpirationDate } from 'oslo';
+import { lucia } from '@/auth/lucia';
+import { Argon2id } from 'oslo/password';
 
 const CreatePost = PostSchema.omit({
   id: true,
@@ -461,5 +464,144 @@ export async function markNotificationsAsRead() {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to mark notifications as read.');
+  }
+}
+
+export async function createPasswordResetToken(
+  userId: string
+): Promise<string> {
+  try {
+    await sql`
+    DELETE FROM password_reset_token WHERE user_id = ${userId};
+    `;
+    const tokenId = generateId(40);
+    await sql`
+      INSERT INTO password_reset_token (id, user_id, expires_at) VALUES (${tokenId}, ${userId}, to_timestamp(${
+      Date.now() / 1000 + 60 * 60 * 2
+    }));
+    `;
+    return tokenId;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to create password reset token.');
+  }
+}
+
+export async function createResetPassword(_: any, formData: FormData) {
+  const email = String(formData.get('email'));
+
+  if (!validateEmail(email)) {
+    return {
+      error: 'Correo inválido',
+      type: 'email',
+    };
+  }
+
+  try {
+    const user = await sql<User>`
+      SELECT * FROM auth_user
+      WHERE email = ${email}
+    `;
+    if (!user || user.rows.length === 0) {
+      return {
+        error: 'No hay ninguna cuenta asociada a este correo',
+        type: 'email',
+      };
+    }
+
+    const verificationToken = await createPasswordResetToken(user.rows[0].id);
+    const verificationLink =
+      'http://localhost:3000/reset-password/' + verificationToken;
+
+    console.log({ email: user.rows[0].email, verificationLink });
+    /* await sendPasswordResetToken(email, verificationLink);
+	  return new Response(null, {
+		status: 200
+	  }); */
+    return {
+      success: 'Se ha enviado un correo para restablecer la contraseña.',
+      type: 'email',
+    };
+  } catch (error) {
+    return {
+      error: 'No se ha podido enviar el correo.',
+      type: 'email',
+    };
+  }
+}
+
+export async function resetPassword(formData: FormData, tokenId: string) {
+  const password = String(formData.get('password'));
+  const repeatPassword = String(formData.get('repeat-password'));
+  if (
+    typeof password !== 'string' ||
+    password.length < 6 ||
+    password.length > 255
+  ) {
+    return {
+      error: 'Contraseña debe tener entre 6 y 255 caracteres',
+      type: 'password',
+    };
+  }
+  if (password !== repeatPassword) {
+    return {
+      error: 'Las contraseñas no coinciden',
+      type: 'repeat-password',
+    };
+  }
+
+  try {
+    const token = await sql`
+      SELECT * FROM password_reset_token
+      WHERE id = ${tokenId}
+    `;
+
+    if (token.rows.length > 0) {
+      await sql`
+        DELETE FROM password_reset_token
+        WHERE id = ${tokenId}
+      `;
+    }
+
+    if (
+      !token ||
+      token.rows.length === 0 ||
+      !isWithinExpirationDate(token.rows[0].expires_at)
+    ) {
+      return {
+        error: 'Token inválido',
+        type: 'token',
+      };
+    }
+
+    const user = await sql`
+      SELECT * FROM auth_user
+      WHERE id = ${token.rows[0].user_id}
+    `;
+
+    if (!user || user.rows.length === 0) {
+      return {
+        error: 'No hay ninguna cuenta asociada a este correo',
+        type: 'token',
+      };
+    }
+
+    await lucia.invalidateUserSessions(user.rows[0].id);
+
+    const hashedPassword = await new Argon2id().hash(password);
+    await sql`
+      UPDATE password
+      SET hashed_password = ${hashedPassword}
+      WHERE user_id = ${user.rows[0].id}
+    `;
+    return {
+      success: 'Contraseña actualizada correctamente.',
+      type: 'token',
+    };
+  } catch (error) {
+    return {
+      error: 'No se ha podido cambiar la contraseña.',
+      type: 'token',
+    };
   }
 }

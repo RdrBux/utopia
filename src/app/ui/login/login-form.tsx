@@ -30,7 +30,7 @@ export default function LoginForm() {
 					{state.type === 'password' && <p className="mt-2 text-sm text-red-600 -mb-3">{state.error}</p>}
 				</div>
 
-				<Link className="self-end text-sm text-blue-600 font-semibold" href="/restore-account">¿Has olvidado la contraseña?</Link>
+				<Link className="self-end text-sm text-blue-600 font-semibold" href="/reset-password">¿Has olvidado la contraseña?</Link>
 
 				<LoginButton />
 			</div>
