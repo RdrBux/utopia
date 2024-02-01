@@ -31,14 +31,18 @@ export async function GET(request: Request): Promise<Response> {
       }
     );
     const googleUser = await googleUserResponse.json();
-    console.log('hi');
     const existingUser = await sql`
       SELECT * FROM oauth_account
-      WHERE provider_id = 'google' AND provider_user_id = ${googleUser.id}
+      WHERE provider_id = 'google' AND provider_user_id = ${String(
+        googleUser.sub
+      )}
     `;
 
     if (existingUser.rows.length > 0) {
-      const session = await lucia.createSession(existingUser.rows[0].id, {});
+      const session = await lucia.createSession(
+        existingUser.rows[0].user_id,
+        {}
+      );
       const sessionCookie = lucia.createSessionCookie(session.id);
       cookies().set(
         sessionCookie.name,
