@@ -17,6 +17,7 @@ import { del, put } from '@vercel/blob';
 import { isWithinExpirationDate } from 'oslo';
 import { lucia } from '@/auth/lucia';
 import { Argon2id } from 'oslo/password';
+const nodemailer = require('nodemailer');
 
 const CreatePost = PostSchema.omit({
   id: true,
@@ -502,9 +503,22 @@ export async function createResetPassword(_: any, formData: FormData) {
       SELECT * FROM auth_user
       WHERE email = ${email}
     `;
-    if (!user || user.rows.length === 0) {
+    if (!user || user.rows.length === 0 || !user.rows[0].email) {
       return {
         error: 'No hay ninguna cuenta asociada a este correo',
+        type: 'email',
+      };
+    }
+
+    const isOAuth = await sql`
+      SELECT * FROM oauth_account
+      WHERE user_id = ${user.rows[0].id}
+    `;
+
+    if (isOAuth.rows.length > 0) {
+      return {
+        error:
+          'Este correo está asociado a una cuenta de Google. Por favor, inicia sesión con Google.',
         type: 'email',
       };
     }
@@ -513,11 +527,17 @@ export async function createResetPassword(_: any, formData: FormData) {
     const verificationLink =
       'http://localhost:3000/reset-password/' + verificationToken;
 
-    console.log({ email: user.rows[0].email, verificationLink });
     /* await sendPasswordResetToken(email, verificationLink);
 	  return new Response(null, {
 		status: 200
 	  }); */
+    await sendPasswordEmail(
+      user.rows[0].firstname,
+      user.rows[0].lastname,
+      user.rows[0].email,
+      verificationLink
+    );
+
     return {
       success: 'Se ha enviado un correo para restablecer la contraseña.',
       type: 'email',
@@ -603,5 +623,47 @@ export async function resetPassword(formData: FormData, tokenId: string) {
       error: 'No se ha podido cambiar la contraseña.',
       type: 'token',
     };
+  }
+}
+
+export async function sendPasswordEmail(
+  firstname: string,
+  lastname: string,
+  email: string,
+  url: string
+) {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.NODEMAILER_EMAIL,
+      pass: process.env.NODEMAILER_PW,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.NODEMAILER_EMAIL,
+    to: email,
+    subject: 'Utopía. Reestablecer contraseña',
+    html: `
+    <h1>Hola ${firstname} ${lastname}</h1>
+    <p>Soy Rodrigo Rodríguez Buxman, el creador de <b>Utopía</b>.</p>
+    <p>Hemos recibido una solicitud para reestablecer tu contraseña. Para crear una nueva, da clic en el siguiente enlace: </p>
+    <a href="${url}">Cambia tu contraseña</a>.
+    `,
+  };
+
+  try {
+    await new Promise((resolve, reject) => {
+      // send mail
+      transporter.sendMail(mailOptions, (err: any, response: any) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(response);
+        }
+      });
+    });
+  } catch (error) {
+    console.log(error);
   }
 }
