@@ -65,7 +65,7 @@ export default async function StatsFood({ paramsId, period }: { paramsId: string
 				</div>
 			</div>
 
-			<div className="text-center text-sm lg:-mt-3"><span className="inline-block py-1.5 px-3 rounded-full border border-emerald-300 font-semibold">{foodData.length}</span> comida{foodData.length > 1 ? 's' : ''} en el periodo seleccionado</div>
+			<div className="text-center text-sm lg:-mt-3"><span className="inline-block py-1.5 px-3 rounded-full border border-emerald-300 font-semibold">{foodData.length}</span> comida{foodData.length === 1 ? '' : 's'} en el periodo seleccionado</div>
 
 		</div>
 	)
