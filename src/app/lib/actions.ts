@@ -525,7 +525,10 @@ export async function createResetPassword(_: any, formData: FormData) {
 
     const verificationToken = await createPasswordResetToken(user.rows[0].id);
     const verificationLink =
-      'http://localhost:3000/reset-password/' + verificationToken;
+      process.env.NODE_ENV === 'production'
+        ? 'https://utopia-social-network.vercel.app/reset-password' +
+          verificationToken
+        : 'http://localhost:3000/reset-password/' + verificationToken;
 
     /* await sendPasswordResetToken(email, verificationLink);
 	  return new Response(null, {

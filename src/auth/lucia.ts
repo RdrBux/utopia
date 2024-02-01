@@ -1,7 +1,5 @@
 import { NodePostgresAdapter } from '@lucia-auth/adapter-postgresql';
-import { webcrypto } from 'node:crypto';
 import { Lucia } from 'lucia';
-import pg from 'pg';
 import { db } from '@vercel/postgres';
 import { Google } from 'arctic';
 
@@ -38,7 +36,9 @@ export const lucia = new Lucia(adapter, {
 export const google = new Google(
   process.env.GOOGLE_CLIENT_ID!,
   process.env.GOOGLE_CLIENT_SECRET!,
-  'http://localhost:3000/login/google/callback'
+  process.env.NODE_ENV === 'production'
+    ? 'https://utopia-social-network.vercel.app/login/google/callback'
+    : 'http://localhost:3000/login/google/callback'
 );
 
 /* export const googleAuth = google(auth, {
