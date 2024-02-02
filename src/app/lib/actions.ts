@@ -448,13 +448,13 @@ export async function deleteAccount() {
     `;
 
     await sql`
-      DELETE from auth_user
-      WHERE id = ${userId}
+      DELETE from oauth_account
+      WHERE user_id = ${userId}
     `;
 
     await sql`
-      DELETE from oauth_account
-      WHERE user_id = ${userId}
+      DELETE from auth_user
+      WHERE id = ${userId}
     `;
   } catch (error) {
     console.error('Database Error:', error);

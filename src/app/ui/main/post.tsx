@@ -36,7 +36,7 @@ export default function Post({ post }: { post: PostWithUser }) {
 				}
 
 				<div className="px-6 flex flex-col gap-6">
-					<h4 className="text-xl font-bold leading-none">{title}</h4>
+					<h4 className="text-xl font-bold">{title}</h4>
 					{content && <p className="">{content}</p>}
 
 					{
