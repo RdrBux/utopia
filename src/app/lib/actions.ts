@@ -431,7 +431,7 @@ export async function updatePrivacy(formData: FormData) {
   revalidatePath(`/profile/${userId}/settings`);
 }
 
-/* export async function deleteAccount() {
+export async function deleteAccount() {
   const user = await getUser();
   if (!user) {
     throw new Error('Not authenticated');
@@ -440,13 +440,28 @@ export async function updatePrivacy(formData: FormData) {
   const userId = user.id;
 
   try {
-    await auth.deleteUser(userId);
+    await lucia.invalidateUserSessions(userId);
+
+    await sql`
+      DELETE from password
+      WHERE user_id = ${userId}
+    `;
+
+    await sql`
+      DELETE from auth_user
+      WHERE id = ${userId}
+    `;
+
+    await sql`
+      DELETE from oauth_account
+      WHERE user_id = ${userId}
+    `;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to delete account.');
   }
   redirect('/login');
-} */
+}
 
 export async function markNotificationsAsRead() {
   const user = await getUser();

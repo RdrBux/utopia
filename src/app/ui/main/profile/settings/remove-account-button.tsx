@@ -1,5 +1,6 @@
 'use client'
 
+import { deleteAccount } from "@/app/lib/actions";
 import { useRef } from "react"
 
 export default function RemoveAccountButton() {
@@ -10,7 +11,7 @@ export default function RemoveAccountButton() {
 	}
 
 	function handleDelete() {
-		/* deleteAccount(); */
+		deleteAccount();
 	}
 
 	return (
