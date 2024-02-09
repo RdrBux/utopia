@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 import { Session, User } from "lucia";
 import LogoutForm from "./logout-form";
+import { roboto } from "../fonts";
 
 export default function UserMenu({ user }: { user: User }) {
 	const [showMenu, setShowMenu] = useState(false);
@@ -30,7 +31,7 @@ export default function UserMenu({ user }: { user: User }) {
 				<img className="w-10 h-10 rounded-full" src={avatar} alt={`${user.firstname} ${user.lastname}`} />
 			</button>
 
-			<div className={`${showMenu ? 'visible' : 'invisible'} z-10 absolute right-0 top-10 bg-card px-0 py-2 text-sm text-gray-700 w-40 shadow`}>
+			<div className={`${showMenu ? 'visible' : 'invisible'} ${roboto.className} z-10 absolute right-0 top-10 bg-card px-0 py-2 text-sm text-gray-700 w-40 shadow`}>
 				<ul>
 					<li>
 						<Link href={`/profile/${user.id}`} className="hover:bg-gray-100 flex items-center gap-3 px-4 py-3 w-full">

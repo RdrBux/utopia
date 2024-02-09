@@ -1,5 +1,6 @@
 import { getUserById } from "@/app/lib/data";
 import { getUser } from "@/app/lib/utils";
+import { robotoSlab } from "@/app/ui/fonts";
 import NewPostButton from "@/app/ui/main/new-post-button";
 import NewPostSection from "@/app/ui/main/new-post-section";
 import { PeriodType } from "@/app/ui/main/profile/dropdown-statistics";
@@ -32,7 +33,7 @@ export default async function Home({ params, searchParams }: { params: { id: str
 					<img className="rounded-full w-28 lg:w-40 aspect-square shrink-0" src={avatar} alt={name} />
 
 					<div className="">
-						<h1 className="mb-4 text-4xl font-extrabold leading-none text-gray-900 md:text-5xl">{name}</h1>
+						<h1 className={`${robotoSlab.className} mb-4 text-4xl font-extrabold leading-none text-gray-900 md:text-5xl`}>{name}</h1>
 						<p className="text-gray-500">{bio}</p>
 					</div>
 				</div>

@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useDebouncedCallback } from "use-debounce";
+import { robotoSlab } from "../../fonts";
 
 export default function SearchBar() {
 	const searchParams = useSearchParams();
@@ -20,7 +21,7 @@ export default function SearchBar() {
 
 	return (
 		<form className="bg-card">
-			<h1 className="form-title mb-3">Barra de búsqueda</h1>
+			<h1 className={`${robotoSlab.className} form-title mb-3`}>Barra de búsqueda</h1>
 
 			<label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
 			<div className="relative">

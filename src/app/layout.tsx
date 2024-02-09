@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import '../app/ui/globals.css'
-/* import { robotoSlab } from './ui/fonts' */
 import { Roboto_Slab } from 'next/font/google'
+import { roboto } from './ui/fonts'
 
 const robotoSlab = Roboto_Slab({ subsets: ['latin'] })
 
@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className={`${robotoSlab.className} bg-gray-100 text-gray-900 antialiased`}>{children}</body>
+      <body className={`${roboto.className} bg-gray-100 text-gray-900 antialiased`}>{children}</body>
     </html>
   )
 }

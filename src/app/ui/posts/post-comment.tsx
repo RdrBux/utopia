@@ -3,6 +3,7 @@ import { CommentPost } from "@/app/lib/definitions";
 import { formatDateDistance, getUser } from "@/app/lib/utils";
 import Link from "next/link";
 import DeleteCommentButton from "./delete-comment-button";
+import { robotoSlab } from "../fonts";
 
 export default async function PostComment({ comment }: { comment: CommentPost }) {
 	const user = await getUser();
@@ -28,7 +29,7 @@ export default async function PostComment({ comment }: { comment: CommentPost })
 			<Link href={`/profile/${user_id}`} className="flex gap-3 items-center w-fit group">
 				<img className="h-10 w-10 shrink-0 rounded-full" src={avatar} alt={name} />
 				<div>
-					<p className="font-bold group-hover:underline">{name}</p>
+					<p className={`${robotoSlab.className} font-bold group-hover:underline`}>{name}</p>
 					<p className="text-gray-500 text-sm">{formatDateDistance(created_at)}</p>
 				</div>
 			</Link>

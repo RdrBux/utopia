@@ -1,6 +1,7 @@
 import { getPostById } from "@/app/lib/data";
 import { formatDateDistance, getUser } from "@/app/lib/utils";
 import DropdownPostPrivacy from "@/app/ui/dropdown-post-privacy";
+import { robotoSlab } from "@/app/ui/fonts";
 import MacrosTable from "@/app/ui/main/macros-table";
 import { CommentButtonClient } from "@/app/ui/posts/comment-button-client";
 import LikeButtonServer from "@/app/ui/posts/like-button-server";
@@ -29,7 +30,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 					<Link href={`/profile/${user_id}`} className="flex gap-3 items-center w-fit group">
 						<img className="h-10 w-10 shrink-0 rounded-full" src={avatar} alt={name} />
 						<div>
-							<p className="font-bold group-hover:underline">{name}</p>
+							<p className={`${robotoSlab.className} font-bold group-hover:underline`}>{name}</p>
 							<p className="text-gray-500 text-sm">{formatDateDistance(String(created_at))}</p>
 						</div>
 					</Link>
@@ -53,7 +54,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 				}
 
 				<div className="px-6 flex flex-col gap-6">
-					<h4 className="text-xl font-bold leading-none">{title}</h4>
+					<h4 className={`${robotoSlab.className} text-xl font-bold leading-none`}>{title}</h4>
 					{content && <p className="">{content}</p>}
 
 					{

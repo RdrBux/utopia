@@ -3,12 +3,13 @@
 import { updatePrivacy } from "@/app/lib/actions";
 import { UserData } from "@/app/lib/definitions";
 import FormSettingsButtons from "./form-settings-buttons";
+import { robotoSlab } from "@/app/ui/fonts";
 
 export default function PrivacyTab({ userData }: { userData: UserData }) {
 
 	return (
 		<form action={updatePrivacy} className="flex flex-col gap-6">
-			<h1 className="form-title">Privacidad</h1>
+			<h1 className={`${robotoSlab.className} form-title`}>Privacidad</h1>
 
 			<div>
 				<label htmlFor="privacy-statistics" className="block mb-2 text-sm font-medium text-gray-900">Visibilidad de tus estadísticas</label>

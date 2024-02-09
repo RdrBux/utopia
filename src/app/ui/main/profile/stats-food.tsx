@@ -2,6 +2,7 @@ import { getUserFoods } from "@/app/lib/data";
 import { PeriodType } from "./dropdown-statistics";
 import { FoodData } from "@/app/lib/definitions";
 import { roundTo100 } from "@/app/lib/utils";
+import { robotoSlab } from "../../fonts";
 
 export default async function StatsFood({ paramsId, period }: { paramsId: string, period: PeriodType }) {
 	const foods = await getUserFoods(paramsId, period);
@@ -42,7 +43,7 @@ export default async function StatsFood({ paramsId, period }: { paramsId: string
 				) :
 					(
 						<div className="flex flex-col gap-6">
-							<h3 className="text-2xl font-bold leading-none text-center">Comidas</h3>
+							<h3 className={`${robotoSlab.className} text-2xl font-bold leading-none text-center`}>Comidas</h3>
 							{period === 'today' && <div className="text-center text-sm"><span className="inline-block py-1.5 px-3 mr-1.5 rounded-full border border-emerald-300 font-semibold">{(foodData.reduce((acc, curr) => acc + curr.kcals, 0)).toFixed(0)}</span> kilocalorías acumuladas diarias</div>}
 							<div className="flex items-center flex-col lg:flex-row gap-6">
 								<div className="flex flex-col items-center justify-center rounded-full p-6 border border-emerald-300 aspect-square">

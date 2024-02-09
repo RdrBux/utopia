@@ -2,6 +2,7 @@ import { getFriends, getFriendshipStatus } from "@/app/lib/data";
 import { UserData } from "@/app/lib/definitions";
 import { getUser } from "@/app/lib/utils";
 import Link from "next/link";
+import { robotoSlab } from "../../fonts";
 
 export default async function FriendsList({ id, userPrivacyFriends }: { id: string, userPrivacyFriends: UserData['privacy_friends'] }) {
 	const user = await getUser();
@@ -22,7 +23,7 @@ export default async function FriendsList({ id, userPrivacyFriends }: { id: stri
 
 	return (
 		<Link href={`/profile/${id}/friends`} className="">
-			<h3 className="text-xl font-bold leading-none">Amigos</h3>
+			<h3 className={`${robotoSlab.className} text-xl font-bold leading-none`}>Amigos</h3>
 			<ul className="flex mt-3 ml-3">
 
 				{

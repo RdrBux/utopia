@@ -8,6 +8,7 @@ import LikeButtonServer from "../posts/like-button-server";
 import { CommentButtonServer } from "../posts/comment-button-server";
 import { Suspense } from "react";
 import { SkeletonLikeButton } from "../skeletons";
+import { robotoSlab } from "../fonts";
 
 export default function Post({ post }: { post: PostWithUser }) {
 	const { user_id, firstname, lastname, user_img_url, id, title, content, img_url, post_type, post_data, created_at } = post;
@@ -20,7 +21,7 @@ export default function Post({ post }: { post: PostWithUser }) {
 			<Link href={`/profile/${user_id}`} className="flex gap-3 items-center px-6 py-3 w-fit group">
 				<img className="h-10 w-10 shrink-0 rounded-full" src={avatar} alt={name} />
 				<div>
-					<p className="font-bold group-hover:underline">{name}</p>
+					<p className={`${robotoSlab.className} font-bold group-hover:underline`}>{name}</p>
 					<p className="text-gray-500 text-sm">{formatDateDistance(String(created_at))}</p>
 				</div>
 			</Link>
@@ -36,7 +37,7 @@ export default function Post({ post }: { post: PostWithUser }) {
 				}
 
 				<div className="px-6 flex flex-col gap-6">
-					<h4 className="text-xl font-bold">{title}</h4>
+					<h4 className={`${robotoSlab.className} text-xl font-bold`}>{title}</h4>
 					{content && <p className="">{content}</p>}
 
 					{

@@ -8,6 +8,7 @@ import FormPostButton from "./form-post-button";
 import { useFormState } from "react-dom";
 import { useState } from "react";
 import FormMacros from "./form-macros";
+import { robotoSlab } from "../../fonts";
 
 const initialState = {
 	message: '',
@@ -38,7 +39,7 @@ export default function NewPostForm({ type }: { type: Post['post_type'] }) {
 
 	return (
 		<div className="p-6">
-			<h3 className="text-xl font-bold leading-none">{title[type]}</h3>
+			<h3 className={`${robotoSlab.className} text-xl font-bold leading-none`}>{title[type]}</h3>
 
 			<form action={formAction} className="mt-6 flex flex-col gap-6">
 

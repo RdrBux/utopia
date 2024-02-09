@@ -8,7 +8,7 @@ export type PeriodType = 'today' | 'week' | 'month' | 'all';
 export default function DropdownStatistics() {
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
-	let periodUrl = searchParams.get('period') ?? 'all';
+	let periodUrl = searchParams.get('period') ?? 'month';
 
 	const { replace } = useRouter();
 

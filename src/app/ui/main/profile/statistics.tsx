@@ -3,12 +3,13 @@ import DropdownStatistics, { PeriodType } from "./dropdown-statistics";
 import StatsFood from "./stats-food";
 import StatsWorkout from "./stats-workout";
 import { SkeletonStatistics } from "../../skeletons";
+import { robotoSlab } from "../../fonts";
 
-export default function Statistics({ paramsId, period = 'all' }: { paramsId: string, period?: PeriodType }) {
+export default function Statistics({ paramsId, period = 'month' }: { paramsId: string, period?: PeriodType }) {
 	return (
 		<section className="bg-card h-fit flex flex-col gap-6">
 			<div className="flex items-center gap-2 justify-between">
-				<h2 className="form-title">Estadísticas</h2>
+				<h2 className={`${robotoSlab.className} form-title`}>Estadísticas</h2>
 
 				{<DropdownStatistics />}
 			</div>

@@ -3,6 +3,7 @@
 import { markNotificationsAsRead } from "@/app/lib/actions";
 import { getNotifications } from "@/app/lib/data";
 import { NotificationWithUser } from "@/app/lib/definitions";
+import { robotoSlab } from "@/app/ui/fonts";
 import { Spinner } from "@/app/ui/loading";
 import { formatDistanceToNowStrict } from "date-fns";
 import { es } from "date-fns/locale/es";
@@ -44,7 +45,7 @@ export default function Home() {
 		return (
 			<div className="main-layout">
 				<div className="bg-card lg:col-start-2 flex flex-col items-center gap-6">
-					<h1 className="form-title text-center">No tienes notificaciones</h1>
+					<h1 className={`${robotoSlab.className} form-title text-center`}>No tienes notificaciones</h1>
 					<Link href="/" className="inline-flex text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Volver al inicio</Link>
 				</div>
 			</div>
@@ -54,7 +55,7 @@ export default function Home() {
 	return (
 		<div className="main-layout">
 			<div className="bg-card pb-3 lg:col-start-2">
-				<h1 className="form-title">Notificaciones</h1>
+				<h1 className={`${robotoSlab.className} form-title`}>Notificaciones</h1>
 
 				<ul className="mt-3 divide-y divide-gray-200">
 

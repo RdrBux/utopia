@@ -5,6 +5,7 @@ import { Button } from "../buttons";
 import Input from "../input";
 import { useFormState } from "react-dom";
 import RestoreButton from "./restore-button";
+import { robotoSlab } from "../fonts";
 
 type InitialState = {
 	type: string
@@ -21,7 +22,7 @@ export default function RestoreForm() {
 
 	return (
 		<form action={formAction} className="flex flex-col gap-6 bg-card">
-			<h1 className="form-title">¿Has olvidado la contraseña?</h1>
+			<h1 className={`${robotoSlab.className} form-title`}>¿Has olvidado la contraseña?</h1>
 
 			<p className="text-gray-500 max-w-md">¡No hay problema! Te enviaremos por correo electrónico las instrucciones para recuperar tu cuenta.</p>
 
