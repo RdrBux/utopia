@@ -185,3 +185,33 @@ export async function logout(): Promise<ActionResult> {
   );
   return redirect('/login');
 }
+
+export async function guestLogin() {
+  const firstname = 'Invitado';
+  const lastname = String(Math.floor(Math.random() * 1000000));
+  const email = `${lastname}@utopiaguest.com`;
+  const password = process.env.GUEST_PASSWORD || 'guestpassword';
+
+  const hashedPassword = await new Argon2id().hash(password);
+  const userId = generateId(15);
+
+  try {
+    await sql`INSERT INTO auth_user (id, email, firstname, lastname) VALUES (${userId}, ${email}, ${firstname}, ${lastname})`;
+    await sql`INSERT INTO password (hashed_password, user_id) VALUES (${hashedPassword}, ${userId})`;
+  } catch (error) {
+    console.error(error);
+    return {
+      error: 'Error al registrar usuario',
+      type: 'terms',
+    };
+  }
+
+  const session = await lucia.createSession(userId, {});
+  const sessionCookie = lucia.createSessionCookie(session.id);
+  cookies().set(
+    sessionCookie.name,
+    sessionCookie.value,
+    sessionCookie.attributes
+  );
+  return redirect('/');
+}
