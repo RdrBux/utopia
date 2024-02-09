@@ -115,7 +115,7 @@ export async function login(_: any, formData: FormData) {
   try {
     const existingUser = await sql`
 			SELECT * FROM auth_user
-			WHERE email = ${email}
+			WHERE email = ${email.toLowerCase()}
 		`;
     if (!existingUser || existingUser.rows.length === 0) {
       return {
