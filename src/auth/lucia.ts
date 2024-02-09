@@ -37,7 +37,7 @@ export const google = new Google(
   process.env.GOOGLE_CLIENT_ID!,
   process.env.GOOGLE_CLIENT_SECRET!,
   process.env.NODE_ENV === 'production'
-    ? 'https://utopia-social-network.vercel.app/login/google/callback'
+    ? 'https://utopia-social.vercel.app/login/google/callback'
     : 'http://localhost:3000/login/google/callback'
 );
 
