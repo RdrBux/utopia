@@ -1,6 +1,14 @@
-import { getPostLikes } from "@/app/lib/data";
+import { getPostById, getPostLikes } from "@/app/lib/data";
 import { robotoSlab } from "@/app/ui/fonts";
 import Link from "next/link";
+
+export async function generateMetadata({ params }: { params: { id: string } }) {
+	const post = await getPostById(params.id)
+	const { title } = post
+	return {
+		title: title
+	}
+}
 
 export default async function Home({ params }: { params: { id: string } }) {
 	const users = await getPostLikes(params.id);
@@ -8,7 +16,7 @@ export default async function Home({ params }: { params: { id: string } }) {
 	return (
 		<div className="main-layout">
 			<main className="flex flex-col gap-3 bg-card pb-3 lg:col-start-2">
-				<h2 className={`${robotoSlab.className} form-title`}>Me gusta</h2>
+				<h2 className={`${robotoSlab.className} form-title`}>Le ha gustado a</h2>
 
 				<ul className="divide-y divide-gray-200">
 

@@ -13,6 +13,15 @@ import { SkeletonButton, SkeletonPosts } from "@/app/ui/skeletons";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
+export async function generateMetadata({ params }: { params: { id: string } }) {
+	const userData = await getUserById(params.id);
+	if (!userData) return;
+
+	return {
+		title: `${userData.firstname} ${userData.lastname}`,
+	};
+}
+
 export default async function Home({ params, searchParams }: { params: { id: string }, searchParams: { period?: PeriodType } }) {
 	const user = await getUser();
 	if (!user) redirect('/login')

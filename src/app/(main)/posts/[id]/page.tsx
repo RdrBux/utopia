@@ -12,6 +12,14 @@ import RemovePostButton from "@/app/ui/posts/remove-post-button";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+export async function generateMetadata({ params }: { params: { id: string } }) {
+	const post = await getPostById(params.id)
+	const { title } = post
+	return {
+		title: title
+	}
+}
+
 export default async function Home({ params }: { params: { id: string } }) {
 	const user = await getUser();
 	if (!user) redirect('/login');

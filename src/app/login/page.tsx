@@ -6,6 +6,11 @@ import { getUser } from "../lib/utils";
 import LoginForm from "../ui/login/login-form";
 import LogoInverted from "../ui/logo-inverted";
 import { robotoSlab } from "../ui/fonts";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: 'Iniciar sesión',
+}
 
 export default async function Home() {
 	const user = await getUser();

@@ -1,6 +1,11 @@
 import { robotoSlab } from "@/app/ui/fonts";
 import NewPostForm from "@/app/ui/posts/new/new-post-form";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+	title: 'Crear publicación',
+}
 
 export default function Home({ searchParams }: { searchParams: { type?: string } }) {
 	const type = searchParams.type || ''

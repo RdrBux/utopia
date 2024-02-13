@@ -1,5 +1,10 @@
+import { Metadata } from "next";
 import Logo from "../ui/logo";
 import RestoreForm from "../ui/restore-account/restore-form";
+
+export const metadata: Metadata = {
+	title: 'Recuperar cuenta',
+}
 
 export default function Home() {
 	return (

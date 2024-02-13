@@ -2,7 +2,12 @@ import { getUserById } from "@/app/lib/data";
 import { getUser } from "@/app/lib/utils";
 import SettingsContent from "@/app/ui/main/profile/settings/settings-content";
 import SettingsTabs from "@/app/ui/main/profile/settings/settings-tabs";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+	title: 'Configuración',
+}
 
 export default async function Home({ params }: { params: { id: string } }) {
 	const user = await getUser();

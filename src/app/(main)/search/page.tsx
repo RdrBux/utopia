@@ -1,6 +1,11 @@
 import ResultsPeople from "@/app/ui/main/search/results-people";
 import ResultsPosts from "@/app/ui/main/search/results-posts";
 import SearchBar from "@/app/ui/main/search/search-bar";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: 'Búsqueda',
+}
 
 export default function Home({ searchParams }: { searchParams: { query?: string } }) {
 	const query = searchParams?.query || ''

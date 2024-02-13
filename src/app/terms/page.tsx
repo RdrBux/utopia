@@ -1,5 +1,10 @@
+import { Metadata } from "next";
 import { robotoSlab } from "../ui/fonts";
 import Logo from "../ui/logo";
+
+export const metadata: Metadata = {
+	title: 'Términos y Condiciones'
+}
 
 export default function Home() {
 	return (
